@@ -1,4 +1,4 @@
-This project was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It relies on having node  and the node package manager (npm) installed locally.
 
 ## Installation ##
 
