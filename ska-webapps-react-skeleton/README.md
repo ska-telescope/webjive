@@ -6,6 +6,8 @@ To install node (and npm) follow the instructions for your operating system at [
 
 If you prefer to use a docker image for your development instructions can be found on  the [official node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image)
 
+All the following notes assume you are at the command prompt for your chosen environment.
+
 To confirm node and nmp are installed and configured correctly, both the following commands should return the relevant version number.
 
     > node --version
@@ -19,8 +21,8 @@ Install all the necessary project dependencies by running
 
 ## Running and building the application ##
 
-Scripts are provided as part of the standard configuration. These are run from npm, configured in the scripts section of the package.json file. 
-The scripts themselves can be found in the installed node package create-react-apps. These are currently the same as the defaults supplied as part of create-react-apps. 
+Scripts are provided as part of the standard configuration. These are run from npm, configured in the scripts section of the package.json file.
+The scripts themselves can be found in the installed node package create-react-apps. These are currently the same as the defaults supplied as part of create-react-apps.
 
 If you need to change these see the section on __Ejecting the underlying create-react-app framework__ below.
 
@@ -28,23 +30,28 @@ From the project directory, you can run any of the following
 
     > npm start
 
-Runs the app in the development mode.<br>
+Runs the app in the development mode.
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
+The page will reload if you make edits.
+
 You will also see any lint errors in the console.
 
     > npm test
 
-Launches the test runner in the interactive watch mode.<br>
+Launches the test runner in the interactive watch mode.
+
 See the section below about __testing__ for more information.
 
     > npm run build
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder.
 
-The build is minified and the filenames include the hashes.<br>
+It correctly bundles React in production mode and optimises the build for the best performance.
+
+The build is minified and the filenames include the hashes.
+
 Your app is ready to be deployed!
 
 See the create-react-app [deployment guide](https://facebook.github.io/create-react-app/docs/deployment) for more information.
@@ -62,18 +69,26 @@ We recommend to put the test files (or `__tests__` folders) next to the code the
 
 Run tests interactively with  
 
-    > npm test 
+    > npm test
 
-Jest also provides  the code analysis framework. 
+Jest also provides  the code analysis framework. To run a full set of tests including coverage statistics run:
 
-Running the tests will create (or update) reports for style and code coverage inside the  htmlcov folder
+    > npm run-script test:coverage
 
-Inside this folder a rundown of the issues found will be accessible using the index.html file
+Running this command will run all the tests and also check the code style and test coverage.
+By default it uses the airBnB default style rules see: [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript).
+
+The results are displayed in the console. They are also written to the  `coverage` folder as:
+
+* `lcov-report` - a coverage report as a series of html pages
+* `clover.xml`  - A clover coverage report that can be viewed in the clover code-coverage tools
+* `coverage-final.json` - A json format.
+
+The  `coverage\lcov-report\`  folder contains a readable rundown of the issues found  which is accessible using the `index.html` file
+
+Code analysis should only raise document related warnings (i.e. // FIXME: comments) before merging the code. 
+
 All the tests should pass before merging the code
-
-By default it uses the airBnB default  style rules see: [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript).
-
-Code analysis should only raise document related warnings (i.e. #FIXME comments) before merging the code
 
 ## Writing documentation ##
 
@@ -87,12 +102,11 @@ In order to build the documentation for this specific project, execute the follo
 
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
 
-
 ## Ejecting the underlying create-react-app framework ##
 
-The current skeleton was bootstrapped with Create React App and uses the provided default build tool and configuration choices. If you wish to extend or configure your own choices you can eject at any time. 
+The current skeleton was bootstrapped with Create React App and uses the provided default build tool and configuration choices. If you wish to extend or configure your own choices you can eject at any time.
 
-You don’t have to ever use eject. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+You don’t have to ever use eject. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customise it when you are ready for it.
 
     > npm run eject
 
@@ -110,24 +124,24 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### Code Splitting ##
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+This section has moved here: <https://facebook.github.io/create-react-app/docs/code-splitting>
 
-### Analyzing the Bundle Size ##
+### Analysing the Bundle Size ##
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+This section has moved here: <https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size>
 
 ### Making a Progressive Web App ##
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+This section has moved here: <https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app>
 
 ### Advanced Configuration ##
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+This section has moved here: <https://facebook.github.io/create-react-app/docs/advanced-configuration>
 
 ### Deployment ##
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+This section has moved here: <https://facebook.github.io/create-react-app/docs/deployment>
 
 ### `npm run build` fails to minify ##
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: <https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify>
