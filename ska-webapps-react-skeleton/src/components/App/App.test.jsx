@@ -11,9 +11,9 @@ describe('App Component', () => {
     const wrapper = shallow(<App />);
     const text = (
       <p>
-        Edit
+        Edit&nbsp;
         <code>src/App.js</code>
-        and save to reload.
+        &nbsp;and save to reload.
       </p>
     );
     expect(wrapper).toContainReact(text);
