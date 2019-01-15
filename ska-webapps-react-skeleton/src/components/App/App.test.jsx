@@ -2,6 +2,19 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import App from './App';
 
-it('renders without crashing', () => {
-  shallow(<App />);
+describe('App Component', () => {
+  it('renders without crashing', () => {
+    shallow(<App />);
+  });
+  it('displays text correctly', () => {
+    const wrapper = shallow(<App />);
+    const text = (
+      <p>
+        Edit
+        <code>src/App.js</code>
+        and save to reload.
+      </p>
+    );
+    expect(wrapper.contains(text)).toEqual(true);
+  });
 });
