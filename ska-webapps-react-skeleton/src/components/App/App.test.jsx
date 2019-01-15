@@ -1,6 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import App from './App';
+import logo from '../../resources/logo.svg';
 
 describe('App Component', () => {
   it('renders without crashing', () => {
@@ -17,5 +18,10 @@ describe('App Component', () => {
       </p>
     );
     expect(wrapper).toContainReact(text);
+  });
+
+  it('displays the image correctly', () => {
+    const wrapper = mount(<App />);
+    expect(wrapper.find('img').prop('src')).toEqual(logo);
   });
 });
