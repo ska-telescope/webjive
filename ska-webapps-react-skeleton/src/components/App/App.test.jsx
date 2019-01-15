@@ -6,6 +6,7 @@ describe('App Component', () => {
   it('renders without crashing', () => {
     shallow(<App />);
   });
+
   it('displays text correctly', () => {
     const wrapper = shallow(<App />);
     const text = (
@@ -15,6 +16,6 @@ describe('App Component', () => {
         and save to reload.
       </p>
     );
-    expect(wrapper.contains(text)).toEqual(true);
+    expect(wrapper).toContainReact(text);
   });
 });
