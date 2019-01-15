@@ -1,14 +1,19 @@
-This project was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It relies on having node  and the node package manager (npm) installed locally.
+# SKA React Web App Skeleton #
+This project is intended to act as a skeleton for any SKA developer looking to make a React based web application.
+
+It includes tools for linting, code formatting, and testing which are easily integrated into various IDEs.
+
+## Requirements ##
+
+This skeleton requires **Node** and **NPM** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
+
+Alternatively the official Node docker image can be used. Instructions can be found on  the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
 ## Installation ##
 
-To install node (and npm) follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).  
+*All the following notes assume you are at the command prompt for your chosen environment.*
 
-If you prefer to use a docker image for your development instructions can be found on  the [official node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image)
-
-All the following notes assume you are at the command prompt for your chosen environment.
-
-To confirm node and nmp are installed and configured correctly, both the following commands should return the relevant version number.
+To confirm Node and Npm are installed and configured correctly, both the following commands should return the relevant version number.
 
     > node --version
     > npm --version
