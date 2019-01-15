@@ -49,6 +49,45 @@ Your app is ready to be deployed!
 
 See the create-react-app [deployment guide](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Testing ##
+
+We use Jest as the test running framework. It will look for test files with any of the following popular naming conventions:
+
+* Files with .js suffix in `__tests__` folders.
+* Files with .test.js suffix in any folder.
+* Files with .spec.js suffix in any folder.
+
+The .test.js / .spec.js files (or the `__tests__` folders) can be located at any depth under the src top level folder.
+We recommend to put the test files (or `__tests__` folders) next to the code they are testing
+
+Run tests interactively with  
+
+    > npm test 
+
+Jest also provides  the code analysis framework. 
+
+Running the tests will create (or update) reports for style and code coverage inside the  htmlcov folder
+
+Inside this folder a rundown of the issues found will be accessible using the index.html file
+All the tests should pass before merging the code
+
+By default it uses the airBnB default  style rules see: [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript).
+
+Code analysis should only raise document related warnings (i.e. #FIXME comments) before merging the code
+
+## Writing documentation ##
+
+The documentation generator for this project is derived from SKA's [SKA Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
+
+The documentation can be edited under `./docs/src`
+
+In order to build the documentation for this specific project, execute the following under ./docs:
+
+    > make html
+
+The documentation can then be consulted by opening the file `./docs/build/html/index.html`
+
+
 ## Ejecting the underlying create-react-app framework ##
 
 The current skeleton was bootstrapped with Create React App and uses the provided default build tool and configuration choices. If you wish to extend or configure your own choices you can eject at any time. 
