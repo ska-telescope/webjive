@@ -1,68 +1,142 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# SKA React Web App Skeleton
 
-## Available Scripts
+This project is intended to act as a skeleton for any SKA developer looking to make a React based web application.
 
-In the project directory, you can run:
+It includes tools for linting, code formatting, and testing which are easily integrated into various IDEs.
 
-### `npm start`
+## Requirements
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This skeleton requires **Node** and **NPM** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+_All the following notes assume you are at the command prompt for your chosen environment._
 
-### `npm run build`
+1.  Confirm Node and NPM are installed and configured correctly, both the following commands should return the relevant version number.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        > node --version
+        > npm --version
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+2.  Clone the project from GitHub
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3.  Install all the necessary project dependencies by running
 
-### `npm run eject`
+        > npm install
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Running and Building the Application
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using NPM and listed in the scripts section of the package.json file.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+From the project directory, you can run any of the following:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- `> npm start`
 
-## Learn More
+  Runs the app in the development mode at [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `> npm test`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
 
-### Code Splitting
+- `> npm run build`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+  Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
 
-### Analyzing the Bundle Size
+## Testing
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### Writing
 
-### Making a Progressive Web App
+We use Jest as the test running framework. It will look for test files with any of the following naming conventions:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+- Files with `.js` suffix in `__tests__` folders.
+- Files with `.test.js` suffix in any folder.
+- Files with `.spec.js` suffix in any folder.
 
-### Advanced Configuration
+The .test.js / .spec.js files (or the `__tests__` folders) can be located at any depth under the src top level folder.
+We recommend to put the test files or folders next to the code they are testing.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```
+components
+|
+└─ App
+   |  App.jsx
+   |  App.test.jsx
+```
 
-### Deployment
+[Enzyme](https://airbnb.io/enzyme/) and [jest-enzyme](https://www.npmjs.com/package/jest-enzyme) have been included to improve the testing framework and test readability.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+See the developer guide for more information
 
-### `npm run build` fails to minify
+### Running
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+To run the interactive test runner, execute
+
+    > npm test
+
+This will also watch the source files and re-run when any changes are detected
+
+To run the tests with coverage, execute
+
+    > npm run test:coverage
+
+The coverage results are displayed in the console. They are also written to the `coverage` folder as:
+
+- `lcov-report` - A coverage report as a series of html pages, open `index.html` in a web browser to view
+- `clover.xml` - A clover coverage report that can be viewed in the clover code-coverage tools
+- `coverage-final.json` - A json format.
+
+**All the tests should pass before merging the code**
+
+## Code Analysis
+
+[ESLint](https://ESLint.org/) and [Prettier](https://prettier.io/) are included as code analysis and formatting tools.
+These do not need installing as they're included in `node_modules` by running `npm install`.
+
+These tools can be run in the command line or integrated into your IDE (recommended).
+
+JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
+
+### Running
+
+To run the analysis tools, execute
+
+    > npm run code-analysis -s
+
+This will display any errors in the command line. If there are any errors, NPM will exit with a non-zero code, the `-s` argument suppresses this and cleans up the output.
+
+### IDE Integration
+
+#### VS Code
+
+Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-ESLint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions and reload the IDE.
+
+Errors should now show in the editor. `shift + alt + F` will format a file, or you can turn on the format on save setting.
+
+#### JetBrains (WebStorm, IntelliJ IDEA etc.)
+
+ESLint is integrated into the Ultimate versions of all JetBrains IDEs
+
+Prettier can be installed through a [plugin](https://plugins.jetbrains.com/plugin/10456-prettier). Follow the steps [here](https://www.jetbrains.com/help/idea/prettier.html) to configure it.
+
+## Documentation
+
+The documentation generator for this project is derived from SKA's [SKA Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
+
+### Writing
+
+The documentation can be edited under `./docs/src`. They're written in reStructured text (.rst).
+
+### Building
+
+In order to build the documentation for this specific project, execute the following under ./docs:
+
+    > make html
+
+or
+
+    > docker run --rm -d -v $(pwd):/tmp -w /tmp netresearch/sphinx-buildbox sh -c "make html"
+
+The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
+
+The documentation can then be consulted by opening the file `./docs/build/html/index.html`
