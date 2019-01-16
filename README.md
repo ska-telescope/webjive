@@ -1,6 +1,6 @@
 # ska-webapps-skeleton
 
-This project is intended to act as a skeleton for any SKA developer looking to make a javascript based web application.  It acts as a placeholder for any common skeleton files that are shared between the different types of web application.
+This project is intended to act as a skeleton for any SKA developer looking to make a javascript based web application.  It acts as a placeholder for any common files or components that are shared between the different types of web application.
 
 It also contains a set of skeleton project structures. One for each of the different types of web application currently being developed by the SKA.
 
