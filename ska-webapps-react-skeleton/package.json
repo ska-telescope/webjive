@@ -7,6 +7,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test \"--coverage\"",
+    "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore",
     "eject": "react-scripts eject"
   },
   "dependencies": {

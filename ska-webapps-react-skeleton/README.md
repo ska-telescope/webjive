@@ -1,152 +1,144 @@
-# SKA React Web App Skeleton #
+# SKA React Web App Skeleton
+
 This project is intended to act as a skeleton for any SKA developer looking to make a React based web application.
 
 It includes tools for linting, code formatting, and testing which are easily integrated into various IDEs.
 
-## Requirements ##
+## Requirements
 
 This skeleton requires **Node** and **NPM** to install and run. To install these follow the instructions for your operating system at [https://nodejs.org/en/download/](https://nodejs.org/en/download/).
 
-Alternatively the official Node docker image can be used. Instructions can be found on  the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
+Alternatively the official Node docker image can be used. Instructions can be found on the [official Node docker image site](https://github.com/nodejs/docker-node/blob/master/README.md#how-to-use-this-image).
 
-## Installation ##
+## Installation
 
-*All the following notes assume you are at the command prompt for your chosen environment.*
+_All the following notes assume you are at the command prompt for your chosen environment._
 
-To confirm Node and Npm are installed and configured correctly, both the following commands should return the relevant version number.
+1.  Confirm Node and NPM are installed and configured correctly, both the following commands should return the relevant version number.
 
-    > node --version
-    > npm --version
+        > node --version
+        > npm --version
 
-Clone the project from git, and follow these steps at the project root:
+2.  Clone the project from GitHub
 
-Install all the necessary project dependencies by running
+3.  Install all the necessary project dependencies by running
 
-    > npm install
+        > npm install
 
-## Running and building the application ##
+## Running and Building the Application
 
-Scripts are provided as part of the standard configuration. These are run from npm, configured in the scripts section of the package.json file.
-The scripts themselves can be found in the installed node package create-react-apps. These are currently the same as the defaults supplied as part of create-react-apps.
+Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using NPM and listed in the scripts section of the package.json file.
 
-If you need to change these see the section on __Ejecting the underlying create-react-app framework__ below.
+From the project directory, you can run any of the following:
 
-From the project directory, you can run any of the following
+- `> npm start`
 
-    > npm start
+  Runs the app in the development mode at [http://localhost:3000](http://localhost:3000). The app will recompile and restart if you make any edits to the source files. Any linting errors will also be shown in the console.
 
-Runs the app in the development mode.
+- `> npm test`
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  Launches the test runner in the interactive watch mode. See the [testing](#testing) section for more information.
 
-The page will reload if you make edits.
+- `> npm run build`
 
-You will also see any lint errors in the console.
+  Builds the app for production to the `build` folder. The build is minified and any JSX is transpiled to JavaScript. Your app is ready to be deployed!
 
-    > npm test
+## Testing
 
-Launches the test runner in the interactive watch mode.
+### Writing
 
-See the section below about __testing__ for more information.
+We use Jest as the test running framework. It will look for test files with any of the following naming conventions:
 
-    > npm run build
-
-Builds the app for production to the `build` folder.
-
-It correctly bundles React in production mode and optimises the build for the best performance.
-
-The build is minified and the filenames include the hashes.
-
-Your app is ready to be deployed!
-
-See the create-react-app [deployment guide](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Testing ##
-
-We use Jest as the test running framework. It will look for test files with any of the following popular naming conventions:
-
-* Files with .js suffix in `__tests__` folders.
-* Files with .test.js suffix in any folder.
-* Files with .spec.js suffix in any folder.
+- Files with `.js` suffix in `__tests__` folders.
+- Files with `.test.js` suffix in any folder.
+- Files with `.spec.js` suffix in any folder.
 
 The .test.js / .spec.js files (or the `__tests__` folders) can be located at any depth under the src top level folder.
-We recommend to put the test files (or `__tests__` folders) next to the code they are testing
+We recommend to put the test files or folders next to the code they are testing.
 
-Run tests interactively with  
+```
+components
+|
+└─ App
+   |  App.jsx
+   |  App.test.jsx
+```
+
+[Enzyme](https://airbnb.io/enzyme/) and [jest-enzyme](https://www.npmjs.com/package/jest-enzyme) have been included to improve the testing framework and test readability.
+
+See the developer guide for more information
+
+### Running
+
+To run the interactive test runner, execute
 
     > npm test
 
-Jest also provides  the code analysis framework. To run a full set of tests including coverage statistics run:
+This will also watch the source files and re-run when any changes are detected
 
-    > npm run-script test:coverage
+To run the tests with coverage, execute
 
-Running this command will run all the tests and also check the code style and test coverage.
-By default it uses the airBnB default style rules see: [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript).
+    > npm run test:coverage
 
-The results are displayed in the console. They are also written to the  `coverage` folder as:
+The coverage results are displayed in the console. They are also written to the `coverage` folder as:
 
-* `lcov-report` - a coverage report as a series of html pages
-* `clover.xml`  - A clover coverage report that can be viewed in the clover code-coverage tools
-* `coverage-final.json` - A json format.
+- `lcov-report` - A coverage report as a series of html pages, open `index.html` in a web browser to view
+- `clover.xml` - A clover coverage report that can be viewed in the clover code-coverage tools
+- `coverage-final.json` - A json format.
 
-The  `coverage\lcov-report\`  folder contains a readable rundown of the issues found  which is accessible using the `index.html` file
+**All the tests should pass before merging the code**
 
-Code analysis should only raise document related warnings (i.e. // FIXME: comments) before merging the code. 
+## Code Analysis
 
-All the tests should pass before merging the code
+[ESLint](https://ESLint.org/) and [Prettier](https://prettier.io/) are included as code analysis and formatting tools.
+These do not need installing as they're included in `node_modules` by running `npm install`.
 
-## Writing documentation ##
+These tools can be run in the command line or integrated into your IDE (recommended).
+
+JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guide](https://github.com/airbnb/javascript). These rules are included in this project and ESLint and Prettier are configured to use them.
+
+### Running
+
+To run the analysis tools, execute
+
+    > npm run code-analysis
+
+This will display any errors in the command line.
+
+### IDE Integration
+
+#### VS Code
+
+Install the [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-ESLint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions and reload the IDE.
+
+Errors should now show in the editor. `shift + alt + F` will format a file, or you can turn on the format on save setting.
+
+#### JetBrains (WebStorm, IntelliJ IDEA etc.)
+
+ESLint is integrated into the Ultimate versions of all JetBrains IDEs
+
+Prettier can be installed through a [plugin](https://plugins.jetbrains.com/plugin/10456-prettier). Follow the steps [here](https://www.jetbrains.com/help/idea/prettier.html) to configure it.
+
+## Documentation
 
 The documentation generator for this project is derived from SKA's [SKA Developer Portal repository](http://developer.skatelescope.org/en/latest/projects/document_project.html)
 
-The documentation can be edited under `./docs/src`
+### Writing
+
+The documentation can be edited under `./docs/src`. They're written in reStructured text (.rst).
+
+### Building
 
 In order to build the documentation for this specific project, execute the following under ./docs:
 
     > make html
 
+or
+
+    > docker run --rm -d -v $(pwd):/tmp -w /tmp netresearch/sphinx-buildbox sh -c "make html"
+
+The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
+
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
 
-## Ejecting the underlying create-react-app framework ##
-
-The current skeleton was bootstrapped with Create React App and uses the provided default build tool and configuration choices. If you wish to extend or configure your own choices you can eject at any time.
-
-You don’t have to ever use eject. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customise it when you are ready for it.
-
-    > npm run eject
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies from create-react-app (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except eject will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-## Learn More ##
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting ##
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/code-splitting>
-
-### Analysing the Bundle Size ##
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size>
-
-### Making a Progressive Web App ##
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app>
-
-### Advanced Configuration ##
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/advanced-configuration>
-
-### Deployment ##
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/deployment>
-
-### `npm run build` fails to minify ##
-
-This section has moved here: <https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify>
+:point_right: :red_circle: This guide brought to you by Team buttons
