@@ -140,5 +140,3 @@ or
 The latter requires Docker to be installed on your system but not Python, Sphinx, and other dependencies.
 
 The documentation can then be consulted by opening the file `./docs/build/html/index.html`
-
-:point_right: :red_circle: This guide brought to you by Team buttons
