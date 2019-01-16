@@ -101,9 +101,9 @@ JavaScript based SKA projects must comply with the [AirBnB JavaScript Style Guid
 
 To run the analysis tools, execute
 
-    > npm run code-analysis
+    > npm run code-analysis -s
 
-This will display any errors in the command line.
+This will display any errors in the command line. If there are any errors, NPM will exit with a non-zero code, the `-s` argument suppresses this and cleans up the output.
 
 ### IDE Integration
 
