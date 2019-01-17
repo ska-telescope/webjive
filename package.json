@@ -53,13 +53,21 @@
   },
   "proxy": {
     "/socket": {
-      "target": "wss://localhost:5004",
+      "target": "ws://localhost:5004",
+      "//": [
+        "npm and dev mode ws://localhost:5004",
+        "docker and dev mode ws://tangogql:5004"
+      ],
       "secure": false,
       "changeOrigin": true,
       "ws": true
     },
     "/db": {
-      "target": "https://localhost:5004",
+      "target": "http://localhost:5004",
+      "//": [
+        "npm and dev mode http://localhost:5004",
+        "docker and dev mode http://tangogql:5004"
+      ],
       "secure": false,
       "changeOrigin": true
     }
