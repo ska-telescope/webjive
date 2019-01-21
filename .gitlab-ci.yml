@@ -21,6 +21,7 @@ cache:
 #
 # (if you don't specify a stage in the job then it is assumed to be part of the 'test' stage)
 stages:
+  - deps
   - build
   - test
   - deploy
@@ -32,8 +33,9 @@ stages:
 
 #Prove that the code build works
 install_dependencies:
-  stage: build
-  - npm ci
+  stage: deps
+  script: 
+    - npm ci
 
 build:
   stage: build
