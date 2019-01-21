@@ -31,10 +31,15 @@ stages:
 # It is also specified that only the master branch will be subject of this job. 
 
 #Prove that the code build works
+install_dependencies:
+  stage: build
+  - npm ci
+
 build:
   stage: build
+  dependencies: 
+    - install_dependencies
   script: 
-    - npm ci
     - npm run-script build
 
 
@@ -43,7 +48,6 @@ code_analysis:
   stage: test
   script:
    - npm run code-analysis
-   - ls -la
 
 # run the test coverage reports
 # TODO: the codeclinmmate test reporter is depricated so need to fix
@@ -84,8 +88,6 @@ code_quality:
   allow_failure: true
   services:
     - docker:stable-dind
-  before_script:
-    - ls -la
   script:
     - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
     - docker run
