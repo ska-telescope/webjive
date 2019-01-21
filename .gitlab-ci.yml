@@ -84,10 +84,9 @@ list_dependencies:
     - mkdir .public
     - cp npm_deps.txt .public/
     - cp npm_deps.json .public/
-    - mv .public public
   artifacts:
     paths:
-      - public
+      - .public
 
 # Run the gitlab (code climate)  code quality checks
 code_quality:
@@ -132,8 +131,8 @@ pages:
   script:
     - ls -la
     - mkdir .public
-    - cp -r htmlcov/* public
+    - cp -r htmlcov/* .public
   artifacts:
     paths:
-      - public
+      - .public
     expire_in: 30 days
