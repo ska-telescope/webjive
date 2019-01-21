@@ -44,17 +44,21 @@ install_dependencies:
 #Run the static code analysis
 code_analysis:
   stage: test
-  script:
-    - npm run code-analysis
   cache:
     paths:
       - node_modules/
     policy: pull
+  script:
+    - npm run code-analysis
 
 # run the test coverage reports
 # TODO: the codeclinmmate test reporter is depricated so need to fix
-code_coverage:
+test_and_coverage:
   stage: test
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
   script:
     - CI=true npm test -- --coverage
     - mkdir .htmlcov
@@ -64,16 +68,17 @@ code_coverage:
   artifacts:
     paths:
       - htmlcov
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
 
 # list the current top level dependencies for the project
 # TODO We could write a script to convert the json and
 #      write it into something
 list_dependencies:
   stage: test
+  allow_failure: true
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
   script:
     - npm list --depth=0 --json >> npm_deps.json
     - npm list --depth=0  >> npm_deps.txt
@@ -84,10 +89,6 @@ list_dependencies:
   artifacts:
     paths:
       - public
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
 
 # Run the gitlab (code climate)  code quality checks
 code_quality:
@@ -98,6 +99,10 @@ code_quality:
   allow_failure: true
   services:
     - docker:stable-dind
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
   script:
     - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
     - docker run
@@ -108,10 +113,6 @@ code_quality:
     - more gl-code-quality-report.json
   artifacts:
     paths: [gl-code-quality-report.json]
-  cache:
-    paths:
-      - node_modules/
-    policy: pull
 
 build:
   stage: build
