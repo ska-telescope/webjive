@@ -21,9 +21,9 @@ image: node:alpine
 #
 # (if you don't specify a stage in the job then it is assumed to be part of the 'test' stage)
 stages:
-  - deps
-  - build
+  - dependencies
   - test
+  - build
   - deploy
 
 # The YAML file defines a set of jobs with constraints stating when they should be run.
@@ -33,20 +33,13 @@ stages:
 
 #Prove that the code build works
 install_dependencies:
-  stage: deps
+  stage: dependencies
   script:
     - npm ci
   cache:
     paths:
       - node_modules/
     policy: push
-
-build:
-  stage: build
-  dependencies:
-    - install_dependencies
-  script:
-    - npm run-script build
 
 #Run the static code analysis
 code_analysis:
@@ -82,8 +75,8 @@ code_coverage:
 list_dependencies:
   stage: test
   script:
-    - npm list -g --depth=0 --json >> npm_deps.json
-    - npm list -g --depth=0  >> npm_deps.txt
+    - npm list --depth=0 --json >> npm_deps.json
+    - npm list --depth=0  >> npm_deps.txt
     - mkdir .public
     - cp npm_deps.txt .public/
     - cp npm_deps.json .public/
@@ -119,6 +112,15 @@ code_quality:
     paths:
       - node_modules/
     policy: pull
+
+build:
+  stage: build
+  cache:
+    paths:
+      - node_modules/
+    policy: pull
+  script:
+    - npm run-script build
 
 # export the report
 pages:
