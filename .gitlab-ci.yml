@@ -5,9 +5,9 @@ image: node:alpine
 
 # cache is used to specify a list of files and directories which should be cached between jobs. You can only use paths that are within the project workspace.
 # If cache is defined outside the scope of jobs, it means it is set globally and all jobs will use that definition
-# cache:
-#   paths:
-#     - node_modules/
+cache:
+  paths:
+    - node_modules/
 
 # before_script is used to define the command that should be run before all jobs, including deploy jobs, but after the restoration of artifacts.
 # This can be an array or a multi-line string. In this case node install will install all our dependencies including the scripts
@@ -36,16 +36,12 @@ install_dependencies:
   script:
     - npm ci
   cache:
-    paths:
-      - node_modules/
     policy: push
 
 #Run the static code analysis
 code_analysis:
   stage: test
   cache:
-    paths:
-      - node_modules/
     policy: pull
   script:
     - npm run code-analysis
@@ -55,8 +51,6 @@ code_analysis:
 test_and_coverage:
   stage: test
   cache:
-    paths:
-      - node_modules/
     policy: pull
   script:
     - CI=true npm test -- --coverage
@@ -74,8 +68,6 @@ list_dependencies:
   stage: test
   allow_failure: true
   cache:
-    paths:
-      - node_modules/
     policy: pull
   script:
     - npm list --depth=0 --json >> npm_deps.json
@@ -97,8 +89,6 @@ code_quality:
   services:
     - docker:stable-dind
   cache:
-    paths:
-      - node_modules/
     policy: pull
   script:
     - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
@@ -115,8 +105,6 @@ code_quality:
 build:
   stage: build
   cache:
-    paths:
-      - node_modules/
     policy: pull
   script:
     - npm run-script build
