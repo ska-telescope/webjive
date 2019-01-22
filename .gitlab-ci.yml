@@ -125,12 +125,14 @@ build:
 pages:
   stage: deploy
   dependencies:
-    - test_and_coverage
+    - code_coverage
     - list_dependencies
     - code_quality
   script:
-    - cp -r htmlcov/* .public
+    - mv public/* .
+    - cp -r htmlcov/* public
+    - cp -r .public/* public
   artifacts:
     paths:
-      - .public
+      - public
     expire_in: 30 days
