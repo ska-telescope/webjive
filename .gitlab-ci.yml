@@ -125,7 +125,7 @@ build:
 pages:
   stage: deploy
   dependencies:
-    - code_coverage
+    - test_and_coverage
     - list_dependencies
     - code_quality
   script:
