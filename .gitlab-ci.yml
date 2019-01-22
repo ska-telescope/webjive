@@ -119,6 +119,7 @@ pages:
   script:
     - mv public/* .
     - cp -r htmlcov/* public
+    - cp gl-code-quality-report.json public
     - cp -r .public/* public
   artifacts:
     paths:
