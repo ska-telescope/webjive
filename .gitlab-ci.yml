@@ -129,8 +129,6 @@ pages:
     - list_dependencies
     - code_quality
   script:
-    - ls -la
-    - mkdir .public
     - cp -r htmlcov/* .public
   artifacts:
     paths:
