@@ -81,30 +81,30 @@ interface IHandlerProps {
 type IDeviceListProps = IValueProps & IHandlerProps;
 
 class DeviceList extends Component<IDeviceListProps> {
-  public constructor(props: IDeviceListProps) {
+  constructor(props: IDeviceListProps) {
     super(props);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleToggleDomain = this.handleToggleDomain.bind(this);
     this.handleToggleFamily = this.handleToggleFamily.bind(this);
   }
 
-  public componentWillMount() {
+  componentWillMount() {
     this.props.onInit();
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     const filter = this.parseFilter();
     this.props.onSetFilter(filter || '');
   }
 
-  public componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) {
     const filter = this.parseFilter();
     if (filter !== this.parseFilter(prevProps)) {
       this.props.onSetFilter(filter || '');
     }
   }
 
-  public render() {
+  render() {
     const { filter } = this.props;
 
     const triplets = this.props.deviceNames.map(name => name.split('/'));
@@ -190,22 +190,22 @@ class DeviceList extends Component<IDeviceListProps> {
     );
   }
 
-  private handleTextChange(e) {
+  handleTextChange(e) {
     this.props.onSetFilter(e.target.value);
   }
 
-  private handleToggleDomain(domain: string, event: React.MouseEvent) {
+  handleToggleDomain(domain: string, event: React.MouseEvent) {
     event.preventDefault();
     this.props.onToggleDomain(domain);
   }
 
-  private handleToggleFamily(domain: string, family: string, event: React.MouseEvent) {
+  handleToggleFamily(domain: string, family: string, event: React.MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.props.onToggleFamily(domain, family);
   }
 
-  private parseFilter(props?) {
+  parseFilter(props?) {
     const search = (props || this.props).location.search;
     return queryString.parse(search).filter;
   }
@@ -234,7 +234,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect<IValueProps, IHandlerProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(DeviceList);

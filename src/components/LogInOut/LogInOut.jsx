@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { setModal } from '../../actions/modal';
 import { logout } from '../../actions/typedActionCreators';
 import { getIsLoggedIn, getUsername, getAwaitingResponse } from '../../selectors/user';
-import { IRootState } from 'src/reducers/rootReducer';
 
 const WhenLoggedIn = ({ username, onLogout }) => (
   <Fragment>
@@ -43,11 +42,11 @@ const LogInOut = ({
   onLogin,
   onLogout
 }: {
-  username: string;
-  isLoggedIn: boolean;
-  awaitingResponse: boolean;
-  onLogin: () => any;
-  onLogout: () => any;
+  username: string,
+  isLoggedIn: boolean,
+  awaitingResponse: boolean,
+  onLogin: () => any,
+  onLogout: () => any
 }) =>
   awaitingResponse ? null : (
     <div
