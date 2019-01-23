@@ -15,42 +15,19 @@ import user, { IUserState } from './user';
 
 import error from './error';
 
-export interface IRootState {
-  // View state
-  deviceDetail: IDeviceDetailState;
-  deviceList: IDeviceListState;
-
-  // App State
-  loadingStatus: ILoadingStatusState;
-  error: string;
-  modal: IModalState;
-  user: IUserState;
-
-  // Data state
-  devices: IDevicesState;
-  commandOutput: ICommandOutputState;
-  currentDevice: string;
-  attributes: IAttributesState;
-  commands: ICommandsState;
-  properties: IPropertiesState;
-}
-
-const rootReducer =
-  combineReducers <
-  IRootState >
-  {
-    deviceDetail,
-    deviceList,
-    devices,
-    loadingStatus,
-    commandOutput,
-    currentDevice,
-    attributes,
-    commands,
-    properties,
-    error,
-    modal,
-    user
-  };
+const rootReducer = combineReducers({
+  deviceDetail,
+  deviceList,
+  devices,
+  loadingStatus,
+  commandOutput,
+  currentDevice,
+  attributes,
+  commands,
+  properties,
+  error,
+  modal,
+  user
+});
 
 export default rootReducer;
