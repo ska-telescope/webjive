@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import * as qs from 'query-string';
 
-import DeviceList from '../../DeviceList/DeviceList';
+import DeviceList from '../DeviceList/DeviceList';
 import DeviceViewer from '../../DeviceViewer/DeviceViewer';
 import HomeViewer from '../../HomeViewer/HomeViewer';
 import ErrorDisplay from '../../ErrorDisplay/ErrorDisplay';
