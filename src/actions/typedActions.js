@@ -1,3 +1,5 @@
+import { Action } from 'redux';
+
 import {
   LOGIN,
   LOGIN_SUCCESS,
@@ -7,9 +9,7 @@ import {
   PRELOAD_USER_SUCCESS,
   PRELOAD_USER_FAILED,
   PRELOAD_USER
-} from "./actionTypes";
-
-import { Action } from "redux";
+} from './actionTypes';
 
 export interface ILoginAction extends Action {
   type: typeof LOGIN;

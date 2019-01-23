@@ -6,7 +6,7 @@ import {
   ILogoutSuccessAction,
   ILoginSuccessAction,
   ILoginFailedAction
-} from "./typedActions";
+} from './typedActions';
 
 import {
   PRELOAD_USER,
@@ -17,7 +17,7 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAILED
-} from "./actionTypes";
+} from './actionTypes';
 
 interface IUser {
   username: string;
