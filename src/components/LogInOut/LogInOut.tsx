@@ -1,18 +1,14 @@
-import React, { Fragment } from "react";
-import { connect } from "react-redux";
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 
-import { setModal } from "../actions/modal";
-import { logout } from "../actions/typedActionCreators";
-import {
-  getIsLoggedIn,
-  getUsername,
-  getAwaitingResponse
-} from "../selectors/user";
-import { IRootState } from "src/reducers/rootReducer";
+import { setModal } from '../../actions/modal';
+import { logout } from '../../actions/typedActionCreators';
+import { getIsLoggedIn, getUsername, getAwaitingResponse } from '../../selectors/user';
+import { IRootState } from 'src/reducers/rootReducer';
 
 const WhenLoggedIn = ({ username, onLogout }) => (
   <Fragment>
-    Logged in as <span style={{ fontWeight: "bold" }}>{username}</span>.{" "}
+    Logged in as <span style={{ fontWeight: 'bold' }}>{username}</span>.{' '}
     <a
       href="#"
       onClick={e => {
@@ -27,7 +23,7 @@ const WhenLoggedIn = ({ username, onLogout }) => (
 
 const WhenLoggedOut = ({ onLogin }) => (
   <Fragment>
-    Not logged in.{" "}
+    Not logged in.{' '}
     <a
       href="#"
       onClick={e => {
@@ -56,10 +52,10 @@ const LogInOut = ({
   awaitingResponse ? null : (
     <div
       style={{
-        fontSize: "0.75em",
-        position: "absolute",
-        top: "0.5em",
-        right: "0.5em"
+        fontSize: '0.75em',
+        position: 'absolute',
+        top: '0.5em',
+        right: '0.5em'
       }}
     >
       {isLoggedIn ? (
@@ -80,7 +76,7 @@ function mapStateToProps(state: IRootState) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: () => dispatch(setModal("LOGIN")),
+    onLogin: () => dispatch(setModal('LOGIN')),
     onLogout: () => dispatch(logout())
   };
 }

@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { findDOMNode } from "react-dom";
-import { DragSource, DropTarget } from "react-dnd";
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
+import { DragSource, DropTarget } from 'react-dnd';
 
-import { DashboardDNDTypes } from "../widgets/widgetDefinitions";
-import dndTypes from "../dndTypes";
-import { getWidgetDefinition } from "../utils";
-import PropTypes from 'prop-types'
-import {widget, widgetDefinition} from "../../propTypes/propTypes"
+import { DashboardDNDTypes } from '../widgets/widgetDefinitions';
+import dndTypes from '../dndTypes';
+import { getWidgetDefinition } from '../utils';
+import PropTypes from 'prop-types';
+import { widget, widgetDefinition } from '../../../propTypes/propTypes';
 
 const BACKSPACE = 8;
 const DELETE = 46;
@@ -14,15 +14,15 @@ const DELETE = 46;
 const WarningBadge = () => (
   <div
     style={{
-      position: "absolute",
-      marginLeft: "-10px",
-      marginTop: "-10px",
-      backgroundColor: "red",
-      borderRadius: "10px",
-      width: "20px",
-      height: "20px",
-      color: "white",
-      textAlign: "center",
+      position: 'absolute',
+      marginLeft: '-10px',
+      marginTop: '-10px',
+      backgroundColor: 'red',
+      borderRadius: '10px',
+      width: '20px',
+      height: '20px',
+      color: 'white',
+      textAlign: 'center',
       zIndex: 1000
     }}
   >
@@ -38,7 +38,7 @@ class EditWidget extends Component {
     const { connectDragSource } = this.props;
     return connectDragSource(
       <div
-        className={this.props.isSelected ? "Widget selected" : "Widget"}
+        className={this.props.isSelected ? 'Widget selected' : 'Widget'}
         style={{ left: this.props.x, top: this.props.y }}
         onClick={this.props.onClick}
       >
@@ -56,8 +56,8 @@ EditWidget.propTypes = {
   onClick: PropTypes.func,
   warning: PropTypes.bool,
   x: PropTypes.number,
-  y: PropTypes.number,
-}
+  y: PropTypes.number
+};
 
 const editWidgetSource = {
   beginDrag(props) {
@@ -75,9 +75,7 @@ function editWidgetCollect(connect, monitor) {
   };
 }
 
-EditWidget = DragSource("EDIT_WIDGET", editWidgetSource, editWidgetCollect)(
-  EditWidget
-);
+EditWidget = DragSource('EDIT_WIDGET', editWidgetSource, editWidgetCollect)(EditWidget);
 
 const editCanvasTarget = {
   canDrop(props, monitor) {
@@ -142,8 +140,7 @@ class EditCanvas extends Component {
           tabIndex="0"
         >
           <div className="Placeholder" style={{ opacity: hasWidgets ? 0 : 1 }}>
-            Add widgets by dragging them from the library and dropping them on
-            the canvas.
+            Add widgets by dragging them from the library and dropping them on the canvas.
           </div>
 
           {this.props.widgets.map((widget, i) => {
@@ -153,8 +150,8 @@ class EditCanvas extends Component {
             const definition = this.definitionForWidget(widget);
             const fieldTypes = definition.fields.map(field => field.type);
             const warning =
-              (device == null && fieldTypes.indexOf("device") !== -1) ||
-              (attribute == null && fieldTypes.indexOf("attribute") !== -1);
+              (device == null && fieldTypes.indexOf('device') !== -1) ||
+              (attribute == null && fieldTypes.indexOf('attribute') !== -1);
 
             return (
               <EditWidget
@@ -166,12 +163,7 @@ class EditCanvas extends Component {
                 onClick={this.handleSelectWidget.bind(this, i)}
                 warning={warning}
               >
-                <Widget
-                  device={device}
-                  attribute={attribute}
-                  params={params}
-                  mode="edit"
-                />
+                <Widget device={device} attribute={attribute} params={params} mode="edit" />
               </EditWidget>
             );
           })}
@@ -189,16 +181,12 @@ EditCanvas.propTypes = {
   onSelectWidget: PropTypes.func,
   selectedWidgetIndex: PropTypes.number,
   widgetDefinitions: PropTypes.arrayOf(widgetDefinition),
-  widgets: PropTypes.arrayOf(widget),
-}
+  widgets: PropTypes.arrayOf(widget)
+};
 
-const moveDropTarget = DropTarget(
-  dndTypes.EDIT_WIDGET,
-  editCanvasTarget,
-  (connect, monitor) => ({
-    connectMoveDropTarget: connect.dropTarget()
-  })
-);
+const moveDropTarget = DropTarget(dndTypes.EDIT_WIDGET, editCanvasTarget, (connect, monitor) => ({
+  connectMoveDropTarget: connect.dropTarget()
+}));
 
 const addFromLibraryDropTarget = DropTarget(
   dndTypes.LIBRARY_WIDGET,

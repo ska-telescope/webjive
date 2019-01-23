@@ -69,31 +69,10 @@
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
   },
-  "proxy": {
-    "/socket": {
-      "target": "ws://localhost:5004",
-      "//": [
-        "npm and dev mode ws://localhost:5004",
-        "docker and dev mode ws://tangogql:5004"
-      ],
-      "secure": false,
-      "changeOrigin": true,
-      "ws": true
-    },
-    "/db": {
-      "target": "http://localhost:5004",
-      "//": [
-        "npm and dev mode http://localhost:5004",
-        "docker and dev mode http://tangogql:5004"
-      ],
-      "secure": false,
-      "changeOrigin": true
-    },
-    "browserslist": [
-      ">0.2%",
-      "not dead",
-      "not ie <= 11",
-      "not op_mini all"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

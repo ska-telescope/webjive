@@ -1,24 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import {
-  Modal,
-  Button,
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  Alert
-} from "react-bootstrap";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Modal, Button, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap';
 
-import { LOGIN } from "../actions/actionTypes";
-import { login } from "../actions/typedActionCreators";
-import { getLoginFailure, getAwaitingResponse } from "src/selectors/user";
+import { LOGIN } from '../../actions/actionTypes';
+import { login } from '../../actions/typedActionCreators';
+import { getLoginFailure, getAwaitingResponse } from '../../selectors/user';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: ""
+      username: '',
+      password: ''
     };
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);

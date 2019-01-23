@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import classNames from "classnames";
-import { Helmet } from "react-helmet";
-import PropTypes from 'prop-types'
-import "font-awesome/css/font-awesome.min.css";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import classNames from 'classnames';
+import { Helmet } from 'react-helmet';
+import PropTypes from 'prop-types';
+import 'font-awesome/css/font-awesome.min.css';
 
-import AttributeTable from "./AttributeTable/AttributeTable";
-import CommandTable from "./CommandTable/CommandTable";
-import PropertyTable from "./PropertyTable/PropertyTable";
-import ServerInfo from "./ServerInfo/ServerInfo";
-import DisplevelChooser from "./DisplevelChooser/DisplevelChooser";
+import AttributeTable from './AttributeTable/AttributeTable';
+import CommandTable from './CommandTable/CommandTable';
+import PropertyTable from './PropertyTable/PropertyTable';
+import ServerInfo from './ServerInfo/ServerInfo';
+import DisplevelChooser from './DisplevelChooser/DisplevelChooser';
 
-import Spinner from "../Spinner/Spinner";
+import Spinner from '../Spinner/Spinner';
 
 import {
   getCurrentDeviceName,
@@ -21,41 +21,31 @@ import {
   getCurrentDeviceHasProperties,
   getCurrentDeviceHasCommands,
   getDispLevels
-} from "../selectors/currentDevice";
+} from '../../selectors/currentDevice';
 
-import { getDeviceIsLoading } from "../selectors/loadingStatus";
-import { getActiveTab, getEnabledDisplevels } from "../selectors/deviceDetail";
+import { getDeviceIsLoading } from '../../selectors/loadingStatus';
+import { getActiveTab, getEnabledDisplevels } from '../../selectors/deviceDetail';
 
-import { setDataFormat, setTab } from "../actions/deviceList";
+import { setDataFormat, setTab } from '../../actions/deviceList';
 
-import {
-  enableDisplevel,
-  disableDisplevel,
-  selectDevice
-} from "../actions/tango";
+import { enableDisplevel, disableDisplevel, selectDevice } from '../../actions/tango';
 
-import "./DeviceViewer.css";
+import './DeviceViewer.css';
 
 class DeviceMenu extends Component {
   render() {
-    const {
-      hasProperties,
-      hasAttributes,
-      hasCommands,
-      selectedTab,
-      onSelectTab
-    } = this.props;
+    const { hasProperties, hasAttributes, hasCommands, selectedTab, onSelectTab } = this.props;
 
     const mask = [true, hasProperties, hasAttributes, hasCommands];
 
-    const tabTitles = ["Server", "Properties", "Attributes", "Commands"];
+    const tabTitles = ['Server', 'Properties', 'Attributes', 'Commands'];
     const tabs = tabTitles.map((title, i) => {
       const name = title.toLowerCase();
       return !mask[i] ? null : (
         <li className="nav-item" key={name}>
           <a
             href={`#${name}`}
-            className={classNames("nav-link", { active: name === selectedTab })}
+            className={classNames('nav-link', { active: name === selectedTab })}
             onClick={onSelectTab.bind(null, name)}
           >
             {title}
@@ -76,8 +66,8 @@ DeviceMenu.propTypes = {
   hasAttributes: PropTypes.bool,
   hasCommands: PropTypes.bool,
   selectedTab: PropTypes.string,
-  onSelectTab: PropTypes.func,
-}
+  onSelectTab: PropTypes.func
+};
 
 class DeviceViewer extends Component {
   parseDevice(props) {
@@ -127,24 +117,24 @@ class DeviceViewer extends Component {
     const QualityIndicator = ({ state }) => {
       const sub =
         {
-          ON: "on",
-          OFF: "off",
-          CLOSE: "close",
-          OPEN: "open",
-          INSERT: "insert",
-          EXTRACT: "extract",
-          MOVING: "moving",
-          STANDBY: "standy",
-          FAULT: "fault",
-          INIT: "init",
-          RUNNING: "running",
-          ALARM: "alarm",
-          DISABLE: "disable",
-          UNKNOWN: "unknown"
-        }[state] || "invalid";
+          ON: 'on',
+          OFF: 'off',
+          CLOSE: 'close',
+          OPEN: 'open',
+          INSERT: 'insert',
+          EXTRACT: 'extract',
+          MOVING: 'moving',
+          STANDBY: 'standy',
+          FAULT: 'fault',
+          INIT: 'init',
+          RUNNING: 'running',
+          ALARM: 'alarm',
+          DISABLE: 'disable',
+          UNKNOWN: 'unknown'
+        }[state] || 'invalid';
       return (
         <span className={`state state-${sub}`} title={state}>
-          ●{" "}
+          ●{' '}
         </span>
       );
     };
@@ -209,8 +199,8 @@ DeviceViewer.propTypes = {
 
   hasAttributes: PropTypes.bool,
   hasProperties: PropTypes.bool,
-  hasCommands: PropTypes.bool,
-}
+  hasCommands: PropTypes.bool
+};
 
 function mapStateToProps(state) {
   return {
