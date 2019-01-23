@@ -7,7 +7,7 @@ import DeviceViewer from '../DeviceViewer/DeviceViewer';
 import HomeViewer from '../HomeViewer/HomeViewer';
 import ErrorDisplay from '../ErrorDisplay/ErrorDisplay';
 import Dashboard from '../Dashboard/Dashboard';
-import ModalDialog from '../../Modal/Modal';
+import ModalDialog from '../Modal/Modal';
 import LogInOut from '../LogInOut/LogInOut';
 
 import './Layout.css';
