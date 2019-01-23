@@ -1,16 +1,16 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import * as qs from "query-string";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import * as qs from 'query-string';
 
-import DeviceList from "../DeviceList/DeviceList";
-import DeviceViewer from "../DeviceViewer/DeviceViewer";
-import HomeViewer from "../HomeViewer/HomeViewer";
-import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
-import Dashboard from "../Dashboard/Dashboard";
-import ModalDialog from "../Modal/Modal";
-import LogInOut from "../LogInOut/LogInOut";
+import DeviceList from '../../DeviceList/DeviceList';
+import DeviceViewer from '../../DeviceViewer/DeviceViewer';
+import HomeViewer from '../../HomeViewer/HomeViewer';
+import ErrorDisplay from '../../ErrorDisplay/ErrorDisplay';
+import Dashboard from '../../Dashboard/Dashboard';
+import ModalDialog from '../../Modal/Modal';
+import LogInOut from '../../LogInOut/LogInOut';
 
-import "./Layout.css";
+import './Layout.css';
 
 const BaseLayout = ({ children }) => <div className="Layout">{children}</div>;
 
@@ -41,6 +41,6 @@ const SimpleLayout = () => (
 );
 
 const Layout = ({ location: { search } }) =>
-  "no_sidebar" in qs.parse(search) ? <SimpleLayout /> : <DefaultLayout />;
+  'no_sidebar' in qs.parse(search) ? <SimpleLayout /> : <DefaultLayout />;
 
 export default Layout;
