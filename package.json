@@ -2,6 +2,14 @@
   "name": "webjive",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:coverage": "react-scripts test \"--coverage\"",
+    "code-analysis": "./node_modules/.bin/eslint \"src/**\" --ignore-path .eslintignore",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "alphanum-sort": "^1.0.2",
     "axios": "0.18.0",
@@ -30,15 +38,15 @@
     "redux-saga": "^0.16.2",
     "redux-thunk": "2.2.0",
     "reselect": "^3.0.1",
-    "scroll-into-view": "^1.9.3"
-  },
-  "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "scroll-into-view": "^1.9.3",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "jest-enzyme": "^7.0.1",
+    "react-scripts": "2.1.3"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.15",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.1.5",
     "@types/minimatch": "^3.0.3",
     "@types/query-string": "^6.1.0",
@@ -47,6 +55,15 @@
     "@types/react-redux": "^6.0.4",
     "@types/react-router-dom": "^4.2.7",
     "@types/redux-logger": "^3.0.6",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.4.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.3",
+    "prettier": "^1.15.3",
+    "react-test-renderer": "^16.7.0",
     "redux-logger": "^3.0.6",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
@@ -70,6 +87,12 @@
       ],
       "secure": false,
       "changeOrigin": true
-    }
+    },
+    "browserslist": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+    ]
   }
 }
