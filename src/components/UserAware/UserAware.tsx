@@ -1,6 +1,6 @@
-import { Component } from "react";
-import { connect } from "react-redux";
-import { preloadUser } from "./actions/typedActionCreators";
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { preloadUser } from '../../actions/typedActionCreators';
 
 class UserAware extends Component<{ preload: () => void }> {
   public componentWillMount() {
