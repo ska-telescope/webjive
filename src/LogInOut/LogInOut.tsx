@@ -8,9 +8,15 @@ import {
   getUsername,
   getAwaitingResponse
 } from "../selectors/user";
-import { IRootState } from "src/reducers/rootReducer";
+import { IRootState } from "../reducers/rootReducer";
 
-const WhenLoggedIn = ({ username, onLogout }) => (
+const WhenLoggedIn = ({
+  username,
+  onLogout
+}: {
+  username: any;
+  onLogout: any;
+}) => (
   <Fragment>
     Logged in as <span style={{ fontWeight: "bold" }}>{username}</span>.{" "}
     <a
@@ -25,7 +31,7 @@ const WhenLoggedIn = ({ username, onLogout }) => (
   </Fragment>
 );
 
-const WhenLoggedOut = ({ onLogin }) => (
+const WhenLoggedOut = ({ onLogin }: { onLogin: Function }) => (
   <Fragment>
     Not logged in.{" "}
     <a
@@ -47,7 +53,7 @@ const LogInOut = ({
   onLogin,
   onLogout
 }: {
-  username: string;
+  username: any;
   isLoggedIn: boolean;
   awaitingResponse: boolean;
   onLogin: () => any;
@@ -78,7 +84,7 @@ function mapStateToProps(state: IRootState) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: any) {
   return {
     onLogin: () => dispatch(setModal("LOGIN")),
     onLogout: () => dispatch(logout())

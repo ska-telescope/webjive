@@ -237,7 +237,7 @@ class DeviceList extends Component<IDeviceListProps> {
 }
 
 function mapStateToProps(
-  state: import("../../../../SKA/webjive/src/reducers/rootReducer.js").IRootState
+  state: import("../reducers/rootReducer.js").IRootState
 ) {
   return {
     deviceNames: getFilteredDeviceNames(state),
@@ -267,7 +267,7 @@ function mapDispatchToProps(dispatch: {
   };
 }
 
-export default connect<IValueProps, IHandlerProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(DeviceList);

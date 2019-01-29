@@ -9,8 +9,8 @@ import {
   Label
 } from "recharts";
 
-import { roundToGrid, expandToGrid } from '../Dashboard';
-import PropTypes from 'prop-types'
+import { roundToGrid, expandToGrid } from "../Dashboard";
+import PropTypes from "prop-types";
 
 const plotterSampleValues = Array(100)
   .fill(0)
@@ -42,15 +42,23 @@ export default class AttributePlotter extends React.Component {
       Math.round((10 * (new Date().getTime() - startTime)) / 1000) / 10;
     if (oldValues.length === 0 || newValue !== oldValues.slice(-1)[0].value) {
       const values = [...oldValues, { value: newValue, time: newTime }];
-      this.setState(...this.state, { values });
+      this.setState({ values });
     }
   }
 
   render() {
-    const liveMode = this.props.mode !== "edit" && this.props.mode !== "library";
+    const liveMode =
+      this.props.mode !== "edit" && this.props.mode !== "library";
     const values = liveMode ? this.state.values : plotterSampleValues;
 
-    const {nbrDataPoints, width, height, showGrid, yAxisLabel, strokeWidth} = this.props.params;
+    const {
+      nbrDataPoints,
+      width,
+      height,
+      showGrid,
+      yAxisLabel,
+      strokeWidth
+    } = this.props.params;
     const lastValues = nbrDataPoints === 0 ? [] : values.slice(-nbrDataPoints);
     return (
       <div
@@ -59,20 +67,38 @@ export default class AttributePlotter extends React.Component {
           padding: "0.25em",
           fontSize: "small",
           width: expandToGrid(width) + "px",
-          height: expandToGrid(height) + "px",
+          height: expandToGrid(height) + "px"
         }}
       >
         <LineChart data={lastValues} width={width} height={height}>
-            {liveMode && <XAxis dataKey="time">
-              <Label  offset={-3} position="insideBottom" value="Δs"/>
-            </XAxis>}
-            <YAxis> 
-              {liveMode && <Label angle={-90} position="insideLeft" value={yAxisLabel}/> }
-            </YAxis>
-            {liveMode && <Tooltip/>}
-            {showGrid && <CartesianGrid vertical={false} stroke="#eee" strokeDasharray="5 5" /> }
-            <Line dot={false} isAnimationActive={false} type='linear' dataKey="value" strokeWidth={strokeWidth} stroke="#ff7300" yAxisId={0}/>
-          </LineChart>
+          {liveMode && (
+            <XAxis dataKey="time">
+              <Label offset={-3} position="insideBottom" value="Δs" />
+            </XAxis>
+          )}
+          <YAxis>
+            {liveMode && (
+              <Label angle={-90} position="insideLeft" value={yAxisLabel} />
+            )}
+          </YAxis>
+          {liveMode && <Tooltip />}
+          {showGrid && (
+            <CartesianGrid
+              vertical={false}
+              stroke="#eee"
+              strokeDasharray="5 5"
+            />
+          )}
+          <Line
+            dot={false}
+            isAnimationActive={false}
+            type="linear"
+            dataKey="value"
+            strokeWidth={strokeWidth}
+            stroke="#ff7300"
+            yAxisId={0}
+          />
+        </LineChart>
       </div>
     );
   }
@@ -88,6 +114,6 @@ AttributePlotter.propTypes = {
     showGrid: PropTypes.bool,
     strokeWidth: PropTypes.number,
     width: PropTypes.number,
-    yAxisLabel: PropTypes.string,
+    yAxisLabel: PropTypes.string
   })
-}
+};

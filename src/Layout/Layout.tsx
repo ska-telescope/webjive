@@ -12,9 +12,11 @@ import LogInOut from "../LogInOut/LogInOut";
 
 import "./Layout.css";
 
-const BaseLayout = ({ children }) => <div className="Layout">{children}</div>;
+const BaseLayout = ({ children }: { children: any }) => (
+  <div className="Layout">{children}</div>
+);
 
-const MainView = ({ className }) => (
+const MainView = ({ className }: { className: any }) => (
   <div className={className}>
     <LogInOut />
     <ErrorDisplay />
@@ -40,7 +42,7 @@ const SimpleLayout = () => (
   </BaseLayout>
 );
 
-const Layout = ({ location: { search } }) =>
+const Layout = ({ location: { search } }: { location: { search: any } }) =>
   "no_sidebar" in qs.parse(search) ? <SimpleLayout /> : <DefaultLayout />;
 
 export default Layout;

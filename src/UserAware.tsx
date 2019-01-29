@@ -12,7 +12,7 @@ class UserAware extends Component<{ preload: () => void }> {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Function) {
   return {
     preload: () => dispatch(preloadUser())
   };
