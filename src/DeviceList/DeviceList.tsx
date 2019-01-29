@@ -1,33 +1,33 @@
-import React, { Component, StatelessComponent } from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import classNames from 'classnames';
-import sort from 'alphanum-sort';
-import queryString from 'query-string';
-import ScrollIntoViewIfNeeded from './ScrollIntoView.js';
+import React, { Component, StatelessComponent } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import classNames from "classnames";
+import sort from "alphanum-sort";
+import queryString from "query-string";
+import ScrollIntoViewIfNeeded from "./ScrollIntoView.js";
 
-import { fetchDeviceNames} from '../actions/tango';
-import { setDeviceFilter, toggleExpandDomain, toggleExpandFamily } from '../actions/deviceList';
+import { fetchDeviceNames } from "../actions/tango";
+import {
+  setDeviceFilter,
+  toggleExpandDomain,
+  toggleExpandFamily
+} from "../actions/deviceList";
 
 import {
   getFilter,
   getFilteredDeviceNames,
   getHasDevices,
   getExpandedDomains,
-  getExpandedFamilies,
-} from '../selectors/deviceList';
+  getExpandedFamilies
+} from "../selectors/deviceList";
 
-import {
-  getCurrentDeviceName,
-} from '../selectors/currentDevice';
+import { getCurrentDeviceName } from "../selectors/currentDevice";
 
-import {
-  getDeviceNamesAreLoading
-} from '../selectors/loadingStatus';
+import { getDeviceNamesAreLoading } from "../selectors/loadingStatus";
 
-import './DeviceList.css';
+import "./DeviceList.css";
 
-import { unique } from '../utils';
+import { unique } from "../utils";
 
 interface IDeviceEntryProps {
   domain: string;
@@ -37,34 +37,43 @@ interface IDeviceEntryProps {
   filter?: string;
 }
 
-const DeviceEntry: StatelessComponent<IDeviceEntryProps> = ({domain, family, member, isSelected, filter}) => {
+const DeviceEntry: StatelessComponent<IDeviceEntryProps> = ({
+  domain,
+  family,
+  member,
+  isSelected,
+  filter
+}) => {
   const pathname = `/devices/${domain}/${family}/${member}`;
-  const to = filter == null ? pathname : {
-    pathname,
-    search: `?filter=${filter}`
-  };
+  const to =
+    filter == null
+      ? pathname
+      : {
+          pathname,
+          search: `?filter=${filter}`
+        };
 
   return (
     <Link to={to} onClick={e => e.stopPropagation()}>
-      <div className={classNames('entry', {selected: isSelected})}>
+      <div className={classNames("entry", { selected: isSelected })}>
         {member}
       </div>
     </Link>
   );
 };
 
-const ExpanderArrow: StatelessComponent<{isExpanded: boolean}> = ({isExpanded}) => (
-  <span
-    className={classNames('expander-arrow', {expanded: isExpanded})}
-  />
+const ExpanderArrow: StatelessComponent<{ isExpanded: boolean }> = ({
+  isExpanded
+}) => (
+  <span className={classNames("expander-arrow", { expanded: isExpanded })} />
 );
 
 interface IValueProps {
-  deviceNames: string[],
-  currentDeviceName?: string,
-  hasDevices: boolean,
-  filter: string,
-  loading: boolean,
+  deviceNames: string[];
+  currentDeviceName?: string;
+  hasDevices: boolean;
+  filter: string;
+  loading: boolean;
 
   expandedDomains: string[];
   expandedFamilies: string[];
@@ -93,119 +102,116 @@ class DeviceList extends Component<IDeviceListProps> {
 
   public componentDidMount() {
     const filter = this.parseFilter();
-    this.props.onSetFilter(filter || '');
+    this.props.onSetFilter(filter || "");
   }
 
-  public componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps: any) {
     const filter = this.parseFilter();
     if (filter !== this.parseFilter(prevProps)) {
-      this.props.onSetFilter(filter || '');
+      this.props.onSetFilter(filter || "");
     }
   }
 
   public render() {
-    const {filter} = this.props;
+    const { filter } = this.props;
 
-    const triplets = this.props.deviceNames.map(name => name.split('/'));
-    const domains = unique(triplets.map(([domain,,]) => domain));
+    const triplets = this.props.deviceNames.map(name => name.split("/"));
+    const domains = unique(triplets.map(([domain, ,]) => domain));
 
     const entries = domains.map(domain => {
       const families = unique(
         triplets
-          .filter(([domain2,,]) => domain2 === domain)
-          .map(([,family,]) => family)
+          .filter(([domain2, ,]) => domain2 === domain)
+          .map(([, family]) => family)
       );
 
       const subEntries = families.map(family => {
         const members = sort(
           triplets
-            .filter(([domain2,family2,]) => domain2 === domain && family2 === family)
-            .map(([,,member]) => member)
+            .filter(
+              ([domain2, family2]) => domain2 === domain && family2 === family
+            )
+            .map(([, , member]) => member)
         );
-        
-        const subSubEntries = members.map(member => {
+
+        const subSubEntries = members.map((member: string) => {
           const name = `${domain}/${family}/${member}`;
           const parsedFilter = this.parseFilter();
           return (
-            <ScrollIntoViewIfNeeded key={name} isSelected={name === this.props.currentDeviceName}>
-            <li key={name}>
-            
-              <DeviceEntry
-                isSelected={name === this.props.currentDeviceName}
-                domain={domain}
-                family={family}
-                member={member}
-                filter={parsedFilter}
-              />
-            </li>
+            <ScrollIntoViewIfNeeded
+              key={name}
+              isSelected={name === this.props.currentDeviceName}
+            >
+              <li key={name}>
+                <DeviceEntry
+                  isSelected={name === this.props.currentDeviceName}
+                  domain={domain}
+                  family={family}
+                  member={member}
+                  filter={parsedFilter}
+                />
+              </li>
             </ScrollIntoViewIfNeeded>
           );
         });
 
         const key = `${domain}/${family}`;
         const innerIsExpanded =
-          filter.length > 0 ||
-          this.props.expandedFamilies.indexOf(key) !== -1;
+          filter.length > 0 || this.props.expandedFamilies.indexOf(key) !== -1;
 
         return (
           <li
             key={key}
             onClick={this.handleToggleFamily.bind(null, domain, family)}
           >
-            <ExpanderArrow isExpanded={innerIsExpanded}/>
+            <ExpanderArrow isExpanded={innerIsExpanded} />
             {family}
-            {innerIsExpanded && <ul>
-              {subSubEntries}
-            </ul>}
+            {innerIsExpanded && <ul>{subSubEntries}</ul>}
           </li>
         );
       });
 
       const isExpanded =
-        filter.length > 0 ||
-        this.props.expandedDomains.indexOf(domain) !== -1;
+        filter.length > 0 || this.props.expandedDomains.indexOf(domain) !== -1;
 
       return (
-        <li
-          key={domain}
-          onClick={this.handleToggleDomain.bind(null, domain)}
-        >
-          <ExpanderArrow isExpanded={isExpanded}/>
+        <li key={domain} onClick={this.handleToggleDomain.bind(null, domain)}>
+          <ExpanderArrow isExpanded={isExpanded} />
           {domain}
           {isExpanded && <ul>{subEntries}</ul>}
         </li>
       );
     });
 
-    const className = classNames('device-list', {'has-search': filter.length > 0});
+    const className = classNames("device-list", {
+      "has-search": filter.length > 0
+    });
     return (
       <div className={className}>
         <div className="form-group search">
           <form>
             <input
-              name='filter'
+              name="filter"
               className="form-control"
               type="text"
               placeholder="Search..."
               value={filter}
               onChange={this.handleTextChange}
-              autoCapitalize='off'
-              autoCorrect='off'
+              autoCapitalize="off"
+              autoCorrect="off"
               spellCheck={false}
               title={`Filter on multiple terms, or prefix the query with 'glob:' to perform globbing, e.g. glob:sys/tg_test/+(1|2|3) or glob:sys/**`}
             />
           </form>
         </div>
         <div className="list">
-          <ul>
-            {entries}
-          </ul>
+          <ul>{entries}</ul>
         </div>
       </div>
     );
   }
 
-  private handleTextChange(e) {
+  private handleTextChange(e: { target: { value: string } }) {
     this.props.onSetFilter(e.target.value);
   }
 
@@ -214,19 +220,25 @@ class DeviceList extends Component<IDeviceListProps> {
     this.props.onToggleDomain(domain);
   }
 
-  private handleToggleFamily(domain: string, family: string, event: React.MouseEvent) {
+  private handleToggleFamily(
+    domain: string,
+    family: string,
+    event: React.MouseEvent
+  ) {
     event.stopPropagation();
     event.preventDefault();
     this.props.onToggleFamily(domain, family);
   }
 
-  private parseFilter(props?) {
+  private parseFilter(props?: any) {
     const search = (props || this.props).location.search;
     return queryString.parse(search).filter;
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(
+  state: import("../../../../SKA/webjive/src/reducers/rootReducer.js").IRootState
+) {
   return {
     deviceNames: getFilteredDeviceNames(state),
     currentDeviceName: getCurrentDeviceName(state),
@@ -235,17 +247,23 @@ function mapStateToProps(state) {
     loading: getDeviceNamesAreLoading(state),
 
     expandedDomains: getExpandedDomains(state),
-    expandedFamilies: getExpandedFamilies(state),
+    expandedFamilies: getExpandedFamilies(state)
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: {
+  (arg0: (dispatch: any) => Promise<void>): void;
+  (arg0: { type: string; filter: any }): void;
+  (arg0: { type: string; domain: any }): void;
+  (arg0: { type: string; domain: any; family: any }): void;
+}) {
   return {
     onInit: () => dispatch(fetchDeviceNames()),
-    onSetFilter: filter => dispatch(setDeviceFilter(filter)),
+    onSetFilter: (filter: any) => dispatch(setDeviceFilter(filter)),
 
-    onToggleDomain: domain => dispatch(toggleExpandDomain(domain)),
-    onToggleFamily: (domain, family) => dispatch(toggleExpandFamily(domain, family)),
+    onToggleDomain: (domain: any) => dispatch(toggleExpandDomain(domain)),
+    onToggleFamily: (domain: any, family: any) =>
+      dispatch(toggleExpandFamily(domain, family))
   };
 }
 

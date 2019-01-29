@@ -11,7 +11,7 @@ import {
 
 import { LOGIN } from "../actions/actionTypes";
 import { login } from "../actions/typedActionCreators";
-import { getLoginFailure, getAwaitingResponse } from "src/selectors/user";
+import { getLoginFailure, getAwaitingResponse } from "../selectors/user";
 
 class Login extends React.Component {
   constructor(props) {

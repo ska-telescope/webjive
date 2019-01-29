@@ -17,8 +17,9 @@ import {
 
 import { complexWidgetDefinition } from "./ComplexWidget/ComplexWidget";
 
-const GRID_TILE_SIZE = 15;
 import "./Dashboard.css";
+
+const GRID_TILE_SIZE = 15;
 
 const DEFAULT_CANVASES = [
   {
@@ -183,9 +184,9 @@ class Dashboard extends Component {
     const widgets = this.currentWidgets();
     const selectedWidget = this.selectedWidget();
 
-    const complexWidgetDefinitions = this.state.canvases.slice(1).map(
-      complexWidgetDefinition
-    );
+    const complexWidgetDefinitions = this.state.canvases
+      .slice(1)
+      .map(complexWidgetDefinition);
 
     const widgetDefinitions = normalizeWidgetDefinitions([
       ...WIDGET_DEFINITIONS,
