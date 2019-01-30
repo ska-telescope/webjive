@@ -1,8 +1,6 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
-import { IRootState } from "../reducers/rootReducer";
-
-export function getUserState(state: IRootState) {
+export function getUserState(state) {
   return state.user;
 }
 

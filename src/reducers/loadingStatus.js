@@ -5,25 +5,15 @@ import {
   FETCH_DEVICE_SUCCESS,
   EXECUTE_COMMAND,
   EXECUTE_COMMAND_COMPLETE
-} from "../actions/actionTypes";
-
-export interface ILoadingStatusState {
-  loadingNames: boolean;
-  loadingDevice: boolean;
-  loadingOutput: {
-    [device: string]: {
-      [attribute: string]: boolean;
-    };
-  };
-}
+} from '../actions/actionTypes';
 
 export default function loadingStatus(
-  state: ILoadingStatusState = {
+  state = {
     loadingNames: false,
     loadingDevice: false,
     loadingOutput: {}
   },
-  action: any
+  action
 ) {
   switch (action.type) {
     case FETCH_DEVICE_NAMES:

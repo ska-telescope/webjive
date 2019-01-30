@@ -4,45 +4,36 @@ import {
   TOGGLE_EXPAND_DOMAIN,
   TOGGLE_EXPAND_FAMILY,
   SELECT_DEVICE
-} from "../actions/actionTypes";
+} from '../actions/actionTypes';
 
-export interface IDeviceListState {
-  filter: string;
-  nameList: string[];
-
-  expandedDomains: string[];
-  expandedFamilies: string[];
-}
-
-function toggleElement(array: any, element: any) {
+function toggleElement(array, element) {
   if (array.indexOf(element) === -1) {
     return array.concat(element);
-  } else {
-    return array.filter((element2: any) => element2 !== element);
   }
+  return array.filter(element2 => element2 !== element);
 }
 
-function enableElement(array: any, element: any) {
+function enableElement(array, element) {
   return array.indexOf(element) === -1 ? array.concat(element) : array;
 }
 
 export default function deviceList(
-  state: IDeviceListState = {
-    filter: "",
+  state = {
+    filter: '',
     nameList: [],
 
     expandedDomains: [],
     expandedFamilies: []
   },
-  action: any
+  action
 ) {
   switch (action.type) {
-    case FETCH_DEVICE_NAMES_SUCCESS:
-      const sortedDeviceNames = action.names.sort((a: String, b: String) => {
-        return a.toLowerCase().localeCompare(b.toLowerCase());
-      });
+    case FETCH_DEVICE_NAMES_SUCCESS: {
+      const sortedDeviceNames = action.names.sort((a, b) =>
+        a.toLowerCase().localeCompare(b.toLowerCase())
+      );
       return { ...state, nameList: sortedDeviceNames };
-
+    }
     case SET_SEARCH_FILTER:
       return { ...state, filter: action.filter };
 
@@ -63,7 +54,7 @@ export default function deviceList(
     }
 
     case SELECT_DEVICE: {
-      const [domain, family] = action.name.split("/");
+      const [domain, family] = action.name.split('/');
       const domainFamily = `${domain}/${family}`;
       return {
         ...state,

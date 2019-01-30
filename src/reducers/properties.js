@@ -2,25 +2,14 @@ import {
   FETCH_DEVICE_SUCCESS,
   DELETE_DEVICE_PROPERTY_SUCCESS,
   SET_DEVICE_PROPERTY_SUCCESS
-} from "../actions/actionTypes";
+} from '../actions/actionTypes';
 
-interface IDeviceProperty {
-  name: string;
-  value: string[];
-}
-
-export interface IPropertiesState {
-  [deviceName: string]: {
-    [propertyName: string]: IDeviceProperty;
-  };
-}
-
-export default function properties(state: IPropertiesState = {}, action: any) {
+export default function properties(state = {}, action) {
   switch (action.type) {
     case FETCH_DEVICE_SUCCESS: {
       const { name, properties: props } = action.device;
       const hash = (props || []).reduce(
-        (accum: any, property: any) => ({
+        (accum, property) => ({
           ...accum,
           [property.name]: property
         }),

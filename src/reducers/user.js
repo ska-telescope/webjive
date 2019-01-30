@@ -6,42 +6,14 @@ import {
   PRELOAD_USER_SUCCESS,
   PRELOAD_USER_FAILED,
   LOGOUT
-} from "../actions/actionTypes";
-
-import {
-  ILoginAction,
-  ILoginSuccessAction,
-  ILoginFailedAction,
-  ILogoutAction,
-  ILogoutSuccessAction,
-  IPreloadUserSuccessAction,
-  IPreloadUserFailedAction
-} from "../actions/typedActions";
-
-export interface IUserState {
-  username?: string;
-  awaitingResponse: boolean;
-  loginFailed: boolean;
-}
-
-type UserAction =
-  | ILoginAction
-  | ILoginSuccessAction
-  | ILoginFailedAction
-  | ILogoutAction
-  | ILogoutSuccessAction
-  | IPreloadUserSuccessAction
-  | IPreloadUserFailedAction;
+} from '../actions/actionTypes';
 
 const initialState = {
   awaitingResponse: true,
   loginFailed: false
 };
 
-export default function user(
-  state: IUserState = initialState,
-  action: UserAction
-) {
+export default function user(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
       return { ...state, awaitingResponse: true };

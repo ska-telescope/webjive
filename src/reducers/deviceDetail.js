@@ -4,22 +4,16 @@ import {
   SET_DATA_FORMAT,
   SET_TAB,
   SELECT_DEVICE_SUCCESS
-} from "../actions/actionTypes";
+} from '../actions/actionTypes';
 
-import { unique } from "../utils";
-
-export interface IDeviceDetailState {
-  activeDataFormat?: string;
-  activeTab: string;
-  enabledDisplevels: string[];
-}
+import { unique } from '../utils';
 
 export default function deviceViewer(
-  state: IDeviceDetailState = {
-    activeTab: "properties",
+  state = {
+    activeTab: 'properties',
     enabledDisplevels: []
   },
-  action: any
+  action
 ) {
   switch (action.type) {
     case ENABLE_DISPLEVEL: {
@@ -30,29 +24,23 @@ export default function deviceViewer(
 
     case DISABLE_DISPLEVEL: {
       const { displevel } = action;
-      const enabledDisplevels = state.enabledDisplevels.filter(
-        level => level !== displevel
-      );
+      const enabledDisplevels = state.enabledDisplevels.filter(level => level !== displevel);
       return { ...state, enabledDisplevels };
     }
 
     case SELECT_DEVICE_SUCCESS: {
-      const device = action.device;
+      const { device } = action;
       const commands = device.commands || [];
       const attributes = device.attributes || [];
 
-      const enabledDisplevels = unique(
-        commands.map((cmd: any) => cmd.displevel)
-      );
-      const activeDataFormat = attributes.length
-        ? attributes[0].dataformat
-        : null;
+      const enabledDisplevels = unique(commands.map(cmd => cmd.displevel));
+      const activeDataFormat = attributes.length ? attributes[0].dataformat : null;
 
       return {
         ...state,
         enabledDisplevels,
         activeDataFormat,
-        activeTab: "server"
+        activeTab: 'server'
       };
     }
 
