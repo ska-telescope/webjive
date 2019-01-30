@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { preloadUser } from './actions/user';
+import { preloadUser } from '../../actions/user';
 
 class UserAware extends Component {
   componentWillMount() {
