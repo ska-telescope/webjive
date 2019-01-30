@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import { setModal } from '../actions/modal';
-import { logout } from '../actions/user';
-import { getIsLoggedIn, getUsername, getAwaitingResponse } from '../selectors/user';
+import { setModal } from '../../actions/modal';
+import { logout } from '../../actions/user';
+import { getIsLoggedIn, getUsername, getAwaitingResponse } from '../../selectors/user';
 
 const WhenLoggedIn = ({ username, onLogout }) => (
   <Fragment>

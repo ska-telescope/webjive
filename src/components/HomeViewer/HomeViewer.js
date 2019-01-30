@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { executeCommand } from '../actions/tango';
-import getServerSummary from '../selectors/server';
+import { executeCommand } from '../../actions/tango';
+import getServerSummary from '../../selectors/server';
 import PropTypes from 'prop-types';
 
 import './HomeViewer.css';
