@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import * as qs from 'query-string';
 
@@ -14,16 +15,24 @@ import './Layout.css';
 
 const BaseLayout = ({ children }) => <div className="Layout">{children}</div>;
 
+BaseLayout.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
 const MainView = ({ className }) => (
   <div className={className}>
     <LogInOut />
     <ErrorDisplay />
     <ModalDialog />
-    <Route path="/dashboard" exact={true} component={Dashboard} />
+    <Route path="/dashboard" exact component={Dashboard} />
     <Route path="/devices/:device*" component={DeviceViewer} />
-    <Route path="/" exact={true} component={HomeViewer} />
+    <Route path="/" exact component={HomeViewer} />
   </div>
 );
+
+MainView.propTypes = {
+  className: PropTypes.string.isRequired
+};
 
 const DefaultLayout = () => (
   <BaseLayout>
@@ -42,5 +51,13 @@ const SimpleLayout = () => (
 
 const Layout = ({ location: { search } }) =>
   'no_sidebar' in qs.parse(search) ? <SimpleLayout /> : <DefaultLayout />;
+
+Layout.propTypes = {
+  location: PropTypes.shape({ search: PropTypes.string })
+};
+
+Layout.defaultProps = {
+  location: { search: '' }
+};
 
 export default Layout;
