@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Button, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap';
 
-import { LOGIN } from '../actions/actionTypes';
-import { login } from '../actions/user';
-import { getLoginFailure, getAwaitingResponse } from '../selectors/user';
+import { LOGIN } from '../../actions/actionTypes';
+import { login } from '../../actions/user';
+import { getLoginFailure, getAwaitingResponse } from '../../selectors/user';
 
 class Login extends React.Component {
   constructor(props) {

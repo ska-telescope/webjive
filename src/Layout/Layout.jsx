@@ -7,7 +7,7 @@ import DeviceViewer from '../components/DeviceViewer/DeviceViewer';
 import HomeViewer from '../components/HomeViewer/HomeViewer';
 import ErrorDisplay from '../components/ErrorDisplay/ErrorDisplay';
 import Dashboard from '../components/Dashboard/Dashboard';
-import ModalDialog from '../Modal/Modal';
+import ModalDialog from '../components/Modal/Modal';
 import LogInOut from '../components/LogInOut/LogInOut';
 
 import './Layout.css';
