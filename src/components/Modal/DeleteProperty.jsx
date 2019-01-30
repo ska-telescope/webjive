@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { deleteDeviceProperty } from '../../actions/tango';
-import PropTypes from 'prop-types';
 
 /**
  * Renders a modal dialog for deleting  properties from a device. Rendered in Layout iff state.modal.modalInstance === 'DELETE_PROPERTY'
@@ -12,6 +12,14 @@ class DeleteProperty extends Component {
     super(props);
     this.onDeleteProperty = this.onDeleteProperty.bind(this);
   }
+
+  onDeleteProperty(event) {
+    const { closeDialog, currentDevice, deleteProperty, entity } = this.props;
+    event.preventDefault();
+    deleteProperty(currentDevice, entity);
+    closeDialog();
+  }
+
   render() {
     const { entity, closeDialog } = this.props;
     return (
@@ -34,17 +42,18 @@ class DeleteProperty extends Component {
       </Modal.Dialog>
     );
   }
-
-  onDeleteProperty(event) {
-    event.preventDefault();
-    this.props.deleteProperty(this.props.currentDevice, this.props.entity);
-    this.props.closeDialog();
-  }
 }
 
-DeleteProperty.PropTypes = {
-  entity: PropTypes.string,
-  closeDialog: PropTypes.func
+DeleteProperty.propTypes = {
+  closeDialog: PropTypes.func.isRequired,
+  currentDevice: PropTypes.string,
+  deleteProperty: PropTypes.func.isRequired,
+  entity: PropTypes.string
+};
+
+DeleteProperty.defaultProps = {
+  currentDevice: '',
+  entity: ''
 };
 
 function mapDispatchToProps(dispatch) {

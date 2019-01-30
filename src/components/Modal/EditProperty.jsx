@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setDeviceProperty } from '../../actions/tango';
 import { getCurrentDeviceProperties } from '../../selectors/currentDevice';
-import PropTypes from 'prop-types';
 
 /**
  * Renders a modal dialog for deleting  properties from a device. Rendered in Layout iff state.modal.modalInstance === 'EDIT_PROPERTY'
@@ -13,11 +13,27 @@ class EditProperty extends Component {
     super(props);
     this.onEditProperty = this.onEditProperty.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    const prop = this.props.properties.find(prop => prop.name === this.props.entity);
+    const { properties, entity } = this.props;
+    const prop = properties.find(p => p.name === entity);
     this.state = { value: prop.value };
   }
+
+  onEditProperty(event) {
+    const { editProperty, currentDevice, entity, closeDialog } = this.props;
+    const { value } = this.state;
+    event.preventDefault();
+    editProperty(currentDevice, entity, [value]);
+    closeDialog();
+  }
+
+  handleChange(event) {
+    event.preventDefault();
+    this.setState({ value: event.target.value });
+  }
+
   render() {
     const { entity, closeDialog } = this.props;
+    const { value } = this.state;
     return (
       <Modal.Dialog>
         <Modal.Header>
@@ -26,12 +42,12 @@ class EditProperty extends Component {
         <Modal.Body>
           <div className="input-group">
             <div className="input-group-prepend">
-              <span className="input-group-text">{this.props.entity}</span>
+              <span className="input-group-text">{entity}</span>
             </div>
             <input
               type="text"
               className="form-control"
-              value={this.state.value}
+              value={value}
               onChange={this.handleChange}
             />
           </div>
@@ -51,21 +67,19 @@ class EditProperty extends Component {
       </Modal.Dialog>
     );
   }
-
-  handleChange(event) {
-    event.preventDefault();
-    this.setState({ value: event.target.value });
-  }
-
-  onEditProperty(event) {
-    event.preventDefault();
-    this.props.editProperty(this.props.currentDevice, this.props.entity, [this.state.value]);
-    this.props.closeDialog();
-  }
 }
-EditProperty.PropTypes = {
+EditProperty.propTypes = {
+  closeDialog: PropTypes.func.isRequired,
+  currentDevice: PropTypes.string,
+  editProperty: PropTypes.func.isRequired,
   entity: PropTypes.string,
-  closeDialog: PropTypes.func
+  properties: PropTypes.arrayOf(PropTypes.string)
+};
+
+EditProperty.defaultProps = {
+  currentDevice: '',
+  entity: '',
+  properties: []
 };
 
 function mapStateToProps(state) {

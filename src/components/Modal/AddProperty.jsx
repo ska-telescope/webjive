@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setDeviceProperty } from '../../actions/tango';
-import PropTypes from 'prop-types';
 
 /**
  * Renders a modal dialog for adding new properties to a device. Rendered in Layout iff state.modal.modalInstance === 'CREATE_PROPERTY'
@@ -15,8 +15,35 @@ class AddProperty extends Component {
     this.state = { formValues: { name: '', value: '' }, valid: false };
   }
 
+  onAddProperty(event) {
+    event.preventDefault();
+    const { addProperty, closeDialog, currentDevice } = this.props;
+    const {
+      formValues: { name, value }
+    } = this.state;
+    addProperty(currentDevice, name, [value]);
+    closeDialog();
+  }
+
+  handleChange(event) {
+    event.preventDefault();
+    const { formValues } = this.state;
+    const { name, value } = event.target;
+    formValues[name] = value;
+    this.setState({ formValues });
+    if (name.length > 0) {
+      this.setState({ valid: true });
+    } else {
+      this.setState({ valid: false });
+    }
+  }
+
   render() {
     const { closeDialog } = this.props;
+    const {
+      formValues: { name, value },
+      valid
+    } = this.state;
     return (
       <Modal.Dialog>
         <Modal.Header>
@@ -32,7 +59,7 @@ class AddProperty extends Component {
               name="name"
               className="form-control"
               autoComplete="off"
-              value={this.state.formValues['name']}
+              value={name}
               onChange={this.handleChange}
             />
           </div>
@@ -45,7 +72,7 @@ class AddProperty extends Component {
               type="text"
               name="value"
               className="form-control"
-              value={this.state.formValues['value']}
+              value={value}
               onChange={this.handleChange}
             />
           </div>
@@ -55,7 +82,7 @@ class AddProperty extends Component {
           <Button
             className="btn btn-outline-secondary"
             onClick={this.onAddProperty}
-            disabled={!this.state.valid}
+            disabled={!valid}
           >
             Create
           </Button>
@@ -66,32 +93,12 @@ class AddProperty extends Component {
       </Modal.Dialog>
     );
   }
-
-  handleChange(event) {
-    event.preventDefault();
-    let formValues = this.state.formValues;
-    let name = event.target.name;
-    let value = event.target.value;
-    formValues[name] = value;
-    this.setState({ formValues });
-    if (this.state.formValues['name'].length > 0) {
-      this.setState({ valid: true });
-    } else {
-      this.setState({ valid: false });
-    }
-  }
-
-  onAddProperty(event) {
-    event.preventDefault();
-    this.props.addProperty(this.props.currentDevice, this.state.formValues.name, [
-      this.state.formValues.value
-    ]);
-    this.props.closeDialog();
-  }
 }
 
-AddProperty.PropTypes = {
-  closeDialog: PropTypes.func
+AddProperty.propTypes = {
+  closeDialog: PropTypes.func.isRequired,
+  addProperty: PropTypes.func.isRequired,
+  currentDevice: PropTypes.string.isRequired
 };
 
 function mapDispatchToProps(dispatch) {

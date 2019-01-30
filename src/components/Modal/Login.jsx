@@ -1,8 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Modal, Button, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap';
-
-import { LOGIN } from '../../actions/actionTypes';
+import { Modal, Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { login } from '../../actions/user';
 import { getLoginFailure, getAwaitingResponse } from '../../selectors/user';
 
@@ -26,6 +25,8 @@ class Login extends React.Component {
   }
 
   render() {
+    const { awaitingResponse, closeDialog, loginFailure, onSubmit } = this.props;
+    const { password, username } = this.state;
     return (
       <Modal.Dialog>
         <Modal.Header>
@@ -34,32 +35,24 @@ class Login extends React.Component {
         <form
           onSubmit={e => {
             e.preventDefault();
-            this.props.onSubmit(this.state.username, this.state.password);
+            onSubmit(username, password);
           }}
         >
           <Modal.Body>
             <FormGroup>
               <ControlLabel>Username</ControlLabel>
-              <FormControl
-                type="text"
-                value={this.state.username}
-                onChange={this.handleUsernameChange}
-              />
+              <FormControl type="text" value={username} onChange={this.handleUsernameChange} />
             </FormGroup>
             <FormGroup>
               <ControlLabel>Password</ControlLabel>
-              <FormControl
-                type="password"
-                value={this.state.password}
-                onChange={this.handlePasswordChange}
-              />
+              <FormControl type="password" value={password} onChange={this.handlePasswordChange} />
             </FormGroup>
-            {this.props.loginFailure && (
+            {loginFailure && (
               <div className="alert alert-danger" role="alert">
                 Wrong username and/or password.
               </div>
             )}
-            {this.props.awaitingResponse && (
+            {awaitingResponse && (
               <div className="alert alert-info" role="alert">
                 Logging in....
               </div>
@@ -69,16 +62,12 @@ class Login extends React.Component {
           <Modal.Footer>
             <Button
               className="btn btn-outline-secondary"
-              onClick={this.props.closeDialog}
-              disabled={this.props.awaitingResponse}
+              onClick={closeDialog}
+              disabled={awaitingResponse}
             >
               Close
             </Button>
-            <Button
-              type="submit"
-              className="btn btn-outline-primary"
-              disabled={this.props.awaitingResponse}
-            >
+            <Button type="submit" className="btn btn-outline-primary" disabled={awaitingResponse}>
               Log In
             </Button>
           </Modal.Footer>
@@ -88,16 +77,27 @@ class Login extends React.Component {
   }
 }
 
+Login.propTypes = {
+  awaitingResponse: PropTypes.bool.isRequired,
+  closeDialog: PropTypes.func.isRequired,
+  loginFailure: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+  return {
+    awaitingResponse: getAwaitingResponse(state),
+    loginFailure: getLoginFailure(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onSubmit: (username, password) => dispatch(login(username, password))
+  };
+}
+
 export default connect(
-  function mapStateToProps(state) {
-    return {
-      awaitingResponse: getAwaitingResponse(state),
-      loginFailure: getLoginFailure(state)
-    };
-  },
-  function mapDispatchToProps(dispatch) {
-    return {
-      onSubmit: (username, password) => dispatch(login(username, password))
-    };
-  }
+  mapStateToProps,
+  mapDispatchToProps
 )(Login);
