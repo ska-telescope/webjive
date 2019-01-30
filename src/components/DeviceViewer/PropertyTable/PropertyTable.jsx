@@ -1,13 +1,10 @@
-import React, { Component, Fragment } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React from 'react';
 import { connect } from 'react-redux';
-import { isMobile } from 'react-device-detect';
 import PropTypes from 'prop-types';
-
 import { getCurrentDeviceProperties, getCurrentDeviceName } from '../../../selectors/currentDevice';
-
 import { DELETE_PROPERTY, CREATE_PROPERTY, EDIT_PROPERTY, setModal } from '../../../actions/modal';
-
+import EditProperty from './EditProperty/EditProperty';
+import SetProperty from './SetProperty/SetProperty';
 import './PropertyTable.css';
 
 const PropertyTable = ({
@@ -21,8 +18,8 @@ const PropertyTable = ({
     <table className="separated">
       <tbody>
         {properties &&
-          properties.map(({ name, value }, i) => (
-            <tr key={i}>
+          properties.map(({ name, value }) => (
+            <tr key={`${name}${value}`}>
               <td className="name">{name}</td>
               <td className="actions">
                 <EditProperty
@@ -49,69 +46,11 @@ PropertyTable.propTypes = {
       name: PropTypes.string,
       value: PropTypes.arrayOf(PropTypes.string)
     })
-  ),
-  deviceName: PropTypes.string,
-  showDeletePropertyDialog: PropTypes.func,
-  showEditPropertyDialog: PropTypes.func,
-  showAddPropertyDialog: PropTypes.func
-};
-
-class EditProperty extends Component {
-  constructor(props) {
-    super(props);
-    this.handleShow = this.handleShow.bind(this);
-    this.removeShow = this.removeShow.bind(this);
-  }
-
-  handleShow() {
-    this.props.showEditPropertyDialog(this.props.name);
-  }
-
-  removeShow() {
-    this.props.showDeletePropertyDialog(this.props.name);
-  }
-
-  render() {
-    return (
-      <Fragment>
-        <i className={'fa fa-trash ' + (isMobile ? 'visible' : '')} onClick={this.removeShow} />{' '}
-        &nbsp;
-        <i className={'fa fa-pencil ' + (isMobile ? 'visible' : '')} onClick={this.handleShow} />
-      </Fragment>
-    );
-  }
-}
-
-EditProperty.propTypes = {
-  name: PropTypes.string,
-  showEditPropertyDialog: PropTypes.func,
-  showDeletePropertyDialog: PropTypes.func
-};
-
-class SetProperty extends Component {
-  constructor(props) {
-    super(props);
-    this.handleShow = this.handleShow.bind(this);
-  }
-
-  handleShow() {
-    this.props.showAddPropertyDialog(this.props.deviceName);
-  }
-
-  render() {
-    return (
-      <div className="static-modal">
-        <button className="btn btn-outline-secondary" type="button" onClick={this.handleShow}>
-          Add new property
-        </button>
-      </div>
-    );
-  }
-}
-
-SetProperty.propTypes = {
-  deviceName: PropTypes.string,
-  showAddPropertyDialog: PropTypes.func
+  ).isRequired,
+  deviceName: PropTypes.string.isRequired,
+  showDeletePropertyDialog: PropTypes.func.isRequired,
+  showEditPropertyDialog: PropTypes.func.isRequired,
+  showAddPropertyDialog: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {

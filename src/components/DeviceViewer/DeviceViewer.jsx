@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import 'font-awesome/css/font-awesome.min.css';
-
 import AttributeTable from './AttributeTable/AttributeTable';
 import CommandTable from './CommandTable/CommandTable';
 import PropertyTable from './PropertyTable/PropertyTable';
 import ServerInfo from './ServerInfo/ServerInfo';
 import DisplevelChooser from './DisplevelChooser/DisplevelChooser';
-
+import DeviceMenu from './DeviceMenu/DeviceMenu';
 import Spinner from '../Spinner/Spinner';
-
 import {
   getCurrentDeviceName,
   getCurrentDeviceStateValue,
@@ -22,97 +19,70 @@ import {
   getCurrentDeviceHasCommands,
   getDispLevels
 } from '../../selectors/currentDevice';
-
 import { getDeviceIsLoading } from '../../selectors/loadingStatus';
 import { getActiveTab, getEnabledDisplevels } from '../../selectors/deviceDetail';
-
-import { setDataFormat, setTab } from '../../actions/deviceList';
-
-import { enableDisplevel, disableDisplevel, selectDevice } from '../../actions/tango';
+import { setTab } from '../../actions/deviceList';
+import {
+  enableDisplevel as enableDisplevelAction,
+  disableDisplevel as disableDisplevelAction,
+  selectDevice
+} from '../../actions/tango';
 
 import './DeviceViewer.css';
 
-class DeviceMenu extends Component {
-  render() {
-    const { hasProperties, hasAttributes, hasCommands, selectedTab, onSelectTab } = this.props;
-
-    const mask = [true, hasProperties, hasAttributes, hasCommands];
-
-    const tabTitles = ['Server', 'Properties', 'Attributes', 'Commands'];
-    const tabs = tabTitles.map((title, i) => {
-      const name = title.toLowerCase();
-      return !mask[i] ? null : (
-        <li className="nav-item" key={name}>
-          <a
-            href={`#${name}`}
-            className={classNames('nav-link', { active: name === selectedTab })}
-            onClick={onSelectTab.bind(null, name)}
-          >
-            {title}
-          </a>
-        </li>
-      );
-    });
-
-    return (
-      <div className="DeviceMenu">
-        <ul className="nav nav-tabs section-chooser">{tabs}</ul>
-      </div>
-    );
-  }
-}
-DeviceMenu.propTypes = {
-  hasProperties: PropTypes.bool,
-  hasAttributes: PropTypes.bool,
-  hasCommands: PropTypes.bool,
-  selectedTab: PropTypes.string,
-  onSelectTab: PropTypes.func
-};
-
 class DeviceViewer extends Component {
+  componentDidMount() {
+    const { onSelectDevice } = this.props;
+    const device = this.parseDevice();
+    onSelectDevice(device);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { activeTab, onSelectDevice, onSelectTab } = this.props;
+    const device = this.parseDevice();
+    if (device !== this.parseDevice(prevProps)) {
+      onSelectDevice(device);
+    }
+
+    const tab = this.parseTab();
+    if (tab && tab !== activeTab) {
+      onSelectTab(tab);
+    }
+  }
+
   parseDevice(props) {
     return (props || this.props).match.params.device;
   }
 
   parseTab() {
-    const { hash } = this.props.history.location;
+    const {
+      history: {
+        location: { hash }
+      }
+    } = this.props;
     const tab = hash.substr(1);
     return tab || undefined;
   }
 
-  componentDidMount() {
-    const device = this.parseDevice();
-    this.props.onSelectDevice(device);
-  }
-
-  componentDidUpdate(prevProps) {
-    const device = this.parseDevice();
-    if (device !== this.parseDevice(prevProps)) {
-      this.props.onSelectDevice(device);
-    }
-
-    const tab = this.parseTab();
-    if (tab && tab !== this.props.activeTab) {
-      this.props.onSelectTab(tab);
-    }
-  }
-
   innerContent() {
-    if (this.props.loading) {
-      return <Spinner size={4} />;
-    }
-
     const {
-      loading,
-      onSelectTab,
-      selectedTab,
       currentState,
       deviceName,
+      disableDisplevel,
       displevels,
       enabledList,
       enableDisplevel,
-      disableDisplevel
+      hasAttributes,
+      hasCommands,
+      hasProperties,
+      loading,
+      onSelectTab,
+      selectedTab
     } = this.props;
+
+    if (loading) {
+      return <Spinner size={4} />;
+    }
 
     const QualityIndicator = ({ state }) => {
       const sub =
@@ -168,9 +138,9 @@ class DeviceViewer extends Component {
           <DeviceMenu
             selectedTab={selectedTab}
             onSelectTab={onSelectTab}
-            hasProperties={this.props.hasProperties}
-            hasAttributes={this.props.hasAttributes}
-            hasCommands={this.props.hasCommands}
+            hasProperties={hasProperties}
+            hasAttributes={hasAttributes}
+            hasCommands={hasCommands}
           />
           <div className="device-view">
             <CurrentView />
@@ -186,20 +156,32 @@ class DeviceViewer extends Component {
 }
 
 DeviceViewer.propTypes = {
-  onSelectDevice: PropTypes.func,
-  loading: PropTypes.bool,
-  onSelectTab: PropTypes.func,
-  selectedTab: PropTypes.string,
-  currentState: PropTypes.string,
-  deviceName: PropTypes.string,
-  displevels: PropTypes.arrayOf(PropTypes.string),
-  enabledList: PropTypes.arrayOf(PropTypes.string),
-  enableDisplevel: PropTypes.func,
-  disableDisplevel: PropTypes.func,
-
+  activeTab: PropTypes.string,
+  currentState: PropTypes.string.isRequired,
+  deviceName: PropTypes.string.isRequired,
+  disableDisplevel: PropTypes.func.isRequired,
+  displevels: PropTypes.arrayOf(PropTypes.string).isRequired,
+  enabledList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  enableDisplevel: PropTypes.func.isRequired,
   hasAttributes: PropTypes.bool,
   hasProperties: PropTypes.bool,
-  hasCommands: PropTypes.bool
+  hasCommands: PropTypes.bool,
+  history: PropTypes.shape({
+    location: PropTypes.shape({ hash: PropTypes.string })
+  }).isRequired,
+  loading: PropTypes.bool,
+  onSelectDevice: PropTypes.func.isRequired,
+  onSelectTab: PropTypes.func.isRequired,
+  selectedTab: PropTypes.string
+};
+
+DeviceViewer.defaultProps = {
+  activeTab: 'server',
+  hasAttributes: false,
+  hasProperties: false,
+  hasCommands: false,
+  loading: true,
+  selectedTab: 'server'
 };
 
 function mapStateToProps(state) {
@@ -223,8 +205,8 @@ function mapDispatchToProps(dispatch) {
   return {
     onSelectDevice: device => dispatch(selectDevice(device)),
     onSelectTab: tab => dispatch(setTab(tab)),
-    enableDisplevel: displevel => dispatch(enableDisplevel(displevel)),
-    disableDisplevel: displevel => dispatch(disableDisplevel(displevel))
+    enableDisplevel: displevel => dispatch(enableDisplevelAction(displevel)),
+    disableDisplevel: displevel => dispatch(disableDisplevelAction(displevel))
   };
 }
 

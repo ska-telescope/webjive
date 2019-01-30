@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { getIsLoggedIn } from '../../../selectors/user';
 import { setModal } from '../../../actions/modal';
 
@@ -12,20 +12,33 @@ class NotLoggedIn extends Component {
 
   handleGoToLogin(e) {
     e.preventDefault();
-    this.props.onGoToLogin();
+    const { onGoToLogin } = this.props;
+    onGoToLogin();
   }
 
   render() {
-    return this.props.isLoggedIn ? null : (
+    const { isLoggedIn, children } = this.props;
+    return isLoggedIn ? null : (
       <div className="alert alert-warning" role="alert">
-        {this.props.children}{' '}
-        <a href="#" onClick={this.handleGoToLogin}>
+        {children}{' '}
+        <button type="button" href="#" onClick={this.handleGoToLogin}>
           Click here to log in.
-        </a>
+        </button>
       </div>
     );
   }
 }
+
+NotLoggedIn.propTypes = {
+  children: PropTypes.node,
+  onGoToLogin: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool
+};
+
+NotLoggedIn.defaultProps = {
+  children: null,
+  isLoggedIn: false
+};
 
 function mapStateToProps(state) {
   return {
