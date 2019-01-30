@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { getWidgetDefinition } from '../utils';
 import PropTypes from 'prop-types';
-import { widget, widgetDefinition, subCanvas } from '../../../propTypes/propTypes';
+import { widgetPropType, widgetDefinitionPropType, subCanvas } from '../../../propTypes/propTypes';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -182,6 +182,6 @@ export default class RunCanvas extends Component {
 
 RunCanvas.propTypes = {
   subCanvases: PropTypes.arrayOf(subCanvas),
-  widgetDefinitions: PropTypes.arrayOf(widgetDefinition),
-  widgets: PropTypes.arrayOf(widget)
+  widgetDefinitions: PropTypes.arrayOf(widgetDefinitionPropType),
+  widgets: PropTypes.arrayOf(widgetPropType)
 };

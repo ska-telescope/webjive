@@ -3,7 +3,7 @@ import { DragSource } from 'react-dnd';
 
 import dndTypes from '../dndTypes';
 import PropTypes from 'prop-types';
-import { libraryWidgetDefinition, widgetDefinition } from '../../../propTypes/propTypes';
+import { libraryWidgetDefinition, widgetDefinitionPropType } from '../../../propTypes/propTypes';
 
 class LibraryWidget extends Component {
   render() {
@@ -81,5 +81,5 @@ export default class Library extends Component {
 
 Library.propTypes = {
   showCustom: PropTypes.bool,
-  widgetDefinitions: PropTypes.arrayOf(widgetDefinition)
+  widgetDefinitions: PropTypes.arrayOf(widgetDefinitionPropType)
 };

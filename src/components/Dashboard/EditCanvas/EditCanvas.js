@@ -6,7 +6,7 @@ import { DashboardDNDTypes } from '../widgets/widgetDefinitions';
 import dndTypes from '../dndTypes';
 import { getWidgetDefinition } from '../utils';
 import PropTypes from 'prop-types';
-import { widget, widgetDefinition } from '../../../propTypes/propTypes';
+import { widgetPropType, widgetDefinitionPropType } from '../../../propTypes/propTypes';
 
 const BACKSPACE = 8;
 const DELETE = 46;
@@ -180,8 +180,8 @@ EditCanvas.propTypes = {
   onMoveWidget: PropTypes.func,
   onSelectWidget: PropTypes.func,
   selectedWidgetIndex: PropTypes.number,
-  widgetDefinitions: PropTypes.arrayOf(widgetDefinition),
-  widgets: PropTypes.arrayOf(widget)
+  widgetDefinitions: PropTypes.arrayOf(widgetDefinitionPropType),
+  widgets: PropTypes.arrayOf(widgetPropType)
 };
 
 const moveDropTarget = DropTarget(dndTypes.EDIT_WIDGET, editCanvasTarget, (connect, monitor) => ({

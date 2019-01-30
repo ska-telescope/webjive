@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import createGQLClient from 'graphql-client';
 import { getWidgetDefinition } from '../utils';
 import PropTypes from 'prop-types';
-import { widget, widgetDefinition } from '../../../propTypes/propTypes';
+import { widgetPropType, widgetDefinitionPropType } from '../../../propTypes/propTypes';
 
 export default class Inspector extends Component {
   constructor(props) {
@@ -270,6 +270,6 @@ Inspector.propTypes = {
   onAttributeChange: PropTypes.func,
   onDeviceChange: PropTypes.func,
   onParamChange: PropTypes.func,
-  widget: widget,
-  widgetDefinitions: PropTypes.arrayOf(widgetDefinition)
+  widget: widgetPropType,
+  widgetDefinitions: PropTypes.arrayOf(widgetDefinitionPropType)
 };

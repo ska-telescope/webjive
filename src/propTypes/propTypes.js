@@ -1,15 +1,6 @@
-import {
-  shape,
-  number,
-  string,
-  oneOf,
-  arrayOf,
-  func,
-  object,
-  instanceOf
-} from "prop-types";
+import { shape, number, string, oneOf, arrayOf, func, object, instanceOf } from 'prop-types';
 
-export const widget = shape({
+export const widgetPropType = shape({
   attribute: string,
   device: string,
   params: object,
@@ -19,7 +10,7 @@ export const widget = shape({
   y: number
 });
 
-export const widgetDefinition = shape({
+export const widgetDefinitionPropType = shape({
   component: func,
   fields: arrayOf(string),
   name: string,
@@ -38,7 +29,7 @@ export const libraryWidgetDefinition = shape({
 export const subCanvas = shape({
   id: number,
   name: string,
-  widgets: arrayOf(widget)
+  widgets: arrayOf(widgetPropType)
 });
 
 export const command = arrayOf(

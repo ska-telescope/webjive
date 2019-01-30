@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getWidgetDefinition } from '../widgets/widgetDefinitions';
-import { widget } from '../../../propTypes/propTypes';
+import { widgetPropType } from '../../../propTypes/propTypes';
 
 class MiniCanvas extends Component {
   componentForWidget(widget) {
@@ -107,7 +107,7 @@ class MiniCanvas extends Component {
 }
 MiniCanvas.propTypes = {
   mode: PropTypes.string,
-  widgets: PropTypes.arrayOf(widget)
+  widgets: PropTypes.arrayOf(widgetPropType)
 };
 
 function complexWidgetComponent(canvas) {

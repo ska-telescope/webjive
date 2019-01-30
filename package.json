@@ -13,6 +13,7 @@
     "http-proxy-middleware": "^0.19.1",
     "minimatch": "^3.0.4",
     "plotly.js": "^1.41.3",
+    "prop-types": "^15.6.2",
     "query-string": "5.0.0",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
