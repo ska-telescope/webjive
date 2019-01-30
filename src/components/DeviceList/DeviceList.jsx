@@ -6,8 +6,8 @@ import sort from 'alphanum-sort';
 import queryString from 'query-string';
 import ScrollIntoViewIfNeeded from './ScrollIntoView.js';
 
-import { fetchDeviceNames } from '../actions/tango';
-import { setDeviceFilter, toggleExpandDomain, toggleExpandFamily } from '../actions/deviceList';
+import { fetchDeviceNames } from '../../actions/tango';
+import { setDeviceFilter, toggleExpandDomain, toggleExpandFamily } from '../../actions/deviceList';
 
 import {
   getFilter,
@@ -15,15 +15,15 @@ import {
   getHasDevices,
   getExpandedDomains,
   getExpandedFamilies
-} from '../selectors/deviceList';
+} from '../../selectors/deviceList';
 
-import { getCurrentDeviceName } from '../selectors/currentDevice';
+import { getCurrentDeviceName } from '../../selectors/currentDevice';
 
-import { getDeviceNamesAreLoading } from '../selectors/loadingStatus';
+import { getDeviceNamesAreLoading } from '../../selectors/loadingStatus';
 
 import './DeviceList.css';
 
-import { unique } from '../utils';
+import { unique } from '../../utils';
 
 const DeviceEntry = ({ domain, family, member, isSelected, filter }) => {
   const pathname = `/devices/${domain}/${family}/${member}`;

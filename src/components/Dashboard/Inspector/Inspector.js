@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import createGQLClient from "graphql-client";
-import { getWidgetDefinition } from "../utils";
-import PropTypes from "prop-types";
-import { widget, widgetDefinition } from "../../propTypes/propTypes";
+import React, { Component } from 'react';
+import createGQLClient from 'graphql-client';
+import { getWidgetDefinition } from '../utils';
+import PropTypes from 'prop-types';
+import { widget, widgetDefinition } from '../../../propTypes/propTypes';
 
 export default class Inspector extends Component {
   constructor(props) {
@@ -16,7 +16,7 @@ export default class Inspector extends Component {
 
     this.handleSelectDevice = this.handleSelectDevice.bind(this);
     this.handleSelectAttribute = this.handleSelectAttribute.bind(this);
-    this.gqlClient = createGQLClient({ url: "/db " });
+    this.gqlClient = createGQLClient({ url: '/db ' });
   }
 
   handleSelectDevice(event) {
@@ -39,9 +39,7 @@ export default class Inspector extends Component {
   }
 
   sortedDeviceNames(deviceNames) {
-    return [...deviceNames].sort((a, b) =>
-      a.toLowerCase().localeCompare(b.toLowerCase())
-    );
+    return [...deviceNames].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
   }
 
   fetchAttributes(device) {
@@ -66,23 +64,16 @@ export default class Inspector extends Component {
     )
       .then(res => res.data.device.attributes)
       .catch(() => [])
-      .then(attributes =>
-        this.setState({ attributes, fetchingAttributes: false })
-      );
+      .then(attributes => this.setState({ attributes, fetchingAttributes: false }));
   }
 
   inputForParam(param, value) {
     const type = this.props.widget.type;
-    const widgetDefinition = getWidgetDefinition(
-      this.props.widgetDefinitions,
-      type
-    );
-    const paramDefinition = widgetDefinition.params.find(
-      paramDef => paramDef.name === param
-    );
+    const widgetDefinition = getWidgetDefinition(this.props.widgetDefinitions, type);
+    const paramDefinition = widgetDefinition.params.find(paramDef => paramDef.name === param);
 
     switch (paramDefinition.type) {
-      case "boolean":
+      case 'boolean':
         return (
           <input
             type="checkbox"
@@ -90,7 +81,7 @@ export default class Inspector extends Component {
             onChange={e => this.props.onParamChange(param, e.target.checked)}
           />
         );
-      case "string":
+      case 'string':
         return (
           <input
             type="text"
@@ -98,27 +89,23 @@ export default class Inspector extends Component {
             onChange={e => this.props.onParamChange(param, e.target.value)}
           />
         );
-      case "number":
+      case 'number':
         return (
           <input
             type="text"
             value={value}
-            onChange={e =>
-              this.props.onParamChange(param, Number(e.target.value))
-            }
+            onChange={e => this.props.onParamChange(param, Number(e.target.value))}
           />
         );
       default:
-        return (
-          <span>No input for parameter type "{paramDefinition.type}"</span>
-        );
+        return <span>No input for parameter type "{paramDefinition.type}"</span>;
     }
   }
 
   callServiceGraphQL(query, variables) {
     return this.gqlClient.query(query, variables || {}, (req, res) => {
       if (res.status === 401) {
-        throw new Error("Not authorized");
+        throw new Error('Not authorized');
       }
     });
   }
@@ -152,30 +139,26 @@ export default class Inspector extends Component {
   filteredAttributes(definition) {
     return this.state.attributes
       .filter(({ dataformat }) => {
-        const field = definition.fields.find(
-          field => field.type === "attribute"
-        );
+        const field = definition.fields.find(field => field.type === 'attribute');
         const dataformats = (field || {}).dataformats;
         return dataformats == null || dataformats.indexOf(dataformat) !== -1;
       })
       .filter(({ datatype }) => {
-        const field = definition.fields.find(
-          field => field.type === "attribute"
-        );
+        const field = definition.fields.find(field => field.type === 'attribute');
         const onlyNumeric = field != null && field.onlyNumeric;
         if (!onlyNumeric) {
           return true;
         } else {
           const numericTypes = [
-            "DevDouble",
-            "DevFloat",
-            "DevLong",
-            "DevLong64",
-            "DevShort",
-            "DevUChar",
-            "DevULong",
-            "DevULong64",
-            "DevUShort"
+            'DevDouble',
+            'DevFloat',
+            'DevLong',
+            'DevLong64',
+            'DevShort',
+            'DevUChar',
+            'DevULong',
+            'DevULong64',
+            'DevUShort'
           ];
           return numericTypes.indexOf(datatype) !== -1;
         }
@@ -195,23 +178,23 @@ export default class Inspector extends Component {
     const paramDefinitions = definition.params;
 
     const attributeChooser =
-      device === "__parent__" ? (
+      device === '__parent__' ? (
         <input
           className="form-control"
           type="text"
-          value={attribute || ""}
+          value={attribute || ''}
           onChange={this.handleSelectAttribute}
         />
       ) : (
         <select
           className="form-control"
-          value={attribute || ""}
+          value={attribute || ''}
           onChange={this.handleSelectAttribute}
           disabled={device == null}
         >
           {attribute == null && (
             <option value="" disabled>
-              {device ? "None" : "Select Device First"}
+              {device ? 'None' : 'Select Device First'}
             </option>
           )}
           {this.filteredAttributes(definition).map(({ name }, i) => (
@@ -230,13 +213,13 @@ export default class Inspector extends Component {
         {fields.length > 0 && (
           <table>
             <tbody>
-              {fieldTypes.indexOf("device") !== -1 && (
+              {fieldTypes.indexOf('device') !== -1 && (
                 <tr>
                   <td>Device:</td>
                   <td>
                     <select
                       className="form-control"
-                      value={device || ""}
+                      value={device || ''}
                       onChange={this.handleSelectDevice}
                     >
                       {device == null && (
@@ -256,7 +239,7 @@ export default class Inspector extends Component {
                   </td>
                 </tr>
               )}
-              {fieldTypes.indexOf("attribute") !== -1 && (
+              {fieldTypes.indexOf('attribute') !== -1 && (
                 <tr>
                   <td>Attribute:</td>
                   <td>{attributeChooser}</td>

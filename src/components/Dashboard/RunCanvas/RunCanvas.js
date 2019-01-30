@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { getWidgetDefinition } from "../utils";
-import PropTypes from "prop-types";
-import { widget, widgetDefinition, subCanvas } from "../../propTypes/propTypes";
+import React, { Component } from 'react';
+import { getWidgetDefinition } from '../utils';
+import PropTypes from 'prop-types';
+import { widget, widgetDefinition, subCanvas } from '../../../propTypes/propTypes';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -18,11 +18,7 @@ class ErrorBoundary extends Component {
       return this.props.children;
     }
 
-    return (
-      <div style={{ backgroundColor: "#ff8888" }}>
-        {String(this.state.error)}
-      </div>
-    );
+    return <div style={{ backgroundColor: '#ff8888' }}>{String(this.state.error)}</div>;
   }
 }
 
@@ -37,7 +33,7 @@ export default class RunCanvas extends Component {
   modelsForSubcanvas(canvas, parent) {
     return canvas.widgets
       .map(widget => {
-        const deviceSource = widget.device === "__parent__" ? parent : widget;
+        const deviceSource = widget.device === '__parent__' ? parent : widget;
         return [deviceSource.device, widget.attribute];
       })
       .filter(([device, attribute]) => device != null && attribute != null)
@@ -71,11 +67,11 @@ export default class RunCanvas extends Component {
 
     function socketUrl() {
       const loc = window.location;
-      const protocol = loc.protocol.replace("http", "ws");
-      return protocol + "//" + loc.host + "/socket";
+      const protocol = loc.protocol.replace('http', 'ws');
+      return protocol + '//' + loc.host + '/socket';
     }
 
-    this.socket = new WebSocket(socketUrl() + "?dashboard", "graphql-ws");
+    this.socket = new WebSocket(socketUrl() + '?dashboard', 'graphql-ws');
 
     const query = `
           subscription newChangeEvent($models: [String]!) {
@@ -92,9 +88,9 @@ export default class RunCanvas extends Component {
     const variables = { models };
     const payload = { query, variables };
 
-    this.socket.addEventListener("message", msg => {
+    this.socket.addEventListener('message', msg => {
       const data = JSON.parse(msg.data);
-      if (data.type === "data") {
+      if (data.type === 'data') {
         const changeEvent = data.payload.data.changeEvent;
         if (changeEvent == null) {
           return;
@@ -102,7 +98,7 @@ export default class RunCanvas extends Component {
 
         const updatedAttributes = changeEvent.reduce((accum, event) => {
           const { value, time } = event.data;
-          const model = event.device + "/" + event.name;
+          const model = event.device + '/' + event.name;
           return {
             ...accum,
             [model]: {
@@ -118,8 +114,8 @@ export default class RunCanvas extends Component {
       }
     });
 
-    this.socket.addEventListener("open", () => {
-      const request = JSON.stringify({ type: "start", payload });
+    this.socket.addEventListener('open', () => {
+      const request = JSON.stringify({ type: 'start', payload });
       this.socket.send(request);
     });
   }
@@ -137,7 +133,7 @@ export default class RunCanvas extends Component {
   }
 
   entryForModel(device, attribute) {
-    const model = device + "/" + attribute;
+    const model = device + '/' + attribute;
     return this.state.attributes[model] || {};
   }
 
@@ -161,9 +157,7 @@ export default class RunCanvas extends Component {
           const time = this.timeForModel(device, attribute);
 
           const extraProps =
-            definition.__canvas__ != null
-              ? { attributes: this.state.attributes }
-              : {};
+            definition.__canvas__ != null ? { attributes: this.state.attributes } : {};
 
           return (
             <div key={i} className="Widget" style={{ left: x, top: y }}>
