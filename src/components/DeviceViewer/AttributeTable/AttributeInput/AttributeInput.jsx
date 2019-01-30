@@ -9,13 +9,11 @@ const MOVING = 3;
 const READY = 2;
 const ISSUE = 1;
 
-
 export default class AttributeInput extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = { 
-      edited: false, 
+    this.state = {
+      edited: false,
       badEntry: false
     };
     this.handleKey = this.handleKey.bind(this);
@@ -32,14 +30,14 @@ export default class AttributeInput extends React.Component {
   handleKey(e) {
     e.preventDefault();
     e.stopPropagation();
-  
+
     this.setState({ edited: true });
     const value = e.target.valueAsNumber;
     const min = this.props.minvalue;
     const max = this.props.maxvalue;
-    if(value != null && ((min != null && min > value) || (max != null && value > max))){
+    if (value != null && ((min != null && min > value) || (max != null && value > max))) {
       this.setState({ badEntry: true });
-    }else if(value != null){
+    } else if (value != null) {
       this.setState({ badEntry: false });
       if ([ENTER_KEY].includes(e.keyCode) && this.props.state === READY) {
         this.setState({ edited: false });
@@ -64,25 +62,25 @@ export default class AttributeInput extends React.Component {
     });
 
     return (
-        <div className="AttributeInput motor-input-container">
-          <form className="form-group" onSubmit={this.handleKey} noValidate>
-            <div
-              className="rw-widget rw-numberpicker rw-widget-no-right-border"
-              style={ { width: '90px', display: 'inline-block' } }
-            >
-              <input
-                ref="motorValue"
-                className={inputCSS}
-                onKeyUp={this.handleKey}
-                type="number"
-                defaultValue={valueCropped}
-                name={motorName}
-                disabled={this.props.state !== 2 || this.props.disabled}
-              />
-            </div>
-          </form>
-        </div>
-      );
+      <div className="AttributeInput motor-input-container">
+        <form className="form-group" onSubmit={this.handleKey} noValidate>
+          <div
+            className="rw-widget rw-numberpicker rw-widget-no-right-border"
+            style={{ width: '90px', display: 'inline-block' }}
+          >
+            <input
+              ref="motorValue"
+              className={inputCSS}
+              onKeyUp={this.handleKey}
+              type="number"
+              defaultValue={valueCropped}
+              name={motorName}
+              disabled={this.props.state !== 2 || this.props.disabled}
+            />
+          </div>
+        </form>
+      </div>
+    );
   }
 }
 
@@ -94,5 +92,5 @@ AttributeInput.propTypes = {
   motorName: PropTypes.string,
   save: PropTypes.func,
   state: PropTypes.number,
-  value: PropTypes.number,
-}
+  value: PropTypes.number
+};

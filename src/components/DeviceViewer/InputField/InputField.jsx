@@ -1,57 +1,55 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { command } from '../../../propTypes/propTypes';
 
 class InputField extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleExecute = this.handleExecute.bind(this);
+    const { intype } = this.props;
     this.state = {
       value: '',
-      valid: this.props.intype === 'DevString' || this.props.intype === 'DevVoid'
+      valid: intype === 'DevString' || intype === 'DevVoid'
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleExecute = this.handleExecute.bind(this);
   }
 
   handleChange(event) {
-    if (this.props.intype === 'DevBoolean' && event.target.value.length > 0) {
-      this.setState({ value: event.target.value, valid: true });
-    } else if (event.target.value.length > 0 && this.props.intype !== 'DevString') {
-      if (this.props.intype.includes('U') && event.target.value >= 0) {
-        this.setState({ value: parseInt(event.target.value, 10), valid: true });
+    const { intype } = this.props;
+    const { value } = event.target;
+    if (intype === 'DevBoolean' && value.length > 0) {
+      this.setState({ value, valid: true });
+    } else if (value.length > 0 && intype !== 'DevString') {
+      if (intype.includes('U') && value >= 0) {
+        this.setState({ value: parseInt(value, 10), valid: true });
       }
-      if (
-        (this.props.intype.includes('Long') || this.props.intype.includes('Short')) &&
-        !this.props.intype.includes('U')
-      ) {
-        this.setState({ value: parseInt(event.target.value, 10), valid: true });
-      } else if (!this.props.intype.includes('U')) {
-        this.setState({ value: parseFloat(event.target.value, 10), valid: true });
+      if ((intype.includes('Long') || intype.includes('Short')) && !intype.includes('U')) {
+        this.setState({ value: parseInt(value, 10), valid: true });
+      } else if (!intype.includes('U')) {
+        this.setState({ value: parseFloat(value, 10), valid: true });
       }
-    } else if (this.props.intype === 'DevString') {
-      this.setState({ value: event.target.value, valid: true });
+    } else if (intype === 'DevString') {
+      this.setState({ value, valid: true });
     } else {
       this.setState({ value: '', valid: false });
     }
   }
 
   handleExecute(event) {
+    const { currentDeviceName, intype, name, onExecute } = this.props;
+    const { value } = this.state;
     event.preventDefault();
-    if (this.props.intype === 'DevString') {
-      this.props.onExecute(
-        this.props.name,
-        JSON.stringify(this.state.value),
-        this.props.currentDeviceName
-      );
+    if (intype === 'DevString') {
+      onExecute(name, JSON.stringify(value), currentDeviceName);
     } else {
-      this.props.onExecute(this.props.name, this.state.value, this.props.currentDeviceName);
+      onExecute(name, value, currentDeviceName);
     }
     this.setState({ value: '', valid: false });
   }
 
   render() {
-    const disabled = !(this.state.valid && this.props.isEnabled);
-    const intype = this.props.intype;
+    const { intype } = this.props;
+    const { value, valid, isEnabled } = this.state;
+    const disabled = !(valid && isEnabled);
     let inner = null;
 
     if (intype === 'DevVoid') {
@@ -72,7 +70,7 @@ class InputField extends Component {
         <select
           className="custom-select"
           id="inputGroupSelect04"
-          value={this.state.value}
+          value={value}
           onChange={this.handleChange}
         >
           <option value="" defaultValue disabled hidden>
@@ -88,7 +86,7 @@ class InputField extends Component {
           type="number"
           min="0"
           className="form-control"
-          value={this.state.value}
+          value={value}
           onChange={this.handleChange}
           placeholder={intype}
         />
@@ -98,7 +96,7 @@ class InputField extends Component {
         <input
           type="text"
           className="form-control"
-          value={this.state.value}
+          value={value}
           onChange={this.handleChange}
           placeholder={intype}
         />
@@ -108,7 +106,7 @@ class InputField extends Component {
         <input
           type="number"
           className="form-control"
-          value={this.state.value}
+          value={value}
           onChange={this.handleChange}
           placeholder={intype}
         />
@@ -134,11 +132,16 @@ class InputField extends Component {
 }
 
 InputField.propTypes = {
-  onExecute: PropTypes.func,
+  onExecute: PropTypes.func.isRequired,
   currentDeviceName: PropTypes.string,
-  commands: PropTypes.oneOfType([PropTypes.arrayOf(command), command]),
   name: PropTypes.string,
   intype: PropTypes.string
+};
+
+InputField.defaultProps = {
+  currentDeviceName: '',
+  name: '',
+  intype: ''
 };
 
 export default InputField;

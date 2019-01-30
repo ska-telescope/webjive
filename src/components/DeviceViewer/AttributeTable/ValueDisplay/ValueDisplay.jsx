@@ -3,9 +3,9 @@ import { LineChart, Line, CartesianGrid, Tooltip, YAxis } from 'recharts';
 
 import AttributeInput from '../AttributeInput/AttributeInput';
 import './ValueDisplay.css';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-const DevStringValueDisplay = ({value}) => {
+const DevStringValueDisplay = ({ value }) => {
   const values = [].concat(value);
 
   // Heuristic to check whether value is meant to be read in preformatted monospace
@@ -13,16 +13,29 @@ const DevStringValueDisplay = ({value}) => {
   const indicators = /(\n  )|\t|(    )/;
   const pre = values.find(val => val.match(indicators));
 
-  return values.map((val, i) => <p className={pre ? 'pre' : ''} key={i}>{val}</p>);
-}
+  return values.map((val, i) => (
+    <p className={pre ? 'pre' : ''} key={i}>
+      {val}
+    </p>
+  ));
+};
 
 DevStringValueDisplay.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-}
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
+};
 
-const ScalarValueDisplay = ({value, datatype, name, deviceName, writable, setDeviceAttribute, minvalue, maxvalue}) => {
+const ScalarValueDisplay = ({
+  value,
+  datatype,
+  name,
+  deviceName,
+  writable,
+  setDeviceAttribute,
+  minvalue,
+  maxvalue
+}) => {
   if (datatype === 'DevString') {
-    return <DevStringValueDisplay value={value}/>;
+    return <DevStringValueDisplay value={value} />;
   } else if (datatype === 'DevEncoded') {
     const [type, payload] = value;
     if (type !== 'json') {
@@ -31,24 +44,35 @@ const ScalarValueDisplay = ({value, datatype, name, deviceName, writable, setDev
 
     const json = JSON.stringify(JSON.parse(payload), 4);
     const lines = json.split('\n');
-    return <DevStringValueDisplay value={lines}/>;
-
-  }else if(writable === "WRITE" || writable === "READ_WITH_WRITE" && datatype === 'DevDouble' || datatype === 'DevShort'
-  || datatype === 'DevFloat' || datatype === 'DevLong' || datatype === 'DevULong' || datatype === 'DevULong64' || datatype === 'DevUShort' || datatype === 'DevLong64' || datatype === 'DevUChar'){
-    return<AttributeInput
-      save={setDeviceAttribute.bind(this, deviceName, name)}
-      value={Number(value)}
-      motorName={name}
-      decimalPoints="2"
-      state={2}
-      disabled={false}
-      maxvalue={maxvalue}
-      minvalue={minvalue} 
-    />
-  }else{
+    return <DevStringValueDisplay value={lines} />;
+  } else if (
+    writable === 'WRITE' ||
+    (writable === 'READ_WITH_WRITE' && datatype === 'DevDouble') ||
+    datatype === 'DevShort' ||
+    datatype === 'DevFloat' ||
+    datatype === 'DevLong' ||
+    datatype === 'DevULong' ||
+    datatype === 'DevULong64' ||
+    datatype === 'DevUShort' ||
+    datatype === 'DevLong64' ||
+    datatype === 'DevUChar'
+  ) {
+    return (
+      <AttributeInput
+        save={setDeviceAttribute.bind(this, deviceName, name)}
+        value={Number(value)}
+        motorName={name}
+        decimalPoints="2"
+        state={2}
+        disabled={false}
+        maxvalue={maxvalue}
+        minvalue={minvalue}
+      />
+    );
+  } else {
     return value;
   }
-}
+};
 ScalarValueDisplay.propTypes = {
   datatype: PropTypes.string,
   deviceName: PropTypes.string,
@@ -57,35 +81,39 @@ ScalarValueDisplay.propTypes = {
   name: PropTypes.string,
   setDeviceAttribute: PropTypes.func,
   value: PropTypes.any,
-  writable: PropTypes.string,
-}
+  writable: PropTypes.string
+};
 
-
-const SpectrumValueDisplay = ({value, datatype}) => {
+const SpectrumValueDisplay = ({ value, datatype }) => {
   if (datatype === 'DevString') {
-    return <DevStringValueDisplay value={value}/>;
+    return <DevStringValueDisplay value={value} />;
   }
 
-  const values = datatype === 'DevBoolean'
-    ? value.map(val => val ? 1 : 0)
-    : value;
-  const data = values.map(value => ({value}));
+  const values = datatype === 'DevBoolean' ? value.map(val => (val ? 1 : 0)) : value;
+  const data = values.map(value => ({ value }));
   const lineType = datatype === 'DevBoolean' ? 'step' : 'linear';
 
   return (
     <LineChart data={data} width={400} height={300}>
-      <YAxis/>
-      <Tooltip/>
-      <CartesianGrid stroke="#f5f5f5"/>
-      <Line dot={false} isAnimationActive={false} type={lineType} dataKey="value" stroke="#ff7300" yAxisId={0}/>
+      <YAxis />
+      <Tooltip />
+      <CartesianGrid stroke="#f5f5f5" />
+      <Line
+        dot={false}
+        isAnimationActive={false}
+        type={lineType}
+        dataKey="value"
+        stroke="#ff7300"
+        yAxisId={0}
+      />
     </LineChart>
   );
 };
 
 SpectrumValueDisplay.propTypes = {
   value: PropTypes.any,
-  datatype: PropTypes.string,
-}
+  datatype: PropTypes.string
+};
 
 class ImageValueDisplay extends React.Component {
   imageWidth() {
@@ -107,7 +135,7 @@ class ImageValueDisplay extends React.Component {
     return index;
   }
 
-  updateCanvas(){
+  updateCanvas() {
     const canvas = document.getElementById(this.props.name);
     const context = canvas.getContext('2d');
 
@@ -116,19 +144,19 @@ class ImageValueDisplay extends React.Component {
     const imgHeight = this.imageHeight();
 
     const imgData = context.createImageData(imgWidth, imgHeight);
-    canvas.width  = imgWidth;
+    canvas.width = imgWidth;
     canvas.height = imgHeight;
 
     const max = this.imageMax();
 
     image.forEach((outerArray, y) => {
       outerArray.forEach((value, x) => {
-        const index = this.getIndicesForCoord(x,y, imgData.width);
+        const index = this.getIndicesForCoord(x, y, imgData.width);
         const normal = 255 * (value / (max === 0 ? 1 : max));
-        imgData.data[index+0] = normal;
-        imgData.data[index+1] = normal;
-        imgData.data[index+2] = normal;
-        imgData.data[index+3] = 255;
+        imgData.data[index + 0] = normal;
+        imgData.data[index + 1] = normal;
+        imgData.data[index + 2] = normal;
+        imgData.data[index + 3] = 255;
       });
     });
 
@@ -139,12 +167,11 @@ class ImageValueDisplay extends React.Component {
     this.updateCanvas();
   }
 
-  
   render() {
-    if(document.getElementById(this.props.name)){
+    if (document.getElementById(this.props.name)) {
       this.updateCanvas();
     }
-    return <canvas id={this.props.name} />
+    return <canvas id={this.props.name} />;
   }
 }
 ImageValueDisplay.propTypes = {
@@ -155,18 +182,28 @@ ImageValueDisplay.propTypes = {
   name: PropTypes.string,
   setDeviceAttribute: PropTypes.func,
   value: PropTypes.any,
-  writable: PropTypes.string,
-}
+  writable: PropTypes.string
+};
 
-const ValueDisplay = ({value, deviceName, writable, setDeviceAttribute,  datatype, dataformat, name, minvalue, maxvalue}) => {
+const ValueDisplay = ({
+  value,
+  deviceName,
+  writable,
+  setDeviceAttribute,
+  datatype,
+  dataformat,
+  name,
+  minvalue,
+  maxvalue
+}) => {
   if (value === null) {
     return <span className="ValueDisplay no-value">No value</span>;
   }
 
   const InnerDisplay = {
-    'IMAGE': ImageValueDisplay,
-    'SCALAR': ScalarValueDisplay,
-    'SPECTRUM': SpectrumValueDisplay,
+    IMAGE: ImageValueDisplay,
+    SCALAR: ScalarValueDisplay,
+    SPECTRUM: SpectrumValueDisplay
   }[dataformat];
 
   const className = ['ValueDisplay', dataformat.toLowerCase(), datatype].join(' ');
@@ -180,7 +217,7 @@ const ValueDisplay = ({value, deviceName, writable, setDeviceAttribute,  datatyp
         deviceName={deviceName}
         writable={writable}
         maxvalue={maxvalue}
-        minvalue={minvalue} 
+        minvalue={minvalue}
         setDeviceAttribute={setDeviceAttribute}
       />
     </div>
@@ -196,7 +233,7 @@ ValueDisplay.propTypes = {
   name: PropTypes.string,
   setDeviceAttribute: PropTypes.func,
   value: PropTypes.any,
-  writable: PropTypes.string,
-}
+  writable: PropTypes.string
+};
 
 export default ValueDisplay;
