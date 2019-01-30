@@ -1,16 +1,24 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { preloadUser } from '../../actions/user';
 
 class UserAware extends Component {
   componentWillMount() {
-    this.props.preload();
+    const { preload } = this.props;
+    preload();
   }
 
   render() {
-    return this.props.children;
+    const { children } = this.props;
+    return children;
   }
 }
+
+UserAware.propTypes = {
+  preload: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 function mapDispatchToProps(dispatch) {
   return {
