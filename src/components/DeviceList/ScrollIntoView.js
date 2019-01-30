@@ -1,19 +1,18 @@
 import { createElement, createRef, PureComponent } from 'react';
 import scrollIntoViewIfNeeded from 'scroll-into-view';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 /*
 This code is based on src/index.js from https://www.npmjs.com/package/react-scroll-into-view-if-needed
 */
 export default class ScrollIntoViewIfNeeded extends PureComponent {
-
   static defaultProps = {
     active: true,
     elementType: 'div',
     options: {
       behavior: 'smooth',
-      scrollMode: 'if-needed',
-    },
+      scrollMode: 'if-needed'
+    }
   };
 
   constructor() {
@@ -22,9 +21,10 @@ export default class ScrollIntoViewIfNeeded extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.active && this.props.isSelected){
+    const { active, isSelected } = this.props;
+    if (active && isSelected) {
       this.handleScrollIntoViewIfNeeded();
-    } 
+    }
   }
 
   componentDidUpdate({ active, isNowActive, isSelected }) {
@@ -34,30 +34,26 @@ export default class ScrollIntoViewIfNeeded extends PureComponent {
   }
 
   handleScrollIntoViewIfNeeded = () => {
-    scrollIntoViewIfNeeded(this.node.current, this.props.options);
+    const { options } = this.props;
+    scrollIntoViewIfNeeded(this.node.current, options);
   };
 
   render() {
-    const {
-      active,
-      elementType,
-      children,
-      options,
-      ...wrapperProps
-    } = this.props;
+    const { active, elementType, children, options, ...wrapperProps } = this.props;
     return createElement(elementType, { ref: this.node, ...wrapperProps }, children);
   }
 }
 
 ScrollIntoViewIfNeeded.propTypes = {
   active: PropTypes.bool,
-  children:PropTypes.oneOfType([ PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   elementType: PropTypes.string,
-  isSelected: PropTypes.bool,
+  isNowActive: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool.isRequired,
   options: PropTypes.shape({
     behavior: PropTypes.string,
     ease: PropTypes.func,
     scrollMode: PropTypes.string,
-    time: PropTypes.number,
+    time: PropTypes.number
   })
-}
+};
