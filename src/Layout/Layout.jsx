@@ -5,7 +5,7 @@ import * as qs from 'query-string';
 import DeviceList from '../components/DeviceList/DeviceList';
 import DeviceViewer from '../components/DeviceViewer/DeviceViewer';
 import HomeViewer from '../HomeViewer/HomeViewer';
-import ErrorDisplay from '../ErrorDisplay/ErrorDisplay';
+import ErrorDisplay from '../components/ErrorDisplay/ErrorDisplay';
 import Dashboard from '../components/Dashboard/Dashboard';
 import ModalDialog from '../Modal/Modal';
 import LogInOut from '../LogInOut/LogInOut';
