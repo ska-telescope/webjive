@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
-import { getIsLoggedIn } from "../../selectors/user";
-import { setModal } from "../../actions/modal";
+import { getIsLoggedIn } from '../../../selectors/user';
+import { setModal } from '../../../actions/modal';
 
 class NotLoggedIn extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class NotLoggedIn extends Component {
   render() {
     return this.props.isLoggedIn ? null : (
       <div className="alert alert-warning" role="alert">
-        {this.props.children}{" "}
+        {this.props.children}{' '}
         <a href="#" onClick={this.handleGoToLogin}>
           Click here to log in.
         </a>
@@ -35,7 +35,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onGoToLogin: () => dispatch(setModal("LOGIN"))
+    onGoToLogin: () => dispatch(setModal('LOGIN'))
   };
 }
 
