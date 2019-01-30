@@ -1,9 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { clearError } from '../../actions/error';
 import { getError } from '../../selectors/error';
-import PropTypes from 'prop-types';
 
 import './ErrorDisplay.css';
 
