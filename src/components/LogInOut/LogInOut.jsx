@@ -1,41 +1,12 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { setModal } from '../../actions/modal';
 import { logout } from '../../actions/user';
 import { getIsLoggedIn, getUsername, getAwaitingResponse } from '../../selectors/user';
 
-const WhenLoggedIn = ({ username, onLogout }) => (
-  <Fragment>
-    Logged in as <span style={{ fontWeight: 'bold' }}>{username}</span>.{' '}
-    <a
-      href="#"
-      onClick={e => {
-        e.preventDefault();
-        onLogout();
-      }}
-    >
-      Log Out
-    </a>
-  </Fragment>
-);
-
-const WhenLoggedOut = ({ onLogin }) => (
-  <Fragment>
-    Not logged in.{' '}
-    <a
-      href="#"
-      onClick={e => {
-        e.preventDefault();
-        onLogin();
-      }}
-    >
-      Log In
-    </a>
-  </Fragment>
-);
-
-const LogInOut = ({ username, isLoggedIn, awaitingResponse, onLogin, onLogout }) =>
+const LogInOut = ({ awaitingResponse, isLoggedIn, onLogin, onLogout, username }) =>
   awaitingResponse ? null : (
     <div
       style={{
@@ -46,12 +17,48 @@ const LogInOut = ({ username, isLoggedIn, awaitingResponse, onLogin, onLogout })
       }}
     >
       {isLoggedIn ? (
-        <WhenLoggedIn username={username} onLogout={onLogout} />
+        <Fragment>
+          Logged in as <span style={{ fontWeight: 'bold' }}>{username}</span>.{' '}
+          <button
+            type="button"
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              onLogout();
+            }}
+          >
+            Log Out
+          </button>
+        </Fragment>
       ) : (
-        <WhenLoggedOut onLogin={onLogin} />
+        <Fragment>
+          Not logged in.{' '}
+          <button
+            type="button"
+            href="#"
+            onClick={e => {
+              e.preventDefault();
+              onLogin();
+            }}
+          >
+            Log In
+          </button>
+        </Fragment>
       )}
     </div>
   );
+
+LogInOut.propTypes = {
+  awaitingResponse: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+  onLogin: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  username: PropTypes.string
+};
+
+LogInOut.defaultProps = {
+  username: ''
+};
 
 function mapStateToProps(state) {
   return {
