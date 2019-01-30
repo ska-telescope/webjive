@@ -2,13 +2,13 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import * as qs from 'query-string';
 
-import DeviceList from '../components/DeviceList/DeviceList';
-import DeviceViewer from '../components/DeviceViewer/DeviceViewer';
-import HomeViewer from '../components/HomeViewer/HomeViewer';
-import ErrorDisplay from '../components/ErrorDisplay/ErrorDisplay';
-import Dashboard from '../components/Dashboard/Dashboard';
-import ModalDialog from '../components/Modal/Modal';
-import LogInOut from '../components/LogInOut/LogInOut';
+import DeviceList from '../DeviceList/DeviceList';
+import DeviceViewer from '../DeviceViewer/DeviceViewer';
+import HomeViewer from '../HomeViewer/HomeViewer';
+import ErrorDisplay from '../ErrorDisplay/ErrorDisplay';
+import Dashboard from '../Dashboard/Dashboard';
+import ModalDialog from '../Modal/Modal';
+import LogInOut from '../LogInOut/LogInOut';
 
 import './Layout.css';
 
