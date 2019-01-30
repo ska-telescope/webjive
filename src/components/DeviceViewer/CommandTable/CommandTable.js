@@ -16,7 +16,7 @@ import { getIsLoggedIn } from '../../../selectors/user';
 
 import { executeCommand } from '../../../actions/tango';
 
-import Spinner from '../../../Spinner/Spinner';
+import Spinner from '../../Spinner/Spinner';
 
 import NotLoggedIn from '../NotLoggedIn/NotLoggedIn';
 import DescriptionDisplay from '../DescriptionDisplay/DescriptionDisplay';

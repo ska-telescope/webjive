@@ -12,7 +12,7 @@ import PropertyTable from './PropertyTable/PropertyTable';
 import ServerInfo from './ServerInfo/ServerInfo';
 import DisplevelChooser from './DisplevelChooser/DisplevelChooser';
 
-import Spinner from '../../Spinner/Spinner';
+import Spinner from '../Spinner/Spinner';
 
 import {
   getCurrentDeviceName,
