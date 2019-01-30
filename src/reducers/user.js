@@ -9,7 +9,9 @@ import {
 } from '../actions/actionTypes';
 
 const initialState = {
-  awaitingResponse: true,
+  // TODO: Having awaitingResponse as true seemed to break the login paths
+  // need to investigate further when we un-stub A&A
+  awaitingResponse: false,
   loginFailed: false
 };
 
