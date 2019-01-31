@@ -109,7 +109,7 @@ export function unSubscribeDevice(device, emit) {
     subscription newChangeEvent($models:[String]){
       unsubChangeEvent(models:$models)
     }`;
-    const variables = { models: models };
+    const variables = { models };
     emit('start', { query, variables });
   }
 }
@@ -128,7 +128,7 @@ export function subscribeDevice(device, emit) {
         }
       }
     }`;
-    const variables = { models: models };
+    const variables = { models };
     emit('start', { query, variables });
   }
 }
@@ -148,6 +148,27 @@ export function fetchDeviceSuccess(device) {
   };
 }
 
+function selectDeviceSuccess(device) {
+  return { type: SELECT_DEVICE_SUCCESS, device };
+}
+
+export function fetchDevice() {
+  return async (dispatch, getState, { emit }) => {
+    const name = getCurrentDeviceName(getState());
+    unSubscribeDevice(name, emit);
+    dispatch({ type: FETCH_DEVICE, name });
+
+    try {
+      const device = await TangoAPI.fetchDevice(name);
+      return dispatch(
+        device ? fetchDeviceSuccess(device) : displayError(`The device ${name}was not found`)
+      );
+    } catch (err) {
+      return dispatch(displayError(err.toString()));
+    }
+  };
+}
+
 export function selectDevice(name) {
   return (dispatch, getState) => {
     dispatch({ type: SELECT_DEVICE, name });
@@ -162,27 +183,8 @@ export function selectDevice(name) {
         const newDevice = action.device;
         return dispatch(selectDeviceSuccess(newDevice));
       }
+      return null;
     });
-  };
-}
-
-function selectDeviceSuccess(device) {
-  return { type: SELECT_DEVICE_SUCCESS, device };
-}
-
-export function fetchDevice(name) {
-  return async (dispatch, getState, { emit }) => {
-    const name = getCurrentDeviceName(getState());
-    unSubscribeDevice(name, emit);
-    dispatch({ type: FETCH_DEVICE, name });
-
-    try {
-      const device = await TangoAPI.fetchDevice(name);
-      return dispatch(
-        device ? fetchDeviceSuccess(device) : displayError('The device ' + name + ' was not found')
-      );
-    } catch (err) {
-      return dispatch(displayError(err.toString()));
-    }
+    return null;
   };
 }
