@@ -1,11 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
-import { Button } from 'react-bootstrap';
 import './AttributeInput.css';
 import PropTypes from 'prop-types';
 
 const ENTER_KEY = 13;
-const MOVING = 3;
+const MOVING_BG = 3;
 const READY = 2;
 const ISSUE = 1;
 
@@ -17,12 +16,14 @@ export default class AttributeInput extends React.Component {
       badEntry: false
     };
     this.handleKey = this.handleKey.bind(this);
+    this.motorRef = React.createRef();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.refs.motorValue.value = nextProps.value.toFixed(this.props.decimalPoints);
-      this.refs.motorValue.defaultValue = nextProps.value.toFixed(this.props.decimalPoints);
+    const { decimalPoints, value } = this.props;
+    if (nextProps.value !== value) {
+      this.motorRef.current.value = nextProps.value.toFixed(decimalPoints);
+      this.motorRef.current.defaultValue = nextProps.value.toFixed(decimalPoints);
       this.setState({ edited: false });
     }
   }
@@ -32,33 +33,37 @@ export default class AttributeInput extends React.Component {
     e.stopPropagation();
 
     this.setState({ edited: true });
-    const value = e.target.valueAsNumber;
-    const min = this.props.minvalue;
-    const max = this.props.maxvalue;
-    if (value != null && ((min != null && min > value) || (max != null && value > max))) {
+    const targetValue = e.target.valueAsNumber;
+    const { decimalPoints, maxvalue, minvalue, save, state, value } = this.props;
+    const { MOVING } = this.state;
+    if (
+      targetValue != null &&
+      ((minvalue != null && minvalue > targetValue) || (maxvalue != null && targetValue > maxvalue))
+    ) {
       this.setState({ badEntry: true });
-    } else if (value != null) {
+    } else if (targetValue != null) {
       this.setState({ badEntry: false });
-      if ([ENTER_KEY].includes(e.keyCode) && this.props.state === READY) {
+      if ([ENTER_KEY].includes(e.keyCode) && state === READY) {
         this.setState({ edited: false });
-        this.props.save(e.target.valueAsNumber);
-        this.refs.motorValue.value = this.props.value.toFixed(this.props.decimalPoints);
-      } else if (this.props.state === this.state.MOVING) {
+        save(e.target.valueAsNumber);
+        this.motorRef.current.value = value.toFixed(decimalPoints);
+      } else if (state === MOVING) {
         this.setState({ edited: false });
-        this.refs.motorValue.value = this.props.value.toFixed(this.props.decimalPoints);
+        this.motorRef.current.value = value.toFixed(decimalPoints);
       }
     }
   }
 
   render() {
-    const { value, motorName, decimalPoints, minvalue, maxvalue } = this.props;
+    const { disabled, value, motorName, decimalPoints, state } = this.props;
+    const { badEntry, edited } = this.state;
     const valueCropped = value.toFixed(decimalPoints);
 
-    let inputCSS = cx('form-control rw-input', {
-      'input-bg-edited': this.state.edited && !this.state.badEntry,
-      'input-bg-moving': this.props.state === MOVING,
-      'input-bg-ready': this.props.state === READY,
-      'input-bg-fault': this.props.state <= ISSUE || this.state.badEntry
+    const inputCSS = cx('form-control rw-input', {
+      'input-bg-edited': edited && !badEntry,
+      'input-bg-moving': state === MOVING_BG,
+      'input-bg-ready': state === READY,
+      'input-bg-fault': state <= ISSUE || badEntry
     });
 
     return (
@@ -69,13 +74,13 @@ export default class AttributeInput extends React.Component {
             style={{ width: '90px', display: 'inline-block' }}
           >
             <input
-              ref="motorValue"
+              ref={this.motorRef}
               className={inputCSS}
               onKeyUp={this.handleKey}
               type="number"
               defaultValue={valueCropped}
               name={motorName}
-              disabled={this.props.state !== 2 || this.props.disabled}
+              disabled={state !== 2 || disabled}
             />
           </div>
         </form>
@@ -87,10 +92,22 @@ export default class AttributeInput extends React.Component {
 AttributeInput.propTypes = {
   decimalPoints: PropTypes.string,
   disabled: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
   maxvalue: PropTypes.any,
+  // eslint-disable-next-line react/forbid-prop-types
   minvalue: PropTypes.any,
   motorName: PropTypes.string,
-  save: PropTypes.func,
+  save: PropTypes.func.isRequired,
   state: PropTypes.number,
   value: PropTypes.number
+};
+
+AttributeInput.defaultProps = {
+  decimalPoints: '2',
+  disabled: false,
+  maxvalue: 100,
+  minvalue: 0,
+  motorName: '',
+  state: 0,
+  value: 0
 };
