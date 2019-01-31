@@ -157,7 +157,7 @@ class DeviceViewer extends Component {
 
 DeviceViewer.propTypes = {
   activeTab: PropTypes.string,
-  currentState: PropTypes.string.isRequired,
+  currentState: PropTypes.string,
   deviceName: PropTypes.string.isRequired,
   disableDisplevel: PropTypes.func.isRequired,
   displevels: PropTypes.arrayOf(PropTypes.string).isRequired,

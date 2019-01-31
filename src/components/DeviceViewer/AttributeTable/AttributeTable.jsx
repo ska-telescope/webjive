@@ -63,7 +63,7 @@ const QualityIndicator = ({ quality }) => {
 };
 
 QualityIndicator.propTypes = {
-  quality: PropTypes.string.isRequired
+  quality: PropTypes.string
 };
 
 const AttributeTable = ({
@@ -100,7 +100,7 @@ const AttributeTable = ({
               maxvalue,
               minvalue
             }) => (
-              <tr key={`${deviceName}${enabledList}`}>
+              <tr key={`${name}${value}${datatype}`}>
                 <td className="quality">
                   <QualityIndicator quality={quality} />
                 </td>

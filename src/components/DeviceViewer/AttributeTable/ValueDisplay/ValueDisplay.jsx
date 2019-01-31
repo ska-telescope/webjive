@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { LineChart, Line, CartesianGrid, Tooltip, YAxis } from 'recharts';
-
 import AttributeInput from '../AttributeInput/AttributeInput';
 import './ValueDisplay.css';
-import PropTypes from 'prop-types';
 
 const DevStringValueDisplay = ({ value }) => {
   const values = [].concat(value);
 
   // Heuristic to check whether value is meant to be read in preformatted monospace
   // Example attribute: `Status' of `lab/adlinkiods/ao'
-  const indicators = /(\n  )|\t|(    )/;
+  const indicators = /(\n {2})|\t|( {4})/;
   const pre = values.find(val => val.match(indicators));
 
   return values.map((val, i) => (
@@ -36,7 +35,8 @@ const ScalarValueDisplay = ({
 }) => {
   if (datatype === 'DevString') {
     return <DevStringValueDisplay value={value} />;
-  } else if (datatype === 'DevEncoded') {
+  }
+  if (datatype === 'DevEncoded') {
     const [type, payload] = value;
     if (type !== 'json') {
       return `Unsupported encoding '${type}'`;
@@ -45,7 +45,8 @@ const ScalarValueDisplay = ({
     const json = JSON.stringify(JSON.parse(payload), 4);
     const lines = json.split('\n');
     return <DevStringValueDisplay value={lines} />;
-  } else if (
+  }
+  if (
     writable === 'WRITE' ||
     (writable === 'READ_WITH_WRITE' && datatype === 'DevDouble') ||
     datatype === 'DevShort' ||
@@ -69,9 +70,8 @@ const ScalarValueDisplay = ({
         minvalue={minvalue}
       />
     );
-  } else {
-    return value;
   }
+  return value;
 };
 ScalarValueDisplay.propTypes = {
   datatype: PropTypes.string,
@@ -90,6 +90,7 @@ const SpectrumValueDisplay = ({ value, datatype }) => {
   }
 
   const values = datatype === 'DevBoolean' ? value.map(val => (val ? 1 : 0)) : value;
+  // eslint-disable-next-line no-shadow
   const data = values.map(value => ({ value }));
   const lineType = datatype === 'DevBoolean' ? 'step' : 'linear';
 
@@ -116,30 +117,38 @@ SpectrumValueDisplay.propTypes = {
 };
 
 class ImageValueDisplay extends React.Component {
-  imageWidth() {
-    return this.props.value[0].length;
-  }
-
-  imageHeight() {
-    return this.props.value.length;
-  }
-
-  imageMax() {
-    const max = arr => arr.reduce((a, b) => Math.max(a, b));
-    const maxes = this.props.value.map(max);
-    return max(maxes);
+  componentDidMount() {
+    this.updateCanvas();
   }
 
   getIndicesForCoord(x, y) {
-    var index = y * this.imageWidth() * 4 + x * 4;
+    const index = y * this.imageWidth() * 4 + x * 4;
     return index;
   }
 
+  imageWidth() {
+    const { value } = this.props;
+    return value[0].length;
+  }
+
+  imageHeight() {
+    const { value } = this.props;
+    return value.length;
+  }
+
+  imageMax() {
+    const { value } = this.props;
+    const max = arr => arr.reduce((a, b) => Math.max(a, b));
+    const maxes = value.map(max);
+    return max(maxes);
+  }
+
   updateCanvas() {
-    const canvas = document.getElementById(this.props.name);
+    const { name, value } = this.props;
+    const canvas = document.getElementById(name);
     const context = canvas.getContext('2d');
 
-    const image = this.props.value;
+    const image = value;
     const imgWidth = this.imageWidth();
     const imgHeight = this.imageHeight();
 
@@ -150,9 +159,9 @@ class ImageValueDisplay extends React.Component {
     const max = this.imageMax();
 
     image.forEach((outerArray, y) => {
-      outerArray.forEach((value, x) => {
+      outerArray.forEach((v, x) => {
         const index = this.getIndicesForCoord(x, y, imgData.width);
-        const normal = 255 * (value / (max === 0 ? 1 : max));
+        const normal = 255 * (v / (max === 0 ? 1 : max));
         imgData.data[index + 0] = normal;
         imgData.data[index + 1] = normal;
         imgData.data[index + 2] = normal;
@@ -163,15 +172,12 @@ class ImageValueDisplay extends React.Component {
     context.putImageData(imgData, 0, 0);
   }
 
-  componentDidMount() {
-    this.updateCanvas();
-  }
-
   render() {
-    if (document.getElementById(this.props.name)) {
+    const { name } = this.props;
+    if (document.getElementById(name)) {
       this.updateCanvas();
     }
-    return <canvas id={this.props.name} />;
+    return <canvas id={name} />;
   }
 }
 ImageValueDisplay.propTypes = {

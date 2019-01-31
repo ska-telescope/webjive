@@ -42,7 +42,7 @@ DeviceEntry.propTypes = {
   family: PropTypes.string.isRequired,
   member: PropTypes.string.isRequired,
   isSelected: PropTypes.bool.isRequired,
-  filter: PropTypes.string.isRequired
+  filter: PropTypes.string
 };
 
 const ExpanderArrow = ({ isExpanded }) => (

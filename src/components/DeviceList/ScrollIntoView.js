@@ -48,7 +48,7 @@ ScrollIntoViewIfNeeded.propTypes = {
   active: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   elementType: PropTypes.string,
-  isNowActive: PropTypes.bool.isRequired,
+  isNowActive: PropTypes.bool,
   isSelected: PropTypes.bool.isRequired,
   options: PropTypes.shape({
     behavior: PropTypes.string,
