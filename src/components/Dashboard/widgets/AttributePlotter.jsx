@@ -1,8 +1,7 @@
 import React from 'react';
-import { LineChart, Line, CartesianGrid, Tooltip, YAxis, XAxis, Label } from 'recharts';
-
-import { expandToGrid } from '../Dashboard';
 import PropTypes from 'prop-types';
+import { LineChart, Line, CartesianGrid, Tooltip, YAxis, XAxis, Label } from 'recharts';
+import { expandToGrid } from '../Dashboard';
 
 const plotterSampleValues = Array(100)
   .fill(0)
@@ -21,26 +20,29 @@ export default class AttributePlotter extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.mode === 'edit' || this.props.mode === 'library') {
+    const { mode } = this.props;
+    if (mode === 'edit' || mode === 'library') {
       return;
     }
 
-    const oldValues = this.state.values;
-    const startTime = this.state.startTime;
+    let { values } = this.state;
+    const { startTime } = this.state;
     const newValue = newProps.value;
-    //Difference in seconds between "now" and when the plot was created, rounded to one decimal place.
+    // Difference in seconds between "now" and when the plot was created, rounded to one decimal place.
     const newTime = Math.round((10 * (new Date().getTime() - startTime)) / 1000) / 10;
-    if (oldValues.length === 0 || newValue !== oldValues.slice(-1)[0].value) {
-      const values = [...oldValues, { value: newValue, time: newTime }];
+    if (values.length === 0 || newValue !== values.slice(-1)[0].value) {
+      values = [...values, { value: newValue, time: newTime }];
       this.setState({ values });
     }
   }
 
   render() {
-    const liveMode = this.props.mode !== 'edit' && this.props.mode !== 'library';
-    const values = liveMode ? this.state.values : plotterSampleValues;
+    const { mode, params } = this.props;
+    let { values } = this.state;
+    const liveMode = mode !== 'edit' && mode !== 'library';
+    values = liveMode ? values : plotterSampleValues;
 
-    const { nbrDataPoints, width, height, showGrid, yAxisLabel, strokeWidth } = this.props.params;
+    const { nbrDataPoints, width, height, showGrid, yAxisLabel, strokeWidth } = params;
     const lastValues = nbrDataPoints === 0 ? [] : values.slice(-nbrDataPoints);
     return (
       <div
@@ -48,8 +50,8 @@ export default class AttributePlotter extends React.Component {
           border: '1px solid lightgray',
           padding: '0.25em',
           fontSize: 'small',
-          width: expandToGrid(width) + 'px',
-          height: expandToGrid(height) + 'px'
+          width: `${expandToGrid(width)}px`,
+          height: `${expandToGrid(height)}px`
         }}
       >
         <LineChart data={lastValues} width={width} height={height}>
@@ -79,8 +81,6 @@ export default class AttributePlotter extends React.Component {
 }
 
 AttributePlotter.propTypes = {
-  attribute: PropTypes.string,
-  device: PropTypes.string,
   mode: PropTypes.string,
   params: PropTypes.shape({
     height: PropTypes.number,
@@ -90,4 +90,9 @@ AttributePlotter.propTypes = {
     width: PropTypes.number,
     yAxisLabel: PropTypes.string
   })
+};
+
+AttributePlotter.defaultProps = {
+  mode: 'edit',
+  params: {}
 };

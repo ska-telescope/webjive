@@ -1,9 +1,7 @@
-import Plot from 'react-plotly.js';
-
 import React from 'react';
-
-import { expandToGrid } from '../Dashboard';
 import PropTypes from 'prop-types';
+import Plot from 'react-plotly.js';
+import { expandToGrid } from '../Dashboard';
 
 const trace1 = {
   x: [1, 2, 3, 4, 5],
@@ -15,34 +13,36 @@ const plotterSampleValues = trace1;
 export default class AttributeTrend extends React.Component {
   constructor(props) {
     super(props);
-    const time = new Date().getTime();
     this.state = {
-      data: { x: [], y: [] },
-      startTime: time
+      data: { x: [], y: [] }
     };
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.mode === 'edit' || this.props.mode === 'library') {
+    const { mode } = this.props;
+    let { data } = this.state;
+    if (mode === 'edit' || mode === 'library') {
       return;
     }
-    const oldValues = this.state.data.y;
-    const oldTimes = this.state.data.x;
+    const oldValues = data.y;
+    const oldTimes = data.x;
     const newValue = newProps.value;
-    //Difference in seconds between "now" and when the plot was created, rounded to one decimal place.
+    // Difference in seconds between "now" and when the plot was created, rounded to one decimal place.
     const newTime = newProps.time;
-    const data = {
+    data = {
       y: [...oldValues, newValue],
       x: [...oldTimes, newTime]
     };
-    this.setState(...this.state, { data });
+    this.setState({ data });
   }
 
   render() {
-    const liveMode = this.props.mode !== 'edit' && this.props.mode !== 'library';
-    const data = liveMode ? this.state.data : plotterSampleValues;
+    const { mode, params } = this.props;
+    let { data } = this.state;
+    const liveMode = mode !== 'edit' && mode !== 'library';
+    data = liveMode ? data : plotterSampleValues;
 
-    const { nbrDataPoints, width, height, showGrid, Title } = this.props.params;
+    const { nbrDataPoints, width, height, showGrid, Title } = params;
     const lastValues = nbrDataPoints === 0 ? [] : data.y.slice(-nbrDataPoints);
     const lastTimes = nbrDataPoints === 0 ? [] : data.x.slice(-nbrDataPoints);
 
@@ -55,7 +55,7 @@ export default class AttributeTrend extends React.Component {
       }
     ];
     const layout = {
-      width: width,
+      width,
       height: height - 10,
       title: Title,
       xaxis: { showgrid: showGrid },
@@ -68,8 +68,8 @@ export default class AttributeTrend extends React.Component {
           border: '1px solid lightgray',
           padding: '0.25em',
           fontSize: 'small',
-          width: expandToGrid(width) + 'px',
-          height: expandToGrid(height) + 'px'
+          width: `${expandToGrid(width)}px`,
+          height: `${expandToGrid(height)}px`
         }}
       >
         <Plot data={liveMode ? trace : data0} layout={layout} />
@@ -79,8 +79,6 @@ export default class AttributeTrend extends React.Component {
 }
 
 AttributeTrend.propTypes = {
-  attribute: PropTypes.string,
-  device: PropTypes.string,
   mode: PropTypes.string,
   params: PropTypes.shape({
     height: PropTypes.number,
@@ -90,4 +88,9 @@ AttributeTrend.propTypes = {
     width: PropTypes.number,
     yAxisLabel: PropTypes.string
   })
+};
+
+AttributeTrend.defaultProps = {
+  mode: 'edit',
+  params: {}
 };
