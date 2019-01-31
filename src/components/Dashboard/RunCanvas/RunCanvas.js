@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getWidgetDefinition } from '../utils';
+import getWidgetDefinition from '../utils';
 import PropTypes from 'prop-types';
 import { widgetPropType, widgetDefinitionPropType, subCanvas } from '../../../propTypes/propTypes';
 

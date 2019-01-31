@@ -1,14 +1,14 @@
-import Plot from "react-plotly.js";
+import Plot from 'react-plotly.js';
 
-import React, { Component } from "react";
+import React from 'react';
 
-import { roundToGrid, expandToGrid } from "../Dashboard";
-import PropTypes from "prop-types";
+import { expandToGrid } from '../Dashboard';
+import PropTypes from 'prop-types';
 
 const trace1 = {
   x: [1, 2, 3, 4, 5],
   y: [16, 5, 11, 9, 11],
-  mode: "lines"
+  mode: 'lines'
 };
 const plotterSampleValues = trace1;
 
@@ -23,12 +23,11 @@ export default class AttributeTrend extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.mode === "edit" || this.props.mode === "library") {
+    if (this.props.mode === 'edit' || this.props.mode === 'library') {
       return;
     }
     const oldValues = this.state.data.y;
     const oldTimes = this.state.data.x;
-    const startTime = this.state.startTime;
     const newValue = newProps.value;
     //Difference in seconds between "now" and when the plot was created, rounded to one decimal place.
     const newTime = newProps.time;
@@ -40,18 +39,10 @@ export default class AttributeTrend extends React.Component {
   }
 
   render() {
-    const liveMode =
-      this.props.mode !== "edit" && this.props.mode !== "library";
+    const liveMode = this.props.mode !== 'edit' && this.props.mode !== 'library';
     const data = liveMode ? this.state.data : plotterSampleValues;
 
-    const {
-      nbrDataPoints,
-      width,
-      height,
-      showGrid,
-      Title,
-      strokeWidth
-    } = this.props.params;
+    const { nbrDataPoints, width, height, showGrid, Title } = this.props.params;
     const lastValues = nbrDataPoints === 0 ? [] : data.y.slice(-nbrDataPoints);
     const lastTimes = nbrDataPoints === 0 ? [] : data.x.slice(-nbrDataPoints);
 
@@ -60,7 +51,7 @@ export default class AttributeTrend extends React.Component {
       {
         x: lastTimes,
         y: lastValues,
-        mode: "lines"
+        mode: 'lines'
       }
     ];
     const layout = {
@@ -74,11 +65,11 @@ export default class AttributeTrend extends React.Component {
     return (
       <div
         style={{
-          border: "1px solid lightgray",
-          padding: "0.25em",
-          fontSize: "small",
-          width: expandToGrid(width) + "px",
-          height: expandToGrid(height) + "px"
+          border: '1px solid lightgray',
+          padding: '0.25em',
+          fontSize: 'small',
+          width: expandToGrid(width) + 'px',
+          height: expandToGrid(height) + 'px'
         }}
       >
         <Plot data={liveMode ? trace : data0} layout={layout} />

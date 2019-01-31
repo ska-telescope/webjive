@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
-
-import { DashboardDNDTypes } from '../widgets/widgetDefinitions';
 import dndTypes from '../dndTypes';
-import { getWidgetDefinition } from '../utils';
+import getWidgetDefinition from '../utils';
 import PropTypes from 'prop-types';
 import { widgetPropType, widgetDefinitionPropType } from '../../../propTypes/propTypes';
 

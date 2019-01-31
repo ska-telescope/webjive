@@ -9,11 +9,7 @@ import Library from './Library/Library';
 import RunCanvas from './RunCanvas/RunCanvas';
 import Inspector from './Inspector/Inspector';
 
-import {
-  WIDGET_DEFINITIONS,
-  getWidgetDefinition,
-  normalizeWidgetDefinitions
-} from './widgets/widgetDefinitions';
+import { WIDGET_DEFINITIONS, normalizeWidgetDefinitions } from './widgets/widgetDefinitions';
 
 import { complexWidgetDefinition } from './ComplexWidget/ComplexWidget';
 
@@ -47,8 +43,8 @@ const DEFAULT_CANVASES = [
 class Dashboard extends Component {
   constructor(props) {
     super(props);
-
-    const c = queryString.parse(props.location.search).c;
+    const { location } = props;
+    const { c } = queryString.parse(location.search);
     const canvases = c ? JSON.parse(decodeURI(c)) : DEFAULT_CANVASES;
 
     this.state = {
@@ -180,7 +176,6 @@ class Dashboard extends Component {
   render() {
     const mode = this.state.mode;
     const widgets = this.currentWidgets();
-    const selectedWidget = this.selectedWidget();
 
     const complexWidgetDefinitions = this.state.canvases.slice(1).map(complexWidgetDefinition);
 

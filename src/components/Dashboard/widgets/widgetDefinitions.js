@@ -1,155 +1,146 @@
-import React from "react";
-
-import AttributePlotter from "./AttributePlotter";
-import AttributeTrend from "./AttributeTrend";
-import AttributeRecorder from "./AttributeRecorder";
-import AttributeReadOnly from "./AttributeReadOnly";
-import Label from "./Label";
-import DeviceName from "./DeviceName";
+import AttributePlotter from './AttributePlotter';
+import AttributeTrend from './AttributeTrend';
+import AttributeReadOnly from './AttributeReadOnly';
+import Label from './Label';
+import DeviceName from './DeviceName';
 
 export const WIDGET_DEFINITIONS = [
   {
-    type: "ATTRIBUTE_READ_ONLY",
-    name: "Read-Only Attribute",
+    type: 'ATTRIBUTE_READ_ONLY',
+    name: 'Read-Only Attribute',
     component: AttributeReadOnly,
-    fields: ["device", { type: "attribute", dataformats: ["SCALAR"] }],
-    dataFormats: ["SCALAR"],
+    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'] }],
+    dataFormats: ['SCALAR'],
     params: [
       {
-        name: "scientific",
-        type: "boolean",
+        name: 'scientific',
+        type: 'boolean',
         default: false,
-        description: "Sci. Notation"
+        description: 'Sci. Notation'
       },
       {
-        name: "showDevice",
-        type: "boolean",
+        name: 'showDevice',
+        type: 'boolean',
         default: false,
-        description: "Show Device"
+        description: 'Show Device'
       },
       {
-        name: "showAttribute",
-        type: "boolean",
+        name: 'showAttribute',
+        type: 'boolean',
         default: true,
-        description: "Show Attribute"
+        description: 'Show Attribute'
       }
     ]
   },
 
   {
-    type: "LABEL",
-    name: "Label",
+    type: 'LABEL',
+    name: 'Label',
     component: Label,
     fields: [],
     params: [
       {
-        name: "text",
-        type: "string",
-        default: "",
-        description: "Text"
+        name: 'text',
+        type: 'string',
+        default: '',
+        description: 'Text'
       }
     ]
   },
 
   {
-    type: "ATTRIBUTE_PLOTTER",
-    name: "Attribute plotter",
+    type: 'ATTRIBUTE_PLOTTER',
+    name: 'Attribute plotter',
     component: AttributePlotter,
-    fields: [
-      "device",
-      { type: "attribute", dataformats: ["SCALAR"], onlyNumeric: true }
-    ],
+    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }],
     params: [
       {
-        name: "nbrDataPoints",
-        type: "number",
+        name: 'nbrDataPoints',
+        type: 'number',
         default: 100,
-        description: "№ Entries"
+        description: '№ Entries'
       },
       {
-        name: "width",
-        type: "number",
+        name: 'width',
+        type: 'number',
         default: 300,
-        description: "Width (px)"
+        description: 'Width (px)'
       },
       {
-        name: "height",
-        type: "number",
+        name: 'height',
+        type: 'number',
         default: 200,
-        description: "Height (px)"
+        description: 'Height (px)'
       },
       {
-        name: "showGrid",
-        type: "boolean",
+        name: 'showGrid',
+        type: 'boolean',
         default: true,
-        description: "Show grid"
+        description: 'Show grid'
       },
       {
-        name: "yAxisLabel",
-        type: "string",
-        default: "",
-        description: "Label y-axis"
+        name: 'yAxisLabel',
+        type: 'string',
+        default: '',
+        description: 'Label y-axis'
       },
       {
-        name: "strokeWidth",
-        type: "number",
+        name: 'strokeWidth',
+        type: 'number',
         default: 1,
-        description: "Stroke width"
-      }
-    ]
-  },
-{
-    type: "ATTRIBUTE_TREND",
-    name: "Attribute trend",
-    component: AttributeTrend,
-    fields: [
-      "device",
-      { type: "attribute", dataformats: ["SCALAR"], onlyNumeric: true }
-    ],
-    params: [
-      {
-        name: "nbrDataPoints",
-        type: "number",
-        default: 100,
-        description: "№ Entries"
-      },
-      {
-        name: "width",
-        type: "number",
-        default: 300,
-        description: "Width (px)"
-      },
-      {
-        name: "height",
-        type: "number",
-        default: 200,
-        description: "Height (px)"
-      },
-      {
-        name: "showGrid",
-        type: "boolean",
-        default: true,
-        description: "Show grid"
-      },
-      {
-        name: "Title",
-        type: "string",
-        default: "",
-        description: "Title"
-      },
-      {
-        name: "strokeWidth",
-        type: "number",
-        default: 1,
-        description: "Stroke width"
+        description: 'Stroke width'
       }
     ]
   },
   {
-    type: "DEVICE_NAME",
-    name: "Device Name",
+    type: 'ATTRIBUTE_TREND',
+    name: 'Attribute trend',
+    component: AttributeTrend,
+    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }],
+    params: [
+      {
+        name: 'nbrDataPoints',
+        type: 'number',
+        default: 100,
+        description: '№ Entries'
+      },
+      {
+        name: 'width',
+        type: 'number',
+        default: 300,
+        description: 'Width (px)'
+      },
+      {
+        name: 'height',
+        type: 'number',
+        default: 200,
+        description: 'Height (px)'
+      },
+      {
+        name: 'showGrid',
+        type: 'boolean',
+        default: true,
+        description: 'Show grid'
+      },
+      {
+        name: 'Title',
+        type: 'string',
+        default: '',
+        description: 'Title'
+      },
+      {
+        name: 'strokeWidth',
+        type: 'number',
+        default: 1,
+        description: 'Stroke width'
+      }
+    ]
+  },
+  {
+    type: 'DEVICE_NAME',
+    name: 'Device Name',
     component: DeviceName,
-    fields: ["device"],
+    fields: ['device'],
     params: []
   }
 ];
@@ -170,7 +161,7 @@ export function getWidgetDefinition(type) {
 
 export function normalizeWidgetDefinitions(definitions) {
   function normalizeField(field) {
-    return typeof field === "string" ? { type: field } : field;
+    return typeof field === 'string' ? { type: field } : field;
   }
 
   function normalizeDefinition(definition) {

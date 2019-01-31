@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import PropTypes from 'prop-types'
+import React from 'react';
 
 function randomNumber(limit) {
   return Math.floor(Math.random() * limit);
@@ -23,7 +22,7 @@ export default class AttributeRecorder extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.mode === "edit" || this.props.mode === "library") {
+    if (this.props.mode === 'edit' || this.props.mode === 'library') {
       return;
     }
 
@@ -46,28 +45,27 @@ export default class AttributeRecorder extends React.Component {
 
   padZero(num) {
     const s = String(num);
-    return (s.length === 1 ? "0" : "") + s;
+    return (s.length === 1 ? '0' : '') + s;
   }
 
   render() {
     const values =
-      this.props.mode === "edit" || this.props.mode === "library"
+      this.props.mode === 'edit' || this.props.mode === 'library'
         ? recorderSampleValues
         : this.state.values;
 
     const numShow = this.props.params.numShow;
     const lastValues = numShow === 0 ? [] : values.slice(-numShow);
-    const numHiding = values.length - lastValues.length;
 
     return (
       <div
         style={{
-          border: "1px solid lightgray",
-          padding: "0.25em",
-          fontSize: "small"
+          border: '1px solid lightgray',
+          padding: '0.25em',
+          fontSize: 'small'
         }}
       >
-        <table style={{ tableLayout: "fixed" }}>
+        <table style={{ tableLayout: 'fixed' }}>
           <thead>
             <tr>
               <th>Time</th>
@@ -77,7 +75,7 @@ export default class AttributeRecorder extends React.Component {
           <tbody>
             {lastValues.map(({ h, m, s, value }, i) => (
               <tr key={i}>
-                <td style={{ paddingRight: "0.5em" }}>
+                <td style={{ paddingRight: '0.5em' }}>
                   {this.padZero(h)}:{this.padZero(m)}:{this.padZero(s)}
                 </td>
                 <td>{value}</td>

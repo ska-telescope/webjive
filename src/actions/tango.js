@@ -1,7 +1,4 @@
 import { displayError } from './error';
-import { uri } from '../constants/websocket';
-
-import { setTab } from './deviceList';
 import queryDeviceWithName from '../selectors/queries';
 import { getCurrentDeviceName } from '../selectors/currentDevice';
 
@@ -10,7 +7,6 @@ import TangoAPI from './api/tango';
 import {
   FETCH_DEVICE,
   FETCH_DEVICE_SUCCESS,
-  FETCH_DEVICE_FAILED,
   FETCH_DEVICE_NAMES,
   FETCH_DEVICE_NAMES_SUCCESS,
   EXECUTE_COMMAND,

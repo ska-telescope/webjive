@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import createGQLClient from 'graphql-client';
-import { getWidgetDefinition } from '../utils';
+import getWidgetDefinition from '../utils';
 import PropTypes from 'prop-types';
 import { widgetPropType, widgetDefinitionPropType } from '../../../propTypes/propTypes';
 

@@ -1,3 +1,3 @@
-export function getWidgetDefinition(widgetDefinitions, type) {
-    return widgetDefinitions.find(definition => definition.type === type);
+export default function getWidgetDefinition(widgetDefinitions, type) {
+  return widgetDefinitions.find(definition => definition.type === type);
 }
