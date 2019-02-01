@@ -7,14 +7,14 @@ export default {
       // TODO: Put A&A back in
       // const res = await fetch("/auth/user");
       // const user = await res.json();
-      const user = {username : "Pre-loaded User"};
+      const user = { username: 'Pre-loaded User' };
       return user;
     } catch (err) {
       return null;
     }
   },
 
-  async login(username, password) {
+  async login(username /* , password */) {
     // AT2-43 deliberate stub of A&A
     // TODO: Put A&A back in
     return username;

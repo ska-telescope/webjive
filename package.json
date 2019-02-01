@@ -6,11 +6,15 @@
     "alphanum-sort": "^1.0.2",
     "axios": "0.18.0",
     "bootstrap": "^4.1.1",
+    "canvas": "^2.3.1",
     "classnames": "^2.2.5",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "font-awesome": "^4.7.0",
     "graphql-client": "^2.0.1",
     "graphql-request": "^1.8.2",
     "http-proxy-middleware": "^0.19.1",
+    "jest-enzyme": "^7.0.1",
     "minimatch": "^3.0.4",
     "plotly.js": "^1.41.3",
     "prop-types": "^15.6.2",
@@ -42,6 +46,8 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.7",
+    "@types/enzyme": "^3.1.15",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.13",
     "@types/minimatch": "^3.0.3",
     "@types/node": "^10.12.19",
@@ -60,6 +66,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.3",
     "prettier": "^1.15.3",
+    "react-test-renderer": "^16.7.0",
     "redux-logger": "^3.0.6"
   },
   "browserslist": [

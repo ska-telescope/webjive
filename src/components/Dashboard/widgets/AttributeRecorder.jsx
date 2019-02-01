@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 function randomNumber(limit) {
   return Math.floor(Math.random() * limit);
@@ -13,7 +14,12 @@ const recorderSampleValues = Array(100)
     value: i
   }));
 
-export default class AttributeRecorder extends React.Component {
+const padZero = num => {
+  const s = String(num);
+  return (s.length === 1 ? '0' : '') + s;
+};
+
+export default class AttributeRecorder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,15 +28,17 @@ export default class AttributeRecorder extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.mode === 'edit' || this.props.mode === 'library') {
+    const { mode } = this.props;
+    let { values } = this.state;
+    if (mode === 'edit' || mode === 'library') {
       return;
     }
 
-    const oldValues = this.state.values;
+    const oldValues = values;
     const newValue = newProps.value;
     if (oldValues.length === 0 || newValue !== oldValues.slice(-1)[0].value) {
       const now = new Date();
-      const values = [
+      values = [
         ...oldValues,
         {
           value: newValue,
@@ -43,18 +51,13 @@ export default class AttributeRecorder extends React.Component {
     }
   }
 
-  padZero(num) {
-    const s = String(num);
-    return (s.length === 1 ? '0' : '') + s;
-  }
-
   render() {
-    const values =
-      this.props.mode === 'edit' || this.props.mode === 'library'
-        ? recorderSampleValues
-        : this.state.values;
-
-    const numShow = this.props.params.numShow;
+    const {
+      mode,
+      params: { numShow }
+    } = this.props;
+    let { values } = this.state;
+    values = mode === 'edit' || mode === 'library' ? recorderSampleValues : values;
     const lastValues = numShow === 0 ? [] : values.slice(-numShow);
 
     return (
@@ -73,10 +76,10 @@ export default class AttributeRecorder extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {lastValues.map(({ h, m, s, value }, i) => (
-              <tr key={i}>
+            {lastValues.map(({ h, m, s, value }) => (
+              <tr key={`${h}${m}${s}${value}`}>
                 <td style={{ paddingRight: '0.5em' }}>
-                  {this.padZero(h)}:{this.padZero(m)}:{this.padZero(s)}
+                  {padZero(h)}:{padZero(m)}:{padZero(s)}
                 </td>
                 <td>{value}</td>
               </tr>
@@ -88,3 +91,13 @@ export default class AttributeRecorder extends React.Component {
     );
   }
 }
+
+AttributeRecorder.propTypes = {
+  mode: PropTypes.string,
+  params: PropTypes.shape({ numShow: PropTypes.number })
+};
+
+AttributeRecorder.defaultProps = {
+  mode: 'edit',
+  params: { numShow: 0 }
+};
