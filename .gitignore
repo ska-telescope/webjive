@@ -23,3 +23,6 @@ yarn-error.log*
 # IDE Settings
 /.idea
 /.vscode
+
+# built docs
+/docs/build
