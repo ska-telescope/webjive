@@ -52,7 +52,10 @@ export const WIDGET_DEFINITIONS = [
     type: 'ATTRIBUTE_PLOTTER',
     name: 'Attribute plotter',
     component: AttributePlotter,
-    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }],
+    fields: [
+      'device',
+      { type: 'attribute', dataformats: ['SCALAR', 'SPECTRUM'], onlyNumeric: true }
+    ],
     params: [
       {
         name: 'nbrDataPoints',
@@ -96,7 +99,10 @@ export const WIDGET_DEFINITIONS = [
     type: 'ATTRIBUTE_TREND',
     name: 'Attribute trend',
     component: AttributeTrend,
-    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }],
+    fields: [
+      'device',
+      { type: 'attribute', dataformats: ['SCALAR', 'SPECTRUM'], onlyNumeric: true }
+    ],
     params: [
       {
         name: 'nbrDataPoints',
