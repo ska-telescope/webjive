@@ -8,7 +8,8 @@ describe('Label Widget', () => {
   });
 
   it('shows `Your Text Here` in edit mode', () => {
+    const text = 'Your Text Here';
     const wrapper = shallow(<Label mode="edit" />);
-    expect(wrapper).toHaveText('Your Text Here');
+    expect(wrapper).toHaveText(text);
   });
 });
