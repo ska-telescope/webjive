@@ -4,6 +4,7 @@ import { widgetDefinitionPropType } from '../../../propTypes/propTypes';
 import LibraryWidget from './LibraryWidget';
 
 /* eslint-disable no-underscore-dangle */
+/* eslint-disable react/no-array-index-key */
 
 const Library = ({ showCustom, widgetDefinitions }) => {
   const builtIn = widgetDefinitions.filter(definition => definition.__canvas__ == null);

@@ -4,6 +4,10 @@ import { LineChart, Line, CartesianGrid, Tooltip, YAxis } from 'recharts';
 import AttributeInput from '../AttributeInput/AttributeInput';
 import './ValueDisplay.css';
 
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/forbid-prop-types */
+
 const DevStringValueDisplay = ({ value }) => {
   const values = [].concat(value);
 
@@ -116,6 +120,11 @@ SpectrumValueDisplay.propTypes = {
   datatype: PropTypes.string
 };
 
+SpectrumValueDisplay.defaultProps = {
+  value: null,
+  datatype: ''
+};
+
 class ImageValueDisplay extends React.Component {
   componentDidMount() {
     this.updateCanvas();
@@ -180,15 +189,15 @@ class ImageValueDisplay extends React.Component {
     return <canvas id={name} />;
   }
 }
+
 ImageValueDisplay.propTypes = {
-  datatype: PropTypes.string,
-  devicenName: PropTypes.string,
-  maxvalue: PropTypes.any,
-  minvalue: PropTypes.any,
   name: PropTypes.string,
-  setDeviceAttribute: PropTypes.func,
-  value: PropTypes.any,
-  writable: PropTypes.string
+  value: PropTypes.any
+};
+
+ImageValueDisplay.defaultProps = {
+  name: null,
+  value: null
 };
 
 const ValueDisplay = ({
@@ -237,9 +246,20 @@ ValueDisplay.propTypes = {
   maxvalue: PropTypes.any,
   minvalue: PropTypes.any,
   name: PropTypes.string,
-  setDeviceAttribute: PropTypes.func,
+  setDeviceAttribute: PropTypes.func.isRequired,
   value: PropTypes.any,
   writable: PropTypes.string
+};
+
+ValueDisplay.defaultProps = {
+  dataformat: '',
+  datatype: '',
+  deviceName: '',
+  maxvalue: null,
+  minvalue: null,
+  name: '',
+  value: null,
+  writable: ''
 };
 
 export default ValueDisplay;

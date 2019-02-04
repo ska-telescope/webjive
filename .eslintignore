@@ -1,4 +1,3 @@
-/src/resources/logo.svg
 node_modules
 coverage
 **/*.css

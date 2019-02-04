@@ -45,6 +45,10 @@ DeviceEntry.propTypes = {
   filter: PropTypes.string
 };
 
+DeviceEntry.defaultProps = {
+  filter: ''
+};
+
 const ExpanderArrow = ({ isExpanded }) => (
   <span className={classNames('expander-arrow', { expanded: isExpanded })} />
 );

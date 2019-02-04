@@ -16,6 +16,8 @@ import complexWidgetDefinition from './ComplexWidget/ComplexWidget';
 
 import './Dashboard.css';
 
+/* eslint-disable react/no-array-index-key */
+
 const GRID_TILE_SIZE = 15;
 
 const DEFAULT_CANVASES = [
