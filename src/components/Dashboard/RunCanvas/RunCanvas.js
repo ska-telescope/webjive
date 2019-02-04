@@ -1,26 +1,8 @@
 import React, { Component } from 'react';
-import getWidgetDefinition from '../utils';
 import PropTypes from 'prop-types';
+import getWidgetDefinition from '../utils';
 import { widgetPropType, widgetDefinitionPropType, subCanvas } from '../../../propTypes/propTypes';
-
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { error: null };
-  }
-
-  componentDidCatch(error) {
-    this.setState({ error });
-  }
-
-  render() {
-    if (this.state.error == null) {
-      return this.props.children;
-    }
-
-    return <div style={{ backgroundColor: '#ff8888' }}>{String(this.state.error)}</div>;
-  }
-}
+import ErrorBoundary from './ErrorBoundary';
 
 export default class RunCanvas extends Component {
   constructor(props) {
