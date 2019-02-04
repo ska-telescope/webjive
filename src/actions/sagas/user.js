@@ -14,8 +14,8 @@ import UserAPI from '../api/user';
 function* preloadUser() {
   while (true) {
     yield take(PRELOAD_USER);
-    const user = yield call(UserAPI.preloadUser);
-    const action = user ? preloadUserSuccess(user) : preloadUserFailed();
+    const loadedUser = yield call(UserAPI.preloadUser);
+    const action = loadedUser ? preloadUserSuccess(loadedUser) : preloadUserFailed();
     yield put(action);
   }
 }

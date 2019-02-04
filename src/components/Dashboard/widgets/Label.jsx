@@ -19,7 +19,7 @@ Label.propTypes = {
 
 Label.defaultProps = {
   mode: 'edit',
-  params: { text: 'label' }
+  params: { text: 'Your Text Here' }
 };
 
 export default Label;

@@ -57,3 +57,7 @@ ScrollIntoViewIfNeeded.propTypes = {
     time: PropTypes.number
   })
 };
+
+ScrollIntoViewIfNeeded.defaultProps = {
+  isNowActive: false
+};

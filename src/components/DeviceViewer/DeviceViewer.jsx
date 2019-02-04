@@ -177,6 +177,7 @@ DeviceViewer.propTypes = {
 
 DeviceViewer.defaultProps = {
   activeTab: 'server',
+  currentState: '',
   hasAttributes: false,
   hasProperties: false,
   hasCommands: false,

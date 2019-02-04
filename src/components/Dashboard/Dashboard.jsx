@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -11,9 +12,11 @@ import Inspector from './Inspector/Inspector';
 
 import { WIDGET_DEFINITIONS, normalizeWidgetDefinitions } from './widgets/widgetDefinitions';
 
-import { complexWidgetDefinition } from './ComplexWidget/ComplexWidget';
+import complexWidgetDefinition from './ComplexWidget/ComplexWidget';
 
 import './Dashboard.css';
+
+/* eslint-disable react/no-array-index-key */
 
 const GRID_TILE_SIZE = 15;
 
@@ -39,6 +42,16 @@ const DEFAULT_CANVASES = [
     widgets: []
   }
 ];
+
+export function roundToGrid(val) {
+  return val % GRID_TILE_SIZE >= GRID_TILE_SIZE / 2
+    ? val + (GRID_TILE_SIZE - (val % GRID_TILE_SIZE))
+    : val - (val % GRID_TILE_SIZE);
+}
+
+export function expandToGrid(val) {
+  return val + (GRID_TILE_SIZE - (val % GRID_TILE_SIZE));
+}
 
 class Dashboard extends Component {
   constructor(props) {
@@ -68,7 +81,8 @@ class Dashboard extends Component {
   }
 
   toggleMode() {
-    const mode = { edit: 'run', run: 'edit' }[this.state.mode];
+    let { mode } = this.state;
+    mode = { edit: 'run', run: 'edit' }[mode];
     this.setState({ mode });
   }
 
@@ -105,27 +119,27 @@ class Dashboard extends Component {
   }
 
   handleParamChange(param, value) {
-    const index = this.state.selectedWidgetIndex;
+    const { selectedWidgetIndex } = this.state;
     const widget = this.selectedWidget();
 
     const params = { ...widget.params, [param]: value };
     const updatedWidget = { ...widget, params };
     const widgets = this.currentWidgets();
-    widgets.splice(index, 1, updatedWidget);
+    widgets.splice(selectedWidgetIndex, 1, updatedWidget);
     this.updateWidgets(widgets);
   }
 
-  updateWidgets(widgets, selectedWidgetIndex) {
-    selectedWidgetIndex =
-      selectedWidgetIndex != null ? selectedWidgetIndex : this.state.selectedWidgetIndex;
-
-    const canvases = [...this.state.canvases];
-    const canvas = { ...canvases[this.state.selectedCanvasIndex], widgets };
-    canvases[this.state.selectedCanvasIndex] = canvas;
+  updateWidgets(widgets, widgetIndex) {
+    const { history } = this.props;
+    const { selectedCanvasIndex } = this.state;
+    let { canvases, selectedWidgetIndex } = this.state;
+    selectedWidgetIndex = widgetIndex != null ? widgetIndex : selectedWidgetIndex;
+    canvases = [...canvases];
+    const canvas = { ...canvases[selectedCanvasIndex], widgets };
+    canvases[selectedCanvasIndex] = canvas;
     this.setState({ canvases, selectedWidgetIndex });
-
-    const c = encodeURI(JSON.stringify(this.state.canvases));
-    this.props.history.replace('?c=' + c);
+    const c = encodeURI(JSON.stringify(canvases));
+    history.replace(`?c=${c}`);
   }
 
   // Convenience method used by handler methods
@@ -143,9 +157,11 @@ class Dashboard extends Component {
   }
 
   selectedWidget() {
+    const { selectedWidgetIndex } = this.state;
     const widgets = this.currentWidgets();
-    return widgets[this.state.selectedWidgetIndex];
+    return widgets[selectedWidgetIndex];
   }
+
   handleMoveWidget(index, x, y) {
     const widget = this.currentWidgets()[index];
     const proposedPos = { x: widget.x + x, y: widget.y + y };
@@ -157,11 +173,13 @@ class Dashboard extends Component {
   }
 
   handleDeviceChange(device) {
-    this.updateWidget(this.state.selectedWidgetIndex, { device });
+    const { selectedWidgetIndex } = this.state;
+    this.updateWidget(selectedWidgetIndex, { device });
   }
 
   handleAttributeChange(attribute) {
-    this.updateWidget(this.state.selectedWidgetIndex, { attribute });
+    const { selectedWidgetIndex } = this.state;
+    this.updateWidget(selectedWidgetIndex, { attribute });
   }
 
   handleChangeCanvas(event) {
@@ -170,14 +188,15 @@ class Dashboard extends Component {
   }
 
   isRootCanvas() {
-    return this.state.selectedCanvasIndex === 0;
+    const { selectedCanvasIndex } = this.state;
+    return selectedCanvasIndex === 0;
   }
 
   render() {
-    const mode = this.state.mode;
+    const { canvases, deviceNames, mode, selectedCanvasIndex, selectedWidgetIndex } = this.state;
     const widgets = this.currentWidgets();
 
-    const complexWidgetDefinitions = this.state.canvases.slice(1).map(complexWidgetDefinition);
+    const complexWidgetDefinitions = canvases.slice(1).map(complexWidgetDefinition);
 
     const widgetDefinitions = normalizeWidgetDefinitions([
       ...WIDGET_DEFINITIONS,
@@ -188,6 +207,7 @@ class Dashboard extends Component {
       <div className="Dashboard">
         <div className="TopBar">
           <button
+            type="button"
             onClick={this.toggleMode}
             style={{ fontSize: 'small', padding: '0.5em', width: '2em' }}
             className={classNames('form-control fa', {
@@ -206,14 +226,16 @@ class Dashboard extends Component {
             }}
             onChange={this.handleChangeCanvas}
           >
-            {this.state.canvases.map((canvas, i) => (
+            {canvases.map((canvas, i) => (
               <option key={i} value={i}>
                 {i === 0 ? 'Root' : canvas.name}
               </option>
             ))}
           </select>
           {false && (
-            <button onClick={() => alert(JSON.stringify(this.state.canvases))}>Dump</button>
+            <button type="button" onClick={() => alert(JSON.stringify(canvases))}>
+              Dump
+            </button>
           )}
         </div>
         {mode === 'edit' ? (
@@ -223,28 +245,28 @@ class Dashboard extends Component {
             onMoveWidget={this.handleMoveWidget}
             onSelectWidget={this.handleSelectWidget}
             onDeleteWidget={this.handleDeleteWidget}
-            selectedWidgetIndex={this.state.selectedWidgetIndex}
+            selectedWidgetIndex={selectedWidgetIndex}
             onAddWidget={this.handleAddWidget}
           />
         ) : (
           <RunCanvas
             widgets={widgets}
             widgetDefinitions={widgetDefinitions}
-            subCanvases={[null, ...this.state.canvases.slice(1)]}
+            subCanvases={[null, ...canvases.slice(1)]}
           />
         )}
         {mode === 'edit' && (
           <div className="Sidebar">
-            {this.state.selectedWidgetIndex === -1 ? (
+            {selectedWidgetIndex === -1 ? (
               <Library
                 widgetDefinitions={widgetDefinitions}
-                showCustom={this.state.selectedCanvasIndex === 0}
+                showCustom={selectedCanvasIndex === 0}
               />
             ) : (
               <Inspector
-                widget={widgets[this.state.selectedWidgetIndex]}
+                widget={widgets[selectedWidgetIndex]}
                 widgetDefinitions={widgetDefinitions}
-                deviceNames={this.state.deviceNames}
+                deviceNames={deviceNames}
                 onParamChange={this.handleParamChange}
                 onDeviceChange={this.handleDeviceChange}
                 onAttributeChange={this.handleAttributeChange}
@@ -258,14 +280,14 @@ class Dashboard extends Component {
   }
 }
 
-export function roundToGrid(val) {
-  return val % GRID_TILE_SIZE >= GRID_TILE_SIZE / 2
-    ? val + (GRID_TILE_SIZE - (val % GRID_TILE_SIZE))
-    : val - (val % GRID_TILE_SIZE);
-}
+Dashboard.propTypes = {
+  history: PropTypes.string,
+  location: PropTypes.shape({ search: PropTypes.string })
+};
 
-export function expandToGrid(val) {
-  return val + (GRID_TILE_SIZE - (val % GRID_TILE_SIZE));
-}
+Dashboard.defaultProps = {
+  history: '',
+  location: { search: '' }
+};
 
 export default DragDropContext(HTML5Backend)(Dashboard);

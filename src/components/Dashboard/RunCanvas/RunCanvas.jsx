@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import getWidgetDefinition from '../utils';
 import PropTypes from 'prop-types';
+import getWidgetDefinition from '../utils';
 import { widgetPropType, widgetDefinitionPropType, subCanvas } from '../../../propTypes/propTypes';
+import ErrorBoundary from './ErrorBoundary';
 
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { error: null };
-  }
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/no-array-index-key */
 
-  componentDidCatch(error) {
-    this.setState({ error });
-  }
-
-  render() {
-    if (this.state.error == null) {
-      return this.props.children;
-    }
-
-    return <div style={{ backgroundColor: '#ff8888' }}>{String(this.state.error)}</div>;
-  }
-}
+const modelsForSubcanvas = (canvas, parent) =>
+  canvas.widgets
+    .map(widget => {
+      const deviceSource = widget.device === '__parent__' ? parent : widget;
+      return [deviceSource.device, widget.attribute];
+    })
+    .filter(([device, attribute]) => device != null && attribute != null)
+    .map(([device, attribute]) => `${device}/${attribute}`);
 
 export default class RunCanvas extends Component {
   constructor(props) {
@@ -30,14 +24,12 @@ export default class RunCanvas extends Component {
     };
   }
 
-  modelsForSubcanvas(canvas, parent) {
-    return canvas.widgets
-      .map(widget => {
-        const deviceSource = widget.device === '__parent__' ? parent : widget;
-        return [deviceSource.device, widget.attribute];
-      })
-      .filter(([device, attribute]) => device != null && attribute != null)
-      .map(([device, attribute]) => `${device}/${attribute}`);
+  componentDidMount() {
+    this.connect();
+  }
+
+  componentWillUnmount() {
+    this.socket.close();
   }
 
   isSubcanvasWidget(widget) {
@@ -45,17 +37,18 @@ export default class RunCanvas extends Component {
   }
 
   connect() {
-    const canvasModels = this.props.widgets
+    const { subCanvases, widgets } = this.props;
+    const canvasModels = widgets
       .filter(widget => widget.device != null)
       .filter(widget => this.isSubcanvasWidget(widget))
       .map(widget => {
         const canvasIndex = this.definitionForWidget(widget).__canvas__;
-        const canvas = this.props.subCanvases[canvasIndex];
-        return this.modelsForSubcanvas(canvas, widget);
+        const canvas = subCanvases[canvasIndex];
+        return modelsForSubcanvas(canvas, widget);
       })
       .reduce((accum, curr) => [...accum, ...curr], []);
 
-    const widgetModels = this.props.widgets
+    const widgetModels = widgets
       .filter(({ canvas }) => canvas == null)
       .filter(({ device, attribute }) => device != null && attribute != null) // Skip widgets without device -- revise this
       .map(({ device, attribute }) => `${device}/${attribute}`);
@@ -68,10 +61,10 @@ export default class RunCanvas extends Component {
     function socketUrl() {
       const loc = window.location;
       const protocol = loc.protocol.replace('http', 'ws');
-      return protocol + '//' + loc.host + '/socket';
+      return `${protocol}//${loc.host}/socket`;
     }
 
-    this.socket = new WebSocket(socketUrl() + '?dashboard', 'graphql-ws');
+    this.socket = new WebSocket(`${socketUrl()}?dashboard`, 'graphql-ws');
 
     const query = `
           subscription newChangeEvent($models: [String]!) {
@@ -91,14 +84,14 @@ export default class RunCanvas extends Component {
     this.socket.addEventListener('message', msg => {
       const data = JSON.parse(msg.data);
       if (data.type === 'data') {
-        const changeEvent = data.payload.data.changeEvent;
+        const { changeEvent } = data.payload.data;
         if (changeEvent == null) {
           return;
         }
 
         const updatedAttributes = changeEvent.reduce((accum, event) => {
           const { value, time } = event.data;
-          const model = event.device + '/' + event.name;
+          const model = `${event.device}/${event.name}`;
           return {
             ...accum,
             [model]: {
@@ -108,8 +101,8 @@ export default class RunCanvas extends Component {
           };
         }, {});
 
-        const oldAttributes = this.state.attributes;
-        const attributes = { ...oldAttributes, ...updatedAttributes };
+        let { attributes } = this.state;
+        attributes = { ...attributes, ...updatedAttributes };
         this.setState({ attributes });
       }
     });
@@ -120,21 +113,15 @@ export default class RunCanvas extends Component {
     });
   }
 
-  componentDidMount() {
-    this.connect();
-  }
-
-  componentWillUnmount() {
-    this.socket.close();
-  }
-
   definitionForWidget(widget) {
-    return getWidgetDefinition(this.props.widgetDefinitions, widget.type);
+    const { widgetDefinitions } = this.props;
+    return getWidgetDefinition(widgetDefinitions, widget.type);
   }
 
   entryForModel(device, attribute) {
-    const model = device + '/' + attribute;
-    return this.state.attributes[model] || {};
+    const { attributes } = this.state;
+    const model = `${device}/${attribute}`;
+    return attributes[model] || {};
   }
 
   valueForModel(device, attribute) {
@@ -147,17 +134,18 @@ export default class RunCanvas extends Component {
   }
 
   render() {
+    const { widgets } = this.props;
+    const { attributes } = this.state;
     return (
       <div className="Canvas run">
-        {this.props.widgets.map((widget, i) => {
+        {widgets.map((widget, i) => {
           const definition = this.definitionForWidget(widget);
           const Widget = definition.component;
           const { x, y, device, attribute, params } = widget;
           const value = this.valueForModel(device, attribute);
           const time = this.timeForModel(device, attribute);
 
-          const extraProps =
-            definition.__canvas__ != null ? { attributes: this.state.attributes } : {};
+          const extraProps = definition.__canvas__ != null ? { attributes } : {};
 
           return (
             <div key={i} className="Widget" style={{ left: x, top: y }}>
@@ -184,4 +172,10 @@ RunCanvas.propTypes = {
   subCanvases: PropTypes.arrayOf(subCanvas),
   widgetDefinitions: PropTypes.arrayOf(widgetDefinitionPropType),
   widgets: PropTypes.arrayOf(widgetPropType)
+};
+
+RunCanvas.defaultProps = {
+  subCanvases: [],
+  widgetDefinitions: [],
+  widgets: []
 };

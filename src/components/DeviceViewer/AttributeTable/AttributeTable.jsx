@@ -66,6 +66,10 @@ QualityIndicator.propTypes = {
   quality: PropTypes.string
 };
 
+QualityIndicator.defaultProps = {
+  quality: ''
+};
+
 const AttributeTable = ({
   attributes,
   selectedFormat,
