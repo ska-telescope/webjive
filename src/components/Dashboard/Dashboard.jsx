@@ -225,7 +225,7 @@ class Dashboard extends Component {
             onChange={this.handleChangeCanvas}
           >
             {canvases.map((canvas, i) => (
-              <option key={`${canvas}${new Date().getTime()}`} value={i}>
+              <option key={i} value={i}>
                 {i === 0 ? 'Root' : canvas.name}
               </option>
             ))}

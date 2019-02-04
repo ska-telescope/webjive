@@ -138,7 +138,7 @@ export default class RunCanvas extends Component {
     const { attributes } = this.state;
     return (
       <div className="Canvas run">
-        {widgets.map(widget => {
+        {widgets.map((widget, i) => {
           const definition = this.definitionForWidget(widget);
           const Widget = definition.component;
           const { x, y, device, attribute, params } = widget;
@@ -149,11 +149,7 @@ export default class RunCanvas extends Component {
             definition.__canvas__ != null ? { attributes } : {};
 
           return (
-            <div
-              key={`${device}${attribute}${x}${y}${time}`}
-              className="Widget"
-              style={{ left: x, top: y }}
-            >
+            <div key={i} className="Widget" style={{ left: x, top: y }}>
               <ErrorBoundary>
                 <Widget
                   mode="run"

@@ -13,14 +13,14 @@ const Library = ({ showCustom, widgetDefinitions }) => {
   return (
     <div className="Library">
       <h1>Built-In</h1>
-      {builtIn.map(definition => (
-        <LibraryWidget key={`${definition}${new Date().getTime()}`} definition={definition} />
+      {builtIn.map((definition, i) => (
+        <LibraryWidget key={i} definition={definition} />
       ))}
       {showCustom && (
         <React.Fragment>
           <h1>Custom</h1>
-          {custom.map(definition => (
-            <LibraryWidget key={`${definition}${new Date().getTime()}`} definition={definition} />
+          {custom.map((definition, i) => (
+            <LibraryWidget key={i} definition={definition} />
           ))}
         </React.Fragment>
       )}
