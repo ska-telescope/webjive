@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -11,12 +12,22 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    if (this.state.error == null) {
-      return this.props.children;
+    const { error } = this.state;
+    const { children } = this.props;
+    if (error == null) {
+      return children;
     }
 
-    return <div style={{ backgroundColor: '#ff8888' }}>{String(this.state.error)}</div>;
+    return <div style={{ backgroundColor: '#ff8888' }}>{String(error)}</div>;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.node
+};
+
+ErrorBoundary.defaultProps = {
+  children: null
+};
 
 export default ErrorBoundary;
