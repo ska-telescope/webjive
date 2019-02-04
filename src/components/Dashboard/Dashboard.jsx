@@ -12,7 +12,7 @@ import Inspector from './Inspector/Inspector';
 
 import { WIDGET_DEFINITIONS, normalizeWidgetDefinitions } from './widgets/widgetDefinitions';
 
-import { complexWidgetDefinition } from './ComplexWidget/ComplexWidget';
+import complexWidgetDefinition from './ComplexWidget/ComplexWidget';
 
 import './Dashboard.css';
 
