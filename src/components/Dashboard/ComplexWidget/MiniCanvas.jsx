@@ -3,28 +3,30 @@ import PropTypes from 'prop-types';
 import { getWidgetDefinition } from '../widgets/widgetDefinitions';
 import { widgetPropType } from '../../../propTypes/propTypes';
 
-class MiniCanvas extends Component {
-  componentForWidget(widget) {
-    return getWidgetDefinition(widget.type).component;
-  }
+/* eslint-disable react/no-array-index-key */
 
+const componentForWidget = widget => getWidgetDefinition(widget.type).component;
+
+class MiniCanvas extends Component {
   deviceForWidget(widget) {
-    return widget.device === '__parent__' ? this.props.device : widget.device;
+    const { device } = this.props;
+    return widget.device === '__parent__' ? device : widget.device;
   }
 
   valueAndTimeForWidget(widget) {
-    if (this.props.mode !== 'run') {
+    const { attributes, mode } = this.props;
+    if (mode !== 'run') {
       return {};
     }
 
     const device = this.deviceForWidget(widget);
-    const attribute = widget.attribute;
+    const { attribute } = widget;
     const key = `${device}/${attribute}`;
-    return this.props.attributes[key] || {};
+    return attributes[key] || {};
   }
 
   render() {
-    const widgets = this.props.widgets;
+    const { mode, widgets } = this.props;
     if (widgets.length === 0) {
       return <span>Empty</span>;
     }
@@ -32,7 +34,7 @@ class MiniCanvas extends Component {
     const minX = widgets.map(({ x }) => x).reduce((a, b) => Math.min(a, b));
     const minY = widgets.map(({ y }) => y).reduce((a, b) => Math.min(a, b));
 
-    const isLibrary = this.props.mode === 'library';
+    const isLibrary = mode === 'library';
 
     const style = isLibrary
       ? {
@@ -74,7 +76,7 @@ class MiniCanvas extends Component {
         {isLibrary && <FadeOut />}
         <div className="Canvas">
           {widgets.map((widget, i) => {
-            const Widget = this.componentForWidget(widget);
+            const Widget = componentForWidget(widget);
             const device = this.deviceForWidget(widget);
             const { time, value } = this.valueAndTimeForWidget(widget);
             const { x, y, attribute, params } = widget;
@@ -82,7 +84,7 @@ class MiniCanvas extends Component {
             return (
               <div
                 key={i}
-                className={'Widget'}
+                className="Widget"
                 style={{
                   position: 'absolute',
                   left: x - minX,
@@ -93,7 +95,7 @@ class MiniCanvas extends Component {
                   device={device}
                   attribute={attribute}
                   params={params}
-                  mode={this.props.mode}
+                  mode={mode}
                   time={time}
                   value={value}
                 />
@@ -105,9 +107,31 @@ class MiniCanvas extends Component {
     );
   }
 }
+
 MiniCanvas.propTypes = {
+  attributes: PropTypes.arrayOf(
+    PropTypes.shape({
+      dataformat: PropTypes.string,
+      datatype: PropTypes.string,
+      description: PropTypes.string,
+      displevel: PropTypes.string,
+      maxvalue: PropTypes.any,
+      minvalue: PropTypes.any,
+      name: PropTypes.string,
+      quality: PropTypes.string,
+      value: PropTypes.any, // possibly PropTypes.oneOfType(...)
+      writable: PropTypes.string
+    })
+  ).isRequired,
+  device: PropTypes.string,
   mode: PropTypes.string,
   widgets: PropTypes.arrayOf(widgetPropType)
+};
+
+MiniCanvas.defaultProps = {
+  device: '',
+  mode: 'edit',
+  widgets: []
 };
 
 export default MiniCanvas;
