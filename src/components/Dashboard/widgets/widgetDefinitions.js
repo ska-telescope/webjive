@@ -3,6 +3,7 @@ import AttributeTrend from './AttributeTrend';
 import AttributeReadOnly from './AttributeReadOnly';
 import Label from './Label';
 import DeviceName from './DeviceName';
+import Command from './Command';
 
 export const WIDGET_DEFINITIONS = [
   {
@@ -141,6 +142,13 @@ export const WIDGET_DEFINITIONS = [
         description: 'Stroke width'
       }
     ]
+  },
+  {
+    type: 'COMMAND',
+    name: 'Command',
+    component: Command,
+    fields: ['device', { type: 'command', dataformats: [] }],
+    params: []
   },
   {
     type: 'DEVICE_NAME',
