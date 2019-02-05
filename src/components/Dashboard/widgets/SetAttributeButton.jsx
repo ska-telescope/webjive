@@ -19,7 +19,7 @@ export class SetAttributeButton extends Component {
   render() {
     const { device, attribute, params } = this.props;
     return (
-      <button id="button" type="button" onClick={this.handleClick}>
+      <button className="btn btn-primary" type="button" onClick={this.handleClick}>
         Set {device || 'device'} {attribute || 'attribute'}
         {params.value !== null ? ` ${params.value}` : null}
       </button>
