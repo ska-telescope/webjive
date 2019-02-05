@@ -3,7 +3,7 @@ import AttributeTrend from './AttributeTrend';
 import AttributeReadOnly from './AttributeReadOnly';
 import Label from './Label';
 import DeviceName from './DeviceName';
-import SetAttributeButton from './Command';
+import SetAttributeButton from './SetAttributeButton';
 
 export const WIDGET_DEFINITIONS = [
   {
