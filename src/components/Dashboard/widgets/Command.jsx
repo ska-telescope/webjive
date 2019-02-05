@@ -1,25 +1,47 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import * as tangoActions from '../../../actions/tango';
 
-export default class Command extends Component {
+class SetAttributeButton extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { attribute, device, mode, params, setDeviceAttribute } = this.props;
+    if (mode === 'run') {
+      setDeviceAttribute(device, attribute, params.value);
+    }
+  }
+
   render() {
-    const { device, mode } = this.props;
-
-    if (mode === 'library' || device == null) {
-      return <i>Device Name</i>;
-    }
-
-    if (device === '__parent__') {
-      return <i>Parent Device</i>;
-    }
-
-    return <span>{device}</span>;
+    const { device, attribute, params } = this.props;
+    return (
+      <button type="button" onClick={this.handleClick}>
+        Set {device || 'device'} {attribute || 'attribute'} {params.value || null}
+      </button>
+    );
   }
 }
 
-Command.propTypes = {
-  attribute: PropTypes.string, //always null for this component?
-  device: PropTypes.string,
+SetAttributeButton.propTypes = {
   mode: PropTypes.string,
-  params: PropTypes.object //always empty for this component?
+  device: PropTypes.string,
+  attribute: PropTypes.string,
+  params: PropTypes.shape({ value: PropTypes.number }),
+  setDeviceAttribute: PropTypes.func.isRequired
 };
+
+SetAttributeButton.defaultProps = {
+  mode: 'library',
+  device: '',
+  attribute: '',
+  params: { value: 0 }
+};
+
+export default connect(
+  null,
+  tangoActions
+)(SetAttributeButton);

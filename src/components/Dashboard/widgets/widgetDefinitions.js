@@ -3,7 +3,7 @@ import AttributeTrend from './AttributeTrend';
 import AttributeReadOnly from './AttributeReadOnly';
 import Label from './Label';
 import DeviceName from './DeviceName';
-import Command from './Command';
+import SetAttributeButton from './Command';
 
 export const WIDGET_DEFINITIONS = [
   {
@@ -144,11 +144,22 @@ export const WIDGET_DEFINITIONS = [
     ]
   },
   {
-    type: 'COMMAND',
-    name: 'Command',
-    component: Command,
-    fields: ['device', { type: 'command', dataformats: [] }],
-    params: []
+    type: 'SET_ATTRIBUTE',
+    name: 'Set Attribute Button',
+    component: SetAttributeButton,
+    fields: [
+      'device',
+      { type: 'command', dataformats: [] },
+      { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }
+    ],
+    params: [
+      {
+        name: 'value',
+        type: 'number',
+        default: '',
+        description: 'Value for the attribute'
+      }
+    ]
   },
   {
     type: 'DEVICE_NAME',
