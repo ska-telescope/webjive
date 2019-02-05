@@ -21,6 +21,7 @@ const LogInOut = ({ awaitingResponse, isLoggedIn, onLogin, onLogout, username })
           Logged in as <span style={{ fontWeight: 'bold' }}>{username}</span>.{' '}
           <button
             type="button"
+            className="btn btn-primary btn-sm"
             href="#"
             onClick={e => {
               e.preventDefault();
@@ -35,6 +36,7 @@ const LogInOut = ({ awaitingResponse, isLoggedIn, onLogin, onLogout, username })
           Not logged in.{' '}
           <button
             type="button"
+            className="btn btn-primary btn-sm"
             href="#"
             onClick={e => {
               e.preventDefault();

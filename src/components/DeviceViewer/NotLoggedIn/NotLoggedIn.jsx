@@ -21,7 +21,12 @@ class NotLoggedIn extends Component {
     return isLoggedIn ? null : (
       <div className="alert alert-warning" role="alert">
         {children}{' '}
-        <button type="button" href="#" onClick={this.handleGoToLogin}>
+        <button
+          type="button"
+          className="btn btn-primary btn-sm"
+          href="#"
+          onClick={this.handleGoToLogin}
+        >
           Click here to log in.
         </button>
       </div>
