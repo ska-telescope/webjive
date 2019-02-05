@@ -44,20 +44,18 @@ export default class ScrollIntoViewIfNeeded extends PureComponent {
   }
 }
 
+// Having any sort of default prop in this file seems to break the device tree
+/* eslint-disable react/require-default-props */
 ScrollIntoViewIfNeeded.propTypes = {
   active: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   elementType: PropTypes.string,
   isNowActive: PropTypes.bool,
-  isSelected: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool,
   options: PropTypes.shape({
     behavior: PropTypes.string,
     ease: PropTypes.func,
     scrollMode: PropTypes.string,
     time: PropTypes.number
   })
-};
-
-ScrollIntoViewIfNeeded.defaultProps = {
-  isNowActive: false
 };
