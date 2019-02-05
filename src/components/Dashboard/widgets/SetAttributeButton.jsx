@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as tangoActions from '../../../actions/tango';
 
-class SetAttributeButton extends Component {
+export class SetAttributeButton extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
@@ -19,8 +19,9 @@ class SetAttributeButton extends Component {
   render() {
     const { device, attribute, params } = this.props;
     return (
-      <button type="button" onClick={this.handleClick}>
-        Set {device || 'device'} {attribute || 'attribute'} {params.value || null}
+      <button id="button" type="button" onClick={this.handleClick}>
+        Set {device || 'device'} {attribute || 'attribute'}
+        {params.value !== null ? ` ${params.value}` : null}
       </button>
     );
   }
@@ -31,14 +32,15 @@ SetAttributeButton.propTypes = {
   device: PropTypes.string,
   attribute: PropTypes.string,
   params: PropTypes.shape({ value: PropTypes.number }),
-  setDeviceAttribute: PropTypes.func.isRequired
+  setDeviceAttribute: PropTypes.func
 };
 
 SetAttributeButton.defaultProps = {
   mode: 'library',
   device: '',
   attribute: '',
-  params: { value: 0 }
+  params: { value: null },
+  setDeviceAttribute: (device, attribute, value) => `${device} ${attribute} ${value}`
 };
 
 export default connect(
