@@ -36,6 +36,10 @@ _All the following notes assume you are at the command prompt for your chosen en
 
 ## Running and Building the Application
 
+### Proxy
+
+When running this application with TangoGql you'll need to set the proxy to the correct address for TangoGql in src/setupProxy.js. If running WebJive using NPM outside of docker, use localhost:5004. If running WebJive inside Docker, using Docker Compose, then use the name of the TangoGql container e.g. tangogql:5004. Examples are in the setupProxy.js file.
+
 Scripts for running, testing, and building the application are provided as part of the standard configuration. These are run using NPM and listed in the scripts section of the package.json file.
 
 From the project directory, you can run any of the following:
