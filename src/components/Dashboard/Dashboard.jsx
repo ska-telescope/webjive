@@ -78,6 +78,8 @@ class Dashboard extends Component {
     this.handleDeviceChange = this.handleDeviceChange.bind(this);
     this.handleAttributeChange = this.handleAttributeChange.bind(this);
     this.handleChangeCanvas = this.handleChangeCanvas.bind(this);
+    this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
+    this.handleLoadButtonClick = this.handleLoadButtonClick.bind(this);
   }
 
   toggleMode() {
@@ -188,6 +190,14 @@ class Dashboard extends Component {
     this.setState({ selectedCanvasIndex });
   }
 
+  handleSaveButtonClick() {
+    console.log('SAVE!');
+  }
+
+  handleLoadButtonClick() {
+    console.log('LOAD!');
+  }
+
   isRootCanvas() {
     const { selectedCanvasIndex } = this.state;
     return selectedCanvasIndex === 0;
@@ -238,10 +248,18 @@ class Dashboard extends Component {
               Dump
             </button>
           )}
-          <button type="button" className="btn btn-primary btn-sm">
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={this.handleSaveButtonClick}
+          >
             Save Layout
           </button>
-          <button type="button" className="btn btn-warning btn-sm">
+          <button
+            type="button"
+            className="btn btn-warning btn-sm"
+            onClick={this.handleLoadButtonClick}
+          >
             Load Layout
           </button>
         </div>
