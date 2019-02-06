@@ -20,7 +20,7 @@ function* preloadUser() {
   }
 }
 
-function* login() {
+export function* login() {
   while (true) {
     const { username, password } = yield take(LOGIN);
     const result = yield call(UserAPI.login, username, password);
