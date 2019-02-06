@@ -12,7 +12,7 @@ import { loginSuccess } from '../user';
 describe('The user login saga', () => {
   const username = 'Aurora';
   const password = 'Greyskull';
-  const user = { username: 'Aurora', password: 'Greyskull' };
+  const user = { username, password };
 
   const generator = cloneableGenerator(login)();
 
