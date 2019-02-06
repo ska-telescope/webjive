@@ -66,7 +66,7 @@ describe('user_actions', () => {
   });
 
   describe('loginSuccess', () => {
-    test('triggers a  LOGIN_SUCCESS event', () => {
+    test('triggers a LOGIN_SUCCESS event', () => {
       const expectedActions = [
         {
           username: 'Glimmer',
