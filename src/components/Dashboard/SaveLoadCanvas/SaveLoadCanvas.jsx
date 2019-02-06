@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import widgetPropType from '../../../propTypes/propTypes';
 
 export default class SaveLoadCanvas extends Component {
   constructor(props) {
@@ -36,3 +38,13 @@ export default class SaveLoadCanvas extends Component {
     );
   }
 }
+
+SaveLoadCanvas.propTypes = {
+  canvases: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      widgets: PropTypes.arrayOf(widgetPropType)
+    })
+  ).isRequired
+};

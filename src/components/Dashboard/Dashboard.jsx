@@ -239,7 +239,7 @@ class Dashboard extends Component {
               Dump
             </button>
           )}
-          <SaveLoadCanvas />
+          <SaveLoadCanvas canvases={canvases} />
         </div>
         {mode === 'edit' ? (
           <EditCanvas
