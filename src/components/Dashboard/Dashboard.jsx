@@ -139,6 +139,7 @@ class Dashboard extends Component {
     canvases[selectedCanvasIndex] = canvas;
     this.setState({ canvases, selectedWidgetIndex });
     const c = encodeURI(JSON.stringify(canvases));
+    console.log(history, canvases);
     history.replace(`?c=${c}`);
   }
 
@@ -237,6 +238,12 @@ class Dashboard extends Component {
               Dump
             </button>
           )}
+          <button type="button" className="btn btn-primary btn-sm">
+            Save Layout
+          </button>
+          <button type="button" className="btn btn-warning btn-sm">
+            Load Layout
+          </button>
         </div>
         {mode === 'edit' ? (
           <EditCanvas
