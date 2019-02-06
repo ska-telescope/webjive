@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import fileDownload from 'js-file-download';
 import { widgetPropType } from '../../../propTypes/propTypes';
 
+const getFileName = () => `webjive-layout-${new Date().getTime()}`;
+
 export default class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,7 @@ export default class SaveLoadCanvas extends Component {
   handleSaveButtonClick() {
     const { canvases } = this.props;
     const data = JSON.stringify(canvases);
-    fileDownload(data, 'webjive.json', 'application/json');
+    fileDownload(data, getFileName(), 'application/json');
   }
 
   handleLoadButtonClick() {
