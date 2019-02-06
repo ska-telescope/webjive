@@ -91,7 +91,7 @@ describe('user_actions', () => {
   });
 
   describe('logout', () => {
-    test('triggers a  LOGOUT event', () => {
+    test('triggers a LOGOUT event', () => {
       const expectedActions = [
         {
           type: 'LOGOUT'
