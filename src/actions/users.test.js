@@ -39,7 +39,7 @@ describe('user_actions', () => {
   });
 
   describe('preloadUserFailed', () => {
-    test(' triggers a PRELOAD_USER_FAILED event', () => {
+    test('triggers a PRELOAD_USER_FAILED event', () => {
       const expectedActions = [
         {
           type: 'PRELOAD_USER_FAILED'
