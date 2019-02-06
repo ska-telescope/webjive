@@ -1,4 +1,3 @@
-// Really quite trivial tests
 import configureStore from 'redux-mock-store';
 import * as userActions from './user';
 
