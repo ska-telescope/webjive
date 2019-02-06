@@ -79,7 +79,7 @@ describe('user_actions', () => {
   });
 
   describe('loginFailed', () => {
-    test('triggers a  LOGIN_FAILED event', () => {
+    test('triggers a LOGIN_FAILED event', () => {
       const expectedActions = [
         {
           type: 'LOGIN_FAILED'
