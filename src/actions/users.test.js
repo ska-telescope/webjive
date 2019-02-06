@@ -52,7 +52,7 @@ describe('user_actions', () => {
   });
 
   describe('login', () => {
-    test('triggers a  LOGIN event', () => {
+    test('triggers a LOGIN event', () => {
       const expectedActions = [
         {
           password: 'Greyskull',
