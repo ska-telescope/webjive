@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import widgetPropType from '../../../propTypes/propTypes';
+import { widgetPropType } from '../../../propTypes/propTypes';
 
 export default class SaveLoadCanvas extends Component {
   constructor(props) {
@@ -10,7 +10,8 @@ export default class SaveLoadCanvas extends Component {
   }
 
   handleSaveButtonClick() {
-    console.log('SAVE!');
+    const { canvases } = this.props;
+    console.log(canvases);
   }
 
   handleLoadButtonClick() {

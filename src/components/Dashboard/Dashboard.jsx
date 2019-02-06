@@ -140,7 +140,6 @@ class Dashboard extends Component {
     canvases[selectedCanvasIndex] = canvas;
     this.setState({ canvases, selectedWidgetIndex });
     const c = encodeURI(JSON.stringify(canvases));
-    console.log(history, canvases);
     history.replace(`?c=${c}`);
   }
 

@@ -22,6 +22,7 @@
     "graphql-request": "^1.8.2",
     "http-proxy-middleware": "^0.19.1",
     "jest-enzyme": "^7.0.1",
+    "js-file-download": "^0.4.4",
     "minimatch": "^3.0.4",
     "plotly.js": "^1.41.3",
     "prop-types": "^15.6.2",
