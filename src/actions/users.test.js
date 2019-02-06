@@ -103,7 +103,7 @@ describe('user_actions', () => {
   });
 
   describe('logoutSuccess', () => {
-    test('triggers a  LOGOUT_SUCCESS event', () => {
+    test('triggers a LOGOUT_SUCCESS event', () => {
       const expectedActions = [
         {
           type: 'LOGOUT_SUCCESS'
