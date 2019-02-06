@@ -60,7 +60,7 @@ describe('user_actions', () => {
           type: 'LOGIN'
         }
       ];
-      store.dispatch(userActions.login('Aurora', 'Greyskull'));
+      store.dispatch(userActions.login(expectedActions[0].username, expectedActions[0].password));
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
