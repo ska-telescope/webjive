@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import fileDownload from 'js-file-download';
 import { widgetPropType } from '../../../propTypes/propTypes';
 
 export default class SaveLoadCanvas extends Component {
@@ -11,7 +12,8 @@ export default class SaveLoadCanvas extends Component {
 
   handleSaveButtonClick() {
     const { canvases } = this.props;
-    console.log(canvases);
+    const data = JSON.stringify(canvases);
+    fileDownload(data, 'webjive.json', 'application/json');
   }
 
   handleLoadButtonClick() {
