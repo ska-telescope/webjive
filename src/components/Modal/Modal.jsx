@@ -14,7 +14,6 @@ import DeleteProperty from './DeleteProperty';
 import AddProperty from './AddProperty';
 import EditProperty from './EditProperty';
 import Login from './Login';
-import Filename from './Filename';
 
 /**
  * Observes the the state of 'modal' and renders the associated modal dialog.
@@ -33,8 +32,6 @@ const ModalDialog = ({ closeDialog, entity, modalInstance, currentDevice }) => {
       return (
         <DeleteProperty entity={entity} currentDevice={currentDevice} closeDialog={closeDialog} />
       );
-    case FILENAME:
-      return <Filename closeDialog={closeDialog} />;
     case 'LOGIN':
       return <Login closeDialog={closeDialog} />;
     default:

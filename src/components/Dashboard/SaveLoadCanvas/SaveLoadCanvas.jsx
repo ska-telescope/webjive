@@ -52,24 +52,7 @@ SaveLoadCanvas.propTypes = {
       name: PropTypes.string,
       widgets: PropTypes.arrayOf(widgetPropType)
     })
-  ).isRequired,
-  onSave: PropTypes.func.isRequired,
-  filename: PropTypes.string
+  ).isRequired
 };
 
-function mapStateToProps({ filename }) {
-  return {
-    filename
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onSave: () => dispatch(setModal('FILENAME'))
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SaveLoadCanvas);
+export default SaveLoadCanvas;
