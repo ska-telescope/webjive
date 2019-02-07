@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import fileDownload from 'js-file-download';
 import { Button, Modal } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/filename';
 
 const getFilename = () => `webjive-layout-${new Date().getTime()}`;
 
-export default class SaveCanvases extends Component {
+class SaveCanvases extends Component {
   constructor(props) {
     super(props);
     this.filenameInput = React.createRef();
@@ -19,7 +21,8 @@ export default class SaveCanvases extends Component {
   };
 
   handleFilenameChange = () => {
-    this.setState({ filename: this.filenameInput.current.value });
+    const { setFilename } = this.props;
+    setFilename(this.filenameInput.current.value || this.filenameInput.current.placeholder);
   };
 
   handleSaveClick = () => {
@@ -60,5 +63,17 @@ export default class SaveCanvases extends Component {
 
 SaveCanvases.propTypes = {
   closeDialog: PropTypes.func.isRequired,
-  canvases: PropTypes.string.isRequired
+  canvases: PropTypes.string.isRequired,
+  setFilename: PropTypes.func.isRequired
 };
+
+function mapStateToProps({ filename }) {
+  return {
+    filename
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  actions
+)(SaveCanvases);
