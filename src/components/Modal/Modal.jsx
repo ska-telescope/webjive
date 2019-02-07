@@ -6,7 +6,7 @@ import {
   CREATE_PROPERTY,
   EDIT_PROPERTY,
   DELETE_PROPERTY,
-  FILENAME,
+  SAVE_CANVASES,
   clearModal
 } from '../../actions/modal';
 import { getCurrentDeviceName } from '../../selectors/currentDevice';
@@ -14,6 +14,7 @@ import DeleteProperty from './DeleteProperty';
 import AddProperty from './AddProperty';
 import EditProperty from './EditProperty';
 import Login from './Login';
+import SaveCanvases from './SaveCanvases';
 
 /**
  * Observes the the state of 'modal' and renders the associated modal dialog.
@@ -32,6 +33,8 @@ const ModalDialog = ({ closeDialog, entity, modalInstance, currentDevice }) => {
       return (
         <DeleteProperty entity={entity} currentDevice={currentDevice} closeDialog={closeDialog} />
       );
+    case SAVE_CANVASES:
+      return <SaveCanvases canvases={entity} closeDialog={closeDialog} />;
     case 'LOGIN':
       return <Login closeDialog={closeDialog} />;
     default:

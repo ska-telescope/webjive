@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import fileDownload from 'js-file-download';
 import { connect } from 'react-redux';
 import { widgetPropType } from '../../../propTypes/propTypes';
-import { setModal } from '../../../actions/modal';
+import { SAVE_CANVASES, setModal } from '../../../actions/modal';
 
 export class SaveLoadCanvas extends Component {
   constructor(props) {
@@ -16,11 +15,8 @@ export class SaveLoadCanvas extends Component {
   };
 
   async handleSaveButtonClick() {
-    const { canvases, onSave, filename } = this.props;
-    await onSave();
-    const data = JSON.stringify(canvases);
-    console.log(filename);
-    // fileDownload(data, getFileName(), 'application/json');
+    const { canvases, onSave } = this.props;
+    onSave(JSON.stringify(canvases));
   }
 
   render() {
@@ -52,7 +48,17 @@ SaveLoadCanvas.propTypes = {
       name: PropTypes.string,
       widgets: PropTypes.arrayOf(widgetPropType)
     })
-  ).isRequired
+  ).isRequired,
+  onSave: PropTypes.func.isRequired
 };
 
-export default SaveLoadCanvas;
+function mapDispatchToProps(dispatch) {
+  return {
+    onSave: canvases => dispatch(setModal(SAVE_CANVASES, canvases))
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SaveLoadCanvas);

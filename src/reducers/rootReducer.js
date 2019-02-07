@@ -12,7 +12,6 @@ import commands from './commands';
 import properties from './properties';
 import modal from './modals';
 import user from './user';
-import filename from './filename';
 
 import error from './error';
 
@@ -28,8 +27,7 @@ const rootReducer = combineReducers({
   properties,
   error,
   modal,
-  user,
-  filename
+  user
 });
 
 export default rootReducer;
