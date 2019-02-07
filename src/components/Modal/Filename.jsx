@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setFilename } from '../../actions/filename';
+import setFilename from '../../actions/filename';
 
 const getFilename = () => `webjive-layout-${new Date().getTime()}`;
 
@@ -13,7 +13,7 @@ export class Filename extends Component {
   }
 
   componentDidMount = () => {
-    // this.filenameInput.focus();
+    this.filenameInput.current.focus();
   };
 
   handleSaveClick = () => {

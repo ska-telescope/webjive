@@ -9,19 +9,18 @@ export class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
-    this.handleLoadButtonClick = this.handleLoadButtonClick.bind(this);
   }
 
-  handleSaveButtonClick() {
-    const { onSave } = this.props;
-    onSave();
-    const { canvases } = this.props;
-    const data = JSON.stringify(canvases);
-    // fileDownload(data, getFileName(), 'application/json');
-  }
-
-  handleLoadButtonClick() {
+  handleLoadButtonClick = () => {
     console.log('LOAD!');
+  };
+
+  async handleSaveButtonClick() {
+    const { canvases, onSave, filename } = this.props;
+    await onSave();
+    const data = JSON.stringify(canvases);
+    console.log(filename);
+    // fileDownload(data, getFileName(), 'application/json');
   }
 
   render() {
@@ -54,8 +53,15 @@ SaveLoadCanvas.propTypes = {
       widgets: PropTypes.arrayOf(widgetPropType)
     })
   ).isRequired,
-  onSave: PropTypes.func.isRequired
+  onSave: PropTypes.func.isRequired,
+  filename: PropTypes.string
 };
+
+function mapStateToProps({ filename }) {
+  return {
+    filename
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -64,6 +70,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SaveLoadCanvas);
