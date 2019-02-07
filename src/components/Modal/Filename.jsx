@@ -4,17 +4,25 @@ import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setFilename } from '../../actions/filename';
 
+const getFilename = () => `webjive-layout-${new Date().getTime()}`;
+
 export class Filename extends Component {
   constructor(props) {
     super(props);
-    this.handleSaveClick = this.handleSaveClick.bind(this);
+    this.filenameInput = React.createRef();
   }
 
-  handleSaveClick() {
-    const { onSetFilename, closeDialog } = this.props;
-    onSetFilename('NEW FILENAME');
+  componentDidMount = () => {
+    // this.filenameInput.focus();
+  };
+
+  handleSaveClick = () => {
+    const { onSetFilename, closeDialog, filename } = this.props;
+    onSetFilename(
+      this.filenameInput.current.value || filename || this.filenameInput.current.placeholder
+    );
     closeDialog();
-  }
+  };
 
   render() {
     const { closeDialog, filename } = this.props;
@@ -23,12 +31,18 @@ export class Filename extends Component {
         <Modal.Header>
           <Modal.Title>Enter Filename</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{filename}</Modal.Body>
+        <Modal.Body>
+          <input
+            ref={this.filenameInput}
+            className="form-control"
+            placeholder={filename || getFilename()}
+          />
+        </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-outline-secondary" onClick={this.handleSaveClick}>
+          <Button className="btn btn-outline-primary" onClick={this.handleSaveClick}>
             Save
           </Button>
-          <Button className="btn btn-outline-secondary" onClick={closeDialog}>
+          <Button className="btn btn-outline-danger" onClick={closeDialog}>
             Cancel
           </Button>
         </Modal.Footer>
