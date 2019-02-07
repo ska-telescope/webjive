@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import fileDownload from 'js-file-download';
+import { connect } from 'react-redux';
 import { widgetPropType } from '../../../propTypes/propTypes';
+import { setModal } from '../../../actions/modal';
 
-const getFileName = () => `webjive-layout-${new Date().getTime()}`;
-
-export default class SaveLoadCanvas extends Component {
+export class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
@@ -13,9 +13,11 @@ export default class SaveLoadCanvas extends Component {
   }
 
   handleSaveButtonClick() {
+    const { onSave } = this.props;
+    onSave();
     const { canvases } = this.props;
     const data = JSON.stringify(canvases);
-    fileDownload(data, getFileName(), 'application/json');
+    // fileDownload(data, getFileName(), 'application/json');
   }
 
   handleLoadButtonClick() {
@@ -51,5 +53,17 @@ SaveLoadCanvas.propTypes = {
       name: PropTypes.string,
       widgets: PropTypes.arrayOf(widgetPropType)
     })
-  ).isRequired
+  ).isRequired,
+  onSave: PropTypes.func.isRequired
 };
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onSave: () => dispatch(setModal('FILENAME'))
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SaveLoadCanvas);
