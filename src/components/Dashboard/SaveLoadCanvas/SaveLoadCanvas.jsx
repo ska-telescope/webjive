@@ -10,11 +10,7 @@ export class SaveLoadCanvas extends Component {
     this.handleSaveButtonClick = this.handleSaveButtonClick.bind(this);
   }
 
-  handleLoadButtonClick = () => {
-    console.log('LOAD!');
-  };
-
-  async handleSaveButtonClick() {
+  handleSaveButtonClick() {
     const { canvases, onSave } = this.props;
     onSave(JSON.stringify(canvases));
   }
@@ -28,13 +24,6 @@ export class SaveLoadCanvas extends Component {
           onClick={this.handleSaveButtonClick}
         >
           Save Layout
-        </button>
-        <button
-          type="button"
-          className="btn btn-warning btn-sm"
-          onClick={this.handleLoadButtonClick}
-        >
-          Load Layout
         </button>
       </Fragment>
     );
