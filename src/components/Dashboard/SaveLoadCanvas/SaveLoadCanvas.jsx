@@ -1,14 +1,18 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setModal, LOAD_CANVASES } from '../../../actions/modal';
 
-export default class SaveLoadCanvas extends Component {
+export class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
     this.handleLoadClick = this.handleLoadClick.bind(this);
   }
 
   handleLoadClick() {
+    const { onLoad } = this.props;
     if (window.File && window.FileReader && window.FileList && window.Blob) {
-      alert('You can load files');
+      onLoad();
     } else {
       alert('The File APIs are not fully supported in this browser.');
     }
@@ -29,3 +33,22 @@ export default class SaveLoadCanvas extends Component {
     );
   }
 }
+
+SaveLoadCanvas.propTypes = {
+  onLoad: PropTypes.func
+};
+
+SaveLoadCanvas.defaultProps = {
+  onLoad: () => null
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onLoad: () => dispatch(setModal(LOAD_CANVASES, null))
+  };
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SaveLoadCanvas);
