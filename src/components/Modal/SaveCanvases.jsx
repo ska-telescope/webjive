@@ -82,7 +82,13 @@ function mapStateToProps({ filename }) {
   };
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    setFilename: filename => dispatch(actions.setFilename(filename))
+  };
+}
+
 export default connect(
   mapStateToProps,
-  actions
+  mapDispatchToProps
 )(SaveCanvases);

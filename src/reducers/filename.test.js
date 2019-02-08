@@ -9,6 +9,12 @@ describe('Filename reducer', () => {
     expect(result).toEqual(initialState);
   });
 
+  it('returns an empty string when no state is provided', () => {
+    const action = { type: null, payload: null };
+    const result = setFilename(undefined, action);
+    expect(result).toEqual('');
+  });
+
   it('returns the action payload on set filename', () => {
     const payload = 'test string';
     const action = { type: SET_FILENAME, payload };
