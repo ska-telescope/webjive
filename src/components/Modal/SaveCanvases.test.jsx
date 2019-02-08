@@ -1,7 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
-import { SaveCanvases } from './SaveCanvases';
+import ConnectedSaveCanvases, { SaveCanvases } from './SaveCanvases';
+import { SET_FILENAME } from '../../actions/actionTypes';
 
 jest.mock('js-file-download');
 
@@ -34,6 +35,26 @@ describe('SaveCanvases Component', () => {
       const saveButton = wrapper.find('#save-button').first();
       saveButton.simulate('click');
       expect(clickHandler).toHaveBeenCalled();
+    });
+  });
+
+  describe('Filename Input', () => {
+    it('should trigger the filename action on value change', () => {
+      const wrapper = mount(<ConnectedSaveCanvases store={store} />);
+      const filenameInput = wrapper.find('#filename-input');
+      filenameInput.simulate('change', { value: 'test' });
+      const actions = store.getActions();
+      const expectedAction = { type: SET_FILENAME };
+      expect(actions).toHaveLength(1);
+      expect(actions.pop()).toMatchObject(expectedAction);
+    });
+
+    it('should call setFilename on change', () => {
+      const mockFunction = jest.fn();
+      const wrapper = mount(<SaveCanvases setFilename={mockFunction} />);
+      const filenameInput = wrapper.find('#filename-input');
+      filenameInput.simulate('change', { value: 'test' });
+      expect(mockFunction).toHaveBeenCalled();
     });
   });
 });

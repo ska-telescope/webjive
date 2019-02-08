@@ -44,6 +44,7 @@ export class SaveCanvases extends Component {
         </Modal.Header>
         <Modal.Body>
           <input
+            id="filename-input"
             ref={this.filenameInput}
             className="form-control"
             placeholder={filename || getFilename()}
