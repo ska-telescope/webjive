@@ -1,54 +1,30 @@
 import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { setModal, LOAD_CANVASES } from '../../../actions/modal';
+import { Button } from 'react-bootstrap';
+import Files from 'react-files';
 
-export class SaveLoadCanvas extends Component {
+export default class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
-    this.handleLoadClick = this.handleLoadClick.bind(this);
+    this.onFilesChange = this.onFilesChange.bind(this);
   }
 
-  handleLoadClick() {
-    const { onLoad } = this.props;
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-      onLoad();
-    } else {
-      alert('The File APIs are not fully supported in this browser.');
-    }
+  onFilesChange(files) {
+    console.log(files);
   }
 
   render() {
     return (
       <Fragment>
-        <button
-          id="load-button"
-          type="button"
-          className="btn btn-primary btn-sm"
-          onClick={this.handleLoadClick}
+        <Files
+          onChange={this.onFilesChange}
+          accepts={['application/json']}
+          maxFileSize={10000000}
+          minFileSize={0}
+          clickable
         >
-          Load Layout
-        </button>
+          <Button className="btn btn-sm btn-primary">Load Layout</Button>
+        </Files>
       </Fragment>
     );
   }
 }
-
-SaveLoadCanvas.propTypes = {
-  onLoad: PropTypes.func
-};
-
-SaveLoadCanvas.defaultProps = {
-  onLoad: () => null
-};
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onLoad: () => dispatch(setModal(LOAD_CANVASES, null))
-  };
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(SaveLoadCanvas);

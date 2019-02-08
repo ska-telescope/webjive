@@ -11,4 +11,3 @@ export function clearModal() {
 export const CREATE_PROPERTY = 'CREATE_PROPERTY';
 export const EDIT_PROPERTY = 'EDIT_PROPERTY';
 export const DELETE_PROPERTY = 'DELETE_PROPERTY';
-export const LOAD_CANVASES = 'LOAD_CANVASES';
