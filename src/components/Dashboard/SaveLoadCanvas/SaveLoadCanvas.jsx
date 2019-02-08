@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Button } from 'react-bootstrap';
 import Files from 'react-files';
 
+let fileReader;
+
 export default class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
@@ -9,8 +11,15 @@ export default class SaveLoadCanvas extends Component {
   }
 
   onFilesChange(files) {
-    console.log(files);
+    fileReader = new FileReader();
+    fileReader.onloadend = this.handleFileRead;
+    fileReader.readAsText(files[0]);
   }
+
+  handleFileRead = () => {
+    const content = fileReader.result;
+    console.log(content);
+  };
 
   render() {
     return (
