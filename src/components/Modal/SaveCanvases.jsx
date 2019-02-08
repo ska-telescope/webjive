@@ -63,10 +63,17 @@ class SaveCanvases extends Component {
 }
 
 SaveCanvases.propTypes = {
-  canvases: PropTypes.string.isRequired,
-  closeDialog: PropTypes.func.isRequired,
+  canvases: PropTypes.string,
+  closeDialog: PropTypes.func,
   filename: PropTypes.string,
-  setFilename: PropTypes.func.isRequired
+  setFilename: PropTypes.func
+};
+
+SaveCanvases.defaultProps = {
+  canvases: '',
+  closeDialog: () => null,
+  filename: '',
+  setFilename: () => null
 };
 
 function mapStateToProps({ filename }) {
