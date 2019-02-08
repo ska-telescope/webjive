@@ -3,6 +3,8 @@ import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { SaveCanvases } from './SaveCanvases';
 
+jest.mock('js-file-download');
+
 const mockStore = configureMockStore();
 const store = mockStore();
 
