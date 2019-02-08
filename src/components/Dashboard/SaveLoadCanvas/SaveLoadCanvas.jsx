@@ -19,6 +19,7 @@ export class SaveLoadCanvas extends Component {
     return (
       <Fragment>
         <button
+          id="save-button"
           type="button"
           className="btn btn-primary btn-sm"
           onClick={this.handleSaveButtonClick}
@@ -37,8 +38,13 @@ SaveLoadCanvas.propTypes = {
       name: PropTypes.string,
       widgets: PropTypes.arrayOf(widgetPropType)
     })
-  ).isRequired,
-  onSave: PropTypes.func.isRequired
+  ),
+  onSave: PropTypes.func
+};
+
+SaveLoadCanvas.defaultProps = {
+  canvases: null,
+  onSave: () => null
 };
 
 function mapDispatchToProps(dispatch) {
