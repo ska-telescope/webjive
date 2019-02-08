@@ -7,10 +7,11 @@ import * as actions from '../../actions/filename';
 
 const getFilename = () => `webjive-layout-${new Date().getTime()}`;
 
-class SaveCanvases extends Component {
+export class SaveCanvases extends Component {
   constructor(props) {
     super(props);
     this.filenameInput = React.createRef();
+    this.handleSaveClick = this.handleSaveClick.bind(this);
   }
 
   componentDidMount = () => {
@@ -22,7 +23,7 @@ class SaveCanvases extends Component {
     setFilename(this.filenameInput.current.value || this.filenameInput.current.placeholder);
   };
 
-  handleSaveClick = () => {
+  handleSaveClick() {
     const { canvases, closeDialog, filename } = this.props;
     fileDownload(
       canvases,
@@ -32,7 +33,7 @@ class SaveCanvases extends Component {
       'application/json'
     );
     closeDialog();
-  };
+  }
 
   render() {
     const { filename, closeDialog } = this.props;
@@ -50,10 +51,14 @@ class SaveCanvases extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-outline-secondary" onClick={this.handleSaveClick}>
+          <Button
+            id="save-button"
+            className="btn btn-outline-secondary"
+            onClick={this.handleSaveClick}
+          >
             Save
           </Button>
-          <Button className="btn btn-outline-secondary" onClick={closeDialog}>
+          <Button id="cancel-button" className="btn btn-outline-secondary" onClick={closeDialog}>
             Cancel
           </Button>
         </Modal.Footer>
