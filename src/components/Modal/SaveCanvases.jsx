@@ -11,9 +11,6 @@ class SaveCanvases extends Component {
   constructor(props) {
     super(props);
     this.filenameInput = React.createRef();
-    this.state = {
-      filename: getFilename()
-    };
   }
 
   componentDidMount = () => {
@@ -26,15 +23,19 @@ class SaveCanvases extends Component {
   };
 
   handleSaveClick = () => {
-    const { canvases, closeDialog } = this.props;
-    const { filename } = this.state;
-    fileDownload(canvases, `${filename}.json`, 'application/json');
+    const { canvases, closeDialog, filename } = this.props;
+    fileDownload(
+      canvases,
+      `${filename ||
+        this.filenameInput.current.value ||
+        this.filenameInput.current.placeholder}.json`,
+      'application/json'
+    );
     closeDialog();
   };
 
   render() {
-    const { closeDialog } = this.props;
-    const { filename } = this.state;
+    const { filename, closeDialog } = this.props;
     return (
       <Modal.Dialog>
         <Modal.Header>
@@ -44,7 +45,7 @@ class SaveCanvases extends Component {
           <input
             ref={this.filenameInput}
             className="form-control"
-            placeholder={filename}
+            placeholder={filename || getFilename()}
             onChange={this.handleFilenameChange}
           />
         </Modal.Body>
@@ -62,8 +63,9 @@ class SaveCanvases extends Component {
 }
 
 SaveCanvases.propTypes = {
-  closeDialog: PropTypes.func.isRequired,
   canvases: PropTypes.string.isRequired,
+  closeDialog: PropTypes.func.isRequired,
+  filename: PropTypes.string,
   setFilename: PropTypes.func.isRequired
 };
 
