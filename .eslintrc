@@ -9,6 +9,8 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"],
-    "react/jsx-one-expression-per-line": false
+    "react/jsx-one-expression-per-line": false,
+    "linebreak-style": 0,
+    "import/no-named-as-default": false
   }
 }
