@@ -14,7 +14,7 @@ export default class SaveLoadCanvas extends Component {
   onFilesChange(files) {
     fileReader = new FileReader();
     fileReader.onloadend = this.handleFileRead;
-    fileReader.readAsText(files[0]);
+    fileReader.readAsText(files.pop());
   }
 
   handleFileRead = () => {
