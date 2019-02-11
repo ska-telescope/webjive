@@ -24,7 +24,7 @@ export class SaveLoadCanvas extends Component {
           className="btn btn-primary btn-sm"
           onClick={this.handleSaveButtonClick}
         >
-          Save Layout
+          <i className="fa fa-download" /> Save Layout
         </button>
       </Fragment>
     );
