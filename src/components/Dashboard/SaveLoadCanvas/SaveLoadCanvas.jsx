@@ -25,15 +25,19 @@ export default class SaveLoadCanvas extends Component {
 
   render() {
     return (
-      <Files
-        onChange={this.onFilesChange}
-        accepts={['application/json']}
-        maxFileSize={10000000}
-        minFileSize={0}
-        clickable
-      >
-        <Button className="btn btn-sm btn-primary">Load Layout</Button>
-      </Files>
+      <div className="btn-group">
+        <Files
+          onChange={this.onFilesChange}
+          accepts={['application/json']}
+          maxFileSize={10000000}
+          minFileSize={0}
+          clickable
+        >
+          <Button className="btn btn-primary">
+            <i className="fa fa-upload" /> Load Layout
+          </Button>
+        </Files>
+      </div>
     );
   }
 }
