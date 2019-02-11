@@ -82,6 +82,11 @@ class Dashboard extends Component {
     this.handleLoadCanvases = this.handleLoadCanvases.bind(this);
   }
 
+  setHistory(canvases) {
+    const { history } = this.props;
+    history.replace(`?c=${encodeURI(JSON.stringify(canvases))}`);
+  }
+
   toggleMode() {
     let { mode } = this.state;
     mode = { edit: 'run', run: 'edit' }[mode];
@@ -132,7 +137,6 @@ class Dashboard extends Component {
   }
 
   updateWidgets(widgets, widgetIndex) {
-    const { history } = this.props;
     const { selectedCanvasIndex } = this.state;
     let { canvases, selectedWidgetIndex } = this.state;
     selectedWidgetIndex = widgetIndex != null ? widgetIndex : selectedWidgetIndex;
@@ -140,8 +144,7 @@ class Dashboard extends Component {
     const canvas = { ...canvases[selectedCanvasIndex], widgets };
     canvases[selectedCanvasIndex] = canvas;
     this.setState({ canvases, selectedWidgetIndex });
-    const c = encodeURI(JSON.stringify(canvases));
-    history.replace(`?c=${c}`);
+    this.setHistory(canvases);
   }
 
   // Convenience method used by handler methods
@@ -175,6 +178,7 @@ class Dashboard extends Component {
   }
 
   handleLoadCanvases(canvases) {
+    this.setHistory(canvases);
     this.setState({ canvases });
   }
 

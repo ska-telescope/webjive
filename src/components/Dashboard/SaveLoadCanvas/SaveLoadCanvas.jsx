@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import Files from 'react-files';
@@ -25,17 +25,15 @@ export default class SaveLoadCanvas extends Component {
 
   render() {
     return (
-      <Fragment>
-        <Files
-          onChange={this.onFilesChange}
-          accepts={['application/json']}
-          maxFileSize={10000000}
-          minFileSize={0}
-          clickable
-        >
-          <Button className="btn btn-sm btn-primary">Load Layout</Button>
-        </Files>
-      </Fragment>
+      <Files
+        onChange={this.onFilesChange}
+        accepts={['application/json']}
+        maxFileSize={10000000}
+        minFileSize={0}
+        clickable
+      >
+        <Button className="btn btn-sm btn-primary">Load Layout</Button>
+      </Files>
     );
   }
 }
