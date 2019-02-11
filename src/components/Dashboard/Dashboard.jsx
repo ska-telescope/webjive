@@ -215,39 +215,45 @@ class Dashboard extends Component {
 
     return (
       <div className="Dashboard">
-        <div className="TopBar">
-          <button
-            type="button"
-            onClick={this.toggleMode}
-            style={{ fontSize: 'small', padding: '0.5em', width: '2em' }}
-            className={classNames('form-control fa', {
-              'fa-play': mode === 'edit',
-              'fa-pause': mode === 'run'
-            })}
-            disabled={!this.isRootCanvas()}
-          />
-          <select
-            className="form-control"
-            style={{
-              marginLeft: '0.5em',
-              width: 'auto',
-              height: 'auto',
-              display: 'inline'
-            }}
-            onChange={this.handleChangeCanvas}
-          >
-            {canvases.map((canvas, i) => (
-              <option key={i} value={i}>
-                {i === 0 ? 'Root' : canvas.name}
-              </option>
-            ))}
-          </select>
-          {false && (
-            <button type="button" onClick={() => alert(JSON.stringify(canvases))}>
-              Dump
-            </button>
-          )}
-          <SaveLoadCanvas onLoadFile={this.handleLoadCanvases} />
+        <div className="TopBar row align-items-center justify-content-start">
+          <div className="col-sm-auto">
+            <select
+              className="form-control"
+              // style={{
+              //   marginLeft: '0.5em',
+              //   width: 'auto',
+              //   height: 'auto',
+              //   display: 'inline'
+              // }}
+              onChange={this.handleChangeCanvas}
+            >
+              {canvases.map((canvas, i) => (
+                <option key={i} value={i}>
+                  {i === 0 ? 'Root' : canvas.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-sm-1">
+            <button
+              type="button"
+              onClick={this.toggleMode}
+              // style={{ fontSize: 'small', padding: '0.5em', width: '2em' }}
+              className={classNames('btn fa', {
+                'fa-play btn-success': mode === 'edit',
+                'fa-pause btn-warning': mode === 'run'
+              })}
+              disabled={!this.isRootCanvas()}
+            />
+          </div>
+          <div className="col">
+            {false && (
+              <button type="button" onClick={() => alert(JSON.stringify(canvases))}>
+                Dump
+              </button>
+            )}
+            <SaveLoadCanvas onLoadFile={this.handleLoadCanvases} />
+          </div>
         </div>
         {mode === 'edit' ? (
           <EditCanvas
