@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import Files from 'react-files';
 
@@ -17,8 +18,9 @@ export default class SaveLoadCanvas extends Component {
   }
 
   handleFileRead = () => {
+    const { onLoadFile } = this.props;
     const content = fileReader.result;
-    console.log(content);
+    onLoadFile(JSON.parse(content));
   };
 
   render() {
@@ -37,3 +39,7 @@ export default class SaveLoadCanvas extends Component {
     );
   }
 }
+
+SaveLoadCanvas.propTypes = {
+  onLoadFile: PropTypes.func.isRequired
+};

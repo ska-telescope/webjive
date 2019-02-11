@@ -79,6 +79,7 @@ class Dashboard extends Component {
     this.handleDeviceChange = this.handleDeviceChange.bind(this);
     this.handleAttributeChange = this.handleAttributeChange.bind(this);
     this.handleChangeCanvas = this.handleChangeCanvas.bind(this);
+    this.handleLoadCanvases = this.handleLoadCanvases.bind(this);
   }
 
   toggleMode() {
@@ -173,6 +174,10 @@ class Dashboard extends Component {
     this.updateWidget(index, newPos);
   }
 
+  handleLoadCanvases(canvases) {
+    this.setState({ canvases });
+  }
+
   handleDeviceChange(device) {
     const { selectedWidgetIndex } = this.state;
     this.updateWidget(selectedWidgetIndex, { device });
@@ -238,7 +243,7 @@ class Dashboard extends Component {
               Dump
             </button>
           )}
-          <SaveLoadCanvas />
+          <SaveLoadCanvas onLoadFile={this.handleLoadCanvases} />
         </div>
         {mode === 'edit' ? (
           <EditCanvas
