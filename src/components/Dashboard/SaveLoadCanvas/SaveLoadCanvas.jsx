@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import Files from 'react-files';
 
-let fileReader;
-
-export default class SaveLoadCanvas extends Component {
+class SaveLoadCanvas extends Component {
   constructor(props) {
     super(props);
     this.onFilesChange = this.onFilesChange.bind(this);
+    this.fileReader = null;
   }
 
   onFilesChange(files) {
-    fileReader = new FileReader();
-    fileReader.onloadend = this.handleFileRead;
-    fileReader.readAsText(files.pop());
+    this.fileReader = new FileReader();
+    this.fileReader.onloadend = this.handleFileRead;
+    if (files) this.fileReader.readAsText(files.pop());
   }
 
   handleFileRead = () => {
     const { onLoadFile } = this.props;
-    const content = fileReader.result;
+    const content = this.fileReader.result;
     onLoadFile(JSON.parse(content));
   };
 
@@ -33,7 +32,7 @@ export default class SaveLoadCanvas extends Component {
           minFileSize={0}
           clickable
         >
-          <Button className="btn btn-primary">
+          <Button id="load-button" className="btn btn-primary">
             <i className="fa fa-upload" /> Load Layout
           </Button>
         </Files>
@@ -45,3 +44,5 @@ export default class SaveLoadCanvas extends Component {
 SaveLoadCanvas.propTypes = {
   onLoadFile: PropTypes.func.isRequired
 };
+
+export default SaveLoadCanvas;
