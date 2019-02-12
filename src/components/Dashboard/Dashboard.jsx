@@ -54,7 +54,7 @@ export function expandToGrid(val) {
   return val + (GRID_TILE_SIZE - (val % GRID_TILE_SIZE));
 }
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
   constructor(props) {
     super(props);
     const { location } = props;
@@ -84,7 +84,8 @@ class Dashboard extends Component {
 
   setHistory(canvases) {
     const { history } = this.props;
-    history.replace(`?c=${encodeURI(JSON.stringify(canvases))}`);
+    const c = encodeURI(JSON.stringify(canvases));
+    history.replace(`?c=${c}`);
   }
 
   toggleMode() {
