@@ -53,10 +53,17 @@ describe('Dashboard component', () => {
   });
 
   describe('handleLoadCanvases', () => {
+    it('fails if the file loaded is invalid', () => {
+      const badCanvases = [{}];
+      const setHistory = jest.spyOn(Dashboard.prototype, 'setHistory');
+      wrapper.instance().handleLoadCanvases(badCanvases);
+      expect(setHistory).not.toHaveBeenCalled();
+    });
+
     it('calls setHistory', () => {
       const setHistory = jest.spyOn(Dashboard.prototype, 'setHistory');
       wrapper.instance().handleLoadCanvases(canvases);
-      expect(setHistory).toHaveBeenCalled();
+      expect(setHistory).toHaveBeenCalledWith(canvases);
     });
 
     it('sets the canvases in state', () => {

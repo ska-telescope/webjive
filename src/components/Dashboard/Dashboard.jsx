@@ -179,6 +179,14 @@ export class Dashboard extends Component {
   }
 
   handleLoadCanvases(canvases) {
+    if (
+      !canvases[0] ||
+      !Object.hasOwnProperty.call(canvases[0], 'id') ||
+      !Object.hasOwnProperty.call(canvases[0], 'widgets')
+    ) {
+      alert('Invalid file.');
+      return;
+    }
     this.setHistory(canvases);
     this.setState({ canvases });
   }
