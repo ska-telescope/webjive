@@ -3,6 +3,7 @@ import { shape, number, string, arrayOf, func, object, instanceOf } from 'prop-t
 export const widgetPropType = shape({
   attribute: string,
   device: string,
+  command: string,
   params: object,
   type: string,
   date: instanceOf(Date),

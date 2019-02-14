@@ -12,11 +12,13 @@ export default class Inspector extends Component {
     super(props);
     this.state = {
       deviceNames: [], // Should be lifted out to higher component in order to reduce data fetching
-      attributes: []
+      attributes: [],
+      commands: []
     };
 
     this.handleSelectDevice = this.handleSelectDevice.bind(this);
     this.handleSelectAttribute = this.handleSelectAttribute.bind(this);
+    this.handleSelectCommand = this.handleSelectCommand.bind(this);
     this.gqlClient = createGQLClient({ url: '/db ' });
   }
 
@@ -42,6 +44,7 @@ export default class Inspector extends Component {
     const { widget } = this.props;
     if (widget != null && widget.device != null) {
       this.fetchAttributes(widget.device);
+      this.fetchCommands(widget.device);
     }
   }
 
@@ -54,6 +57,7 @@ export default class Inspector extends Component {
 
     if (newDevice && newDevice !== oldDevice) {
       this.fetchAttributes(newDevice);
+      this.fetchCommands(newDevice);
     }
   }
 
@@ -66,7 +70,10 @@ export default class Inspector extends Component {
     const { onAttributeChange } = this.props;
     onAttributeChange(event.target.value);
   }
-
+  handleSelectCommand(event) {
+    const { onCommandChange } = this.props;
+    onCommandChange(event.target.value);
+  }
   fetchAttributes(device) {
     this.setState({
       attributes: []
@@ -90,7 +97,28 @@ export default class Inspector extends Component {
       .catch(() => [])
       .then(attributes => this.setState({ attributes }));
   }
+  fetchCommands(device) {
+    this.setState({
+      commands: []
+    });
 
+    this.callServiceGraphQL(
+      `
+      query FetchNames($device: String!) {
+        device(name: $device) {
+          commands {
+            name
+            
+           }
+        }
+      }
+  `,
+      { device }
+    )
+      .then(res => res.data.device.commands)
+      .catch(() => [])
+      .then(commands => this.setState({ commands }));
+  }
   inputForParam(param, value) {
     const {
       onParamChange,
@@ -162,7 +190,11 @@ export default class Inspector extends Component {
         return numericTypes.indexOf(datatype) !== -1;
       });
   }
-
+  filteredCommands(definition) {
+    const { commands } = this.state;
+    return commands;
+        
+  }
   render() {
     const { widget, widgetDefinitions } = this.props;
 
@@ -170,7 +202,7 @@ export default class Inspector extends Component {
       return null;
     }
 
-    const { type, params, device, attribute } = widget;
+    const { type, params, device, attribute, command } = widget;
     const definition = getWidgetDefinition(widgetDefinitions, type);
     const { fields } = definition;
     const paramDefinitions = definition.params;
@@ -202,10 +234,37 @@ export default class Inspector extends Component {
           ))}
         </select>
       );
-
+      const commandChooser =
+      device === '__parent__' ? (
+        <input
+          className="form-control"
+          type="text"
+          value={command || ''}
+          onChange={this.handleSelectCommand}
+        />
+      ) : (
+        <select
+          className="form-control"
+          value={command || ''}
+          onChange={this.handleSelectCommand}
+          disabled={device == null}
+        >
+          {command == null && (
+            <option value="" disabled>
+              {device ? 'None' : 'Select Device First'}
+            </option>
+          )}
+          {this.filteredCommands(definition).map(({ name }) => (
+            <option key={`${name}${new Date().getTime()}`} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+      );
     const fieldTypes = fields.map(field => field.type);
     const { isRootCanvas } = this.props;
     const { deviceNames } = this.state;
+  
     return (
       <div className="Inspector">
         <h1>Inspector</h1>
@@ -242,6 +301,12 @@ export default class Inspector extends Component {
                   <td>{attributeChooser}</td>
                 </tr>
               )}
+  
+                <tr>
+                  <td>Command:</td>
+                  <td>{commandChooser}</td>
+                </tr>
+              
             </tbody>
           </table>
         )}
@@ -265,6 +330,7 @@ Inspector.propTypes = {
   isRootCanvas: PropTypes.bool,
   onAttributeChange: PropTypes.func.isRequired,
   onDeviceChange: PropTypes.func.isRequired,
+  onCommandChange: PropTypes.func.isRequired,
   onParamChange: PropTypes.func.isRequired,
   widget: widgetPropType.isRequired,
   widgetDefinitions: PropTypes.arrayOf(widgetDefinitionPropType).isRequired
