@@ -141,7 +141,7 @@ export default class RunCanvas extends Component {
         {widgets.map((widget, i) => {
           const definition = this.definitionForWidget(widget);
           const Widget = definition.component;
-          const { x, y, device, attribute, params } = widget;
+          const { x, y, device, attribute, command, params } = widget;
           const value = this.valueForModel(device, attribute);
           const time = this.timeForModel(device, attribute);
 
@@ -154,6 +154,7 @@ export default class RunCanvas extends Component {
                   mode="run"
                   device={device}
                   attribute={attribute}
+                  command={command}
                   value={value}
                   time={time}
                   params={params}

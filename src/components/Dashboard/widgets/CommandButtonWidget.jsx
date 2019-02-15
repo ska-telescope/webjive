@@ -12,7 +12,7 @@ export class CommandButtonWidget extends Component {
   handleClick() {
     const { command, device, mode, params, executeCommand } = this.props;
     if (mode === 'run') {
-    executeCommand(params.cmd, params.value, device);
+      executeCommand(command, params.value, device);
     }
   }
 
@@ -22,7 +22,7 @@ export class CommandButtonWidget extends Component {
     console.log('Device' + device);
     return (
       <button className="btn btn-primary" type="button" onClick={this.handleClick}>
-        Set {device || 'device'} {params.cmd || 'command'}
+        Set {device || 'device'} {command || 'command'}
         {params.value !== null ? ` ${params.value}` : null}
       </button>
     );
@@ -33,7 +33,7 @@ CommandButtonWidget.propTypes = {
   mode: PropTypes.string,
   device: PropTypes.string,
   command: PropTypes.string,
-  params: PropTypes.shape({ cmd: PropTypes.string,  value: PropTypes.string }),
+  params: PropTypes.shape({ cmd: PropTypes.string, value: PropTypes.string }),
   executeCommand: PropTypes.func
 };
 
@@ -41,10 +41,9 @@ CommandButtonWidget.defaultProps = {
   mode: 'library',
   device: '',
   command: '',
-  params: {cmd:null, value: null },
-//  executeCommand: (command, value, device)=> `${command} ${value} ${device}`
-  executeCommand: (cmd, value, device)=> `${cmd} ${value} ${device}`
-
+  params: { cmd: null, value: null },
+  //  executeCommand: (command, value, device)=> `${command} ${value} ${device}`
+  executeCommand: (cmd, value, device) => `${cmd} ${value} ${device}`
 };
 
 export default connect(
