@@ -169,13 +169,7 @@ export const WIDGET_DEFINITIONS = [
       'device', 'command'
      ],
     params: [
-      {
-        name: 'cmd',
-        type: 'string',
-        default: '',
-        description: 'Type the selected command here ' 
-      },
-      {
+     {
         name: 'value',
         type: 'string',
         default: '',

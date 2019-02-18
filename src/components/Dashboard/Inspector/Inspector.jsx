@@ -301,12 +301,12 @@ export default class Inspector extends Component {
                   <td>{attributeChooser}</td>
                 </tr>
               )}
-  
+              {fieldTypes.indexOf('command') !== -1 && (   
                 <tr>
                   <td>Command:</td>
                   <td>{commandChooser}</td>
                 </tr>
-              
+              )}
             </tbody>
           </table>
         )}
