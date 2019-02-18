@@ -54,7 +54,7 @@ export function expandToGrid(val) {
   return val + (GRID_TILE_SIZE - (val % GRID_TILE_SIZE));
 }
 
-class Dashboard extends Component {
+export class Dashboard extends Component {
   constructor(props) {
     super(props);
     const { location } = props;
@@ -79,6 +79,13 @@ class Dashboard extends Component {
     this.handleDeviceChange = this.handleDeviceChange.bind(this);
     this.handleAttributeChange = this.handleAttributeChange.bind(this);
     this.handleChangeCanvas = this.handleChangeCanvas.bind(this);
+    this.handleLoadCanvases = this.handleLoadCanvases.bind(this);
+  }
+
+  setHistory(canvases) {
+    const { history } = this.props;
+    const c = encodeURI(JSON.stringify(canvases));
+    history.replace(`?c=${c}`);
   }
 
   toggleMode() {
@@ -131,7 +138,6 @@ class Dashboard extends Component {
   }
 
   updateWidgets(widgets, widgetIndex) {
-    const { history } = this.props;
     const { selectedCanvasIndex } = this.state;
     let { canvases, selectedWidgetIndex } = this.state;
     selectedWidgetIndex = widgetIndex != null ? widgetIndex : selectedWidgetIndex;
@@ -139,8 +145,7 @@ class Dashboard extends Component {
     const canvas = { ...canvases[selectedCanvasIndex], widgets };
     canvases[selectedCanvasIndex] = canvas;
     this.setState({ canvases, selectedWidgetIndex });
-    const c = encodeURI(JSON.stringify(canvases));
-    history.replace(`?c=${c}`);
+    this.setHistory(canvases);
   }
 
   // Convenience method used by handler methods
@@ -171,6 +176,19 @@ class Dashboard extends Component {
       y: Math.max(0, roundToGrid(proposedPos.y))
     };
     this.updateWidget(index, newPos);
+  }
+
+  handleLoadCanvases(canvases) {
+    if (
+      !canvases[0] ||
+      !Object.hasOwnProperty.call(canvases[0], 'id') ||
+      !Object.hasOwnProperty.call(canvases[0], 'widgets')
+    ) {
+      alert('Invalid file.');
+      return;
+    }
+    this.setHistory(canvases);
+    this.setState({ canvases });
   }
 
   handleDeviceChange(device) {
@@ -206,39 +224,33 @@ class Dashboard extends Component {
 
     return (
       <div className="Dashboard">
-        <div className="TopBar">
-          <button
-            type="button"
-            onClick={this.toggleMode}
-            style={{ fontSize: 'small', padding: '0.5em', width: '2em' }}
-            className={classNames('form-control fa', {
-              'fa-play': mode === 'edit',
-              'fa-pause': mode === 'run'
-            })}
-            disabled={!this.isRootCanvas()}
-          />
-          <select
-            className="form-control"
-            style={{
-              marginLeft: '0.5em',
-              width: 'auto',
-              height: 'auto',
-              display: 'inline'
-            }}
-            onChange={this.handleChangeCanvas}
-          >
-            {canvases.map((canvas, i) => (
-              <option key={i} value={i}>
-                {i === 0 ? 'Root' : canvas.name}
-              </option>
-            ))}
-          </select>
+        <div className="TopBar btn-toolbar">
+          <div className="input-group mr-2">
+            <select className="form-control" onChange={this.handleChangeCanvas}>
+              {canvases.map((canvas, i) => (
+                <option key={i} value={i}>
+                  {i === 0 ? 'Root' : canvas.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="btn-group mr-2">
+            <button
+              type="button"
+              onClick={this.toggleMode}
+              className={classNames('btn fa', {
+                'fa-play btn-success': mode === 'edit',
+                'fa-pause btn-warning': mode === 'run'
+              })}
+              disabled={!this.isRootCanvas()}
+            />
+          </div>
           {false && (
             <button type="button" onClick={() => alert(JSON.stringify(canvases))}>
               Dump
             </button>
           )}
-          <SaveLoadCanvas canvases={canvases} />
+          <SaveLoadCanvas canvases={canvases} onLoadFile={this.handleLoadCanvases} />
         </div>
         {mode === 'edit' ? (
           <EditCanvas
@@ -285,12 +297,12 @@ class Dashboard extends Component {
 /* eslint-disable react/forbid-prop-types */
 
 Dashboard.propTypes = {
-  history: PropTypes.object,
+  history: PropTypes.string,
   location: PropTypes.shape({ search: PropTypes.string })
 };
 
 Dashboard.defaultProps = {
-  history: null,
+  history: '',
   location: { search: '' }
 };
 
