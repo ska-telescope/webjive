@@ -108,21 +108,10 @@ class MiniCanvas extends Component {
   }
 }
 
+/* eslint-disable react/forbid-prop-types */
+
 MiniCanvas.propTypes = {
-  attributes: PropTypes.arrayOf(
-    PropTypes.shape({
-      dataformat: PropTypes.string,
-      datatype: PropTypes.string,
-      description: PropTypes.string,
-      displevel: PropTypes.string,
-      maxvalue: PropTypes.any,
-      minvalue: PropTypes.any,
-      name: PropTypes.string,
-      quality: PropTypes.string,
-      value: PropTypes.any, // possibly PropTypes.oneOfType(...)
-      writable: PropTypes.string
-    })
-  ).isRequired,
+  attributes: PropTypes.any,
   device: PropTypes.string,
   mode: PropTypes.string,
   widgets: PropTypes.arrayOf(widgetPropType)
@@ -130,6 +119,7 @@ MiniCanvas.propTypes = {
 
 MiniCanvas.defaultProps = {
   device: '',
+  attributes: null,
   mode: 'edit',
   widgets: []
 };
