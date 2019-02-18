@@ -250,7 +250,7 @@ export class Dashboard extends Component {
               Dump
             </button>
           )}
-          <SaveLoadCanvas onLoadFile={this.handleLoadCanvases} />
+          <SaveLoadCanvas canvases={canvases} onLoadFile={this.handleLoadCanvases} />
         </div>
         {mode === 'edit' ? (
           <EditCanvas
@@ -293,6 +293,8 @@ export class Dashboard extends Component {
     );
   }
 }
+
+/* eslint-disable react/forbid-prop-types */
 
 Dashboard.propTypes = {
   history: PropTypes.string,

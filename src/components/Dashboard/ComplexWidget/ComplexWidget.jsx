@@ -3,30 +3,19 @@ import PropTypes from 'prop-types';
 import MiniCanvas from './MiniCanvas';
 
 /* eslint-disable react/prefer-stateless-function */
+/* eslint-disable react/forbid-prop-types */
 
 function complexWidgetComponent(canvas) {
   return class ComplexWidget extends Component {
     static propTypes = {
       device: PropTypes.string,
-      attributes: PropTypes.arrayOf(
-        PropTypes.shape({
-          dataformat: PropTypes.string,
-          datatype: PropTypes.string,
-          description: PropTypes.string,
-          displevel: PropTypes.string,
-          maxvalue: PropTypes.any,
-          minvalue: PropTypes.any,
-          name: PropTypes.string,
-          quality: PropTypes.string,
-          value: PropTypes.any, // possibly PropTypes.oneOfType(...)
-          writable: PropTypes.string
-        })
-      ).isRequired,
+      attributes: PropTypes.any,
       mode: PropTypes.string
     };
 
     static defaultProps = {
       device: '',
+      attributes: null,
       mode: 'edit'
     };
 
