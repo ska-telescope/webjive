@@ -12,7 +12,7 @@ export const widgetPropType = shape({
 
 export const widgetDefinitionPropType = shape({
   component: func,
-  fields: arrayOf(string),
+  fields: arrayOf(object),
   name: string,
   params: arrayOf(object),
   type: string
