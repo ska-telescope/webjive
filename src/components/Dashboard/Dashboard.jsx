@@ -15,6 +15,7 @@ import { WIDGET_DEFINITIONS, normalizeWidgetDefinitions } from './widgets/widget
 import complexWidgetDefinition from './ComplexWidget/ComplexWidget';
 
 import './Dashboard.css';
+import SaveLoadCanvas from './SaveLoadCanvas/SaveLoadCanvas';
 
 /* eslint-disable react/no-array-index-key */
 
@@ -237,6 +238,7 @@ class Dashboard extends Component {
               Dump
             </button>
           )}
+          <SaveLoadCanvas canvases={canvases} />
         </div>
         {mode === 'edit' ? (
           <EditCanvas

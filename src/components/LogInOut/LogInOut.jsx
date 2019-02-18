@@ -36,7 +36,7 @@ const LogInOut = ({ awaitingResponse, isLoggedIn, onLogin, onLogout, username })
           Not logged in.{' '}
           <button
             type="button"
-            className="btn btn-primary btn-sm"
+            className="btn btn-outline-primary btn-sm"
             href="#"
             onClick={e => {
               e.preventDefault();
