@@ -14,10 +14,10 @@ const DeviceName = ({ device, mode }) => {
 };
 
 DeviceName.propTypes = {
-  device: PropTypes.string.isRequired,
+  device: PropTypes.string,
   mode: PropTypes.string
 };
 
-DeviceName.defaultProps = { mode: 'edit' };
+DeviceName.defaultProps = { device: '', mode: 'edit' };
 
 export default DeviceName;

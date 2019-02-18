@@ -159,6 +159,7 @@ class DeviceList extends Component {
         return (
           <div
             role="button"
+            key={key}
             onClick={this.handleToggleFamily.bind(null, domain, family)}
             onKeyPress={this.handleToggleFamily.bind(null, domain, family)}
             tabIndex="0"

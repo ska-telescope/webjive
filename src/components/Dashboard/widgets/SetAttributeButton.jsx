@@ -31,7 +31,7 @@ SetAttributeButton.propTypes = {
   mode: PropTypes.string,
   device: PropTypes.string,
   attribute: PropTypes.string,
-  params: PropTypes.shape({ value: PropTypes.number }),
+  params: PropTypes.shape({ value: PropTypes.node }),
   setDeviceAttribute: PropTypes.func
 };
 

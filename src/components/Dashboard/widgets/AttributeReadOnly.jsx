@@ -46,20 +46,23 @@ const AttributeReadOnly = ({
 };
 
 AttributeReadOnly.propTypes = {
-  attribute: PropTypes.string.isRequired,
-  device: PropTypes.string.isRequired,
+  attribute: PropTypes.string,
+  device: PropTypes.string,
   mode: PropTypes.string,
   params: PropTypes.shape({
     scientific: PropTypes.bool,
     showAttribute: PropTypes.bool,
     showDevice: PropTypes.bool
   }),
-  value: PropTypes.node.isRequired
+  value: PropTypes.node
 };
 
 AttributeReadOnly.defaultProps = {
+  device: '',
+  attribute: '',
   mode: 'edit',
-  params: {}
+  params: {},
+  value: null
 };
 
 export default AttributeReadOnly;

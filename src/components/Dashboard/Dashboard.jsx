@@ -282,13 +282,15 @@ class Dashboard extends Component {
   }
 }
 
+/* eslint-disable react/forbid-prop-types */
+
 Dashboard.propTypes = {
-  history: PropTypes.string,
+  history: PropTypes.object,
   location: PropTypes.shape({ search: PropTypes.string })
 };
 
 Dashboard.defaultProps = {
-  history: '',
+  history: null,
   location: { search: '' }
 };
 
