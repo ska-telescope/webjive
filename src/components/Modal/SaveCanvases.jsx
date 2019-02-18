@@ -52,15 +52,11 @@ export class SaveCanvases extends Component {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button
-            id="save-button"
-            className="btn btn-outline-secondary"
-            onClick={this.handleSaveClick}
-          >
-            Save
-          </Button>
-          <Button id="cancel-button" className="btn btn-outline-secondary" onClick={closeDialog}>
+          <Button id="cancel-button" className="btn btn-outline-danger" onClick={closeDialog}>
             Cancel
+          </Button>
+          <Button id="save-button" className="btn btn-primary" onClick={this.handleSaveClick}>
+            Save
           </Button>
         </Modal.Footer>
       </Modal.Dialog>
