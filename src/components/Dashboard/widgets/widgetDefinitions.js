@@ -148,10 +148,7 @@ export const WIDGET_DEFINITIONS = [
     type: 'SET_ATTRIBUTE',
     name: 'Set Attribute Button',
     component: SetAttributeButton,
-    fields: [
-      'device',
-        { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }
-    ],
+    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }],
     params: [
       {
         name: 'value',
@@ -165,15 +162,13 @@ export const WIDGET_DEFINITIONS = [
     type: 'SET_COMMAND',
     name: 'Set Command',
     component: CommandButtonWidget,
-    fields: [
-      'device', 'command'
-     ],
+    fields: ['device', 'command'],
     params: [
-     {
+      {
         name: 'value',
         type: 'string',
         default: '',
-        description: 'Command parameter (if any)' 
+        description: 'Command parameter (if any)'
       }
     ]
   },
