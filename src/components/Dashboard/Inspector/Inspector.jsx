@@ -70,10 +70,12 @@ export default class Inspector extends Component {
     const { onAttributeChange } = this.props;
     onAttributeChange(event.target.value);
   }
+
   handleSelectCommand(event) {
     const { onCommandChange } = this.props;
     onCommandChange(event.target.value);
   }
+
   fetchAttributes(device) {
     this.setState({
       attributes: []
@@ -97,6 +99,7 @@ export default class Inspector extends Component {
       .catch(() => [])
       .then(attributes => this.setState({ attributes }));
   }
+
   fetchCommands(device) {
     this.setState({
       commands: []
@@ -119,6 +122,7 @@ export default class Inspector extends Component {
       .catch(() => [])
       .then(commands => this.setState({ commands }));
   }
+
   inputForParam(param, value) {
     const {
       onParamChange,
@@ -190,11 +194,12 @@ export default class Inspector extends Component {
         return numericTypes.indexOf(datatype) !== -1;
       });
   }
-  filteredCommands(definition) {
+
+  filteredCommands() {
     const { commands } = this.state;
     return commands;
-        
   }
+
   render() {
     const { widget, widgetDefinitions } = this.props;
 
@@ -234,7 +239,7 @@ export default class Inspector extends Component {
           ))}
         </select>
       );
-      const commandChooser =
+    const commandChooser =
       device === '__parent__' ? (
         <input
           className="form-control"
@@ -264,7 +269,7 @@ export default class Inspector extends Component {
     const fieldTypes = fields.map(field => field.type);
     const { isRootCanvas } = this.props;
     const { deviceNames } = this.state;
-  
+
     return (
       <div className="Inspector">
         <h1>Inspector</h1>
@@ -301,7 +306,7 @@ export default class Inspector extends Component {
                   <td>{attributeChooser}</td>
                 </tr>
               )}
-              {fieldTypes.indexOf('command') !== -1 && (   
+              {fieldTypes.indexOf('command') !== -1 && (
                 <tr>
                   <td>Command:</td>
                   <td>{commandChooser}</td>

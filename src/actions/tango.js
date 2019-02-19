@@ -44,7 +44,6 @@ export function executeCommand(command, argin, device) {
     try {
       const result = await TangoAPI.executeCommand(command, argin, device);
       dispatch({ type: EXECUTE_COMMAND_COMPLETE, command, result, device });
-      console.log(result);
     } catch (err) {
       dispatch(displayError(err.toString()));
     }

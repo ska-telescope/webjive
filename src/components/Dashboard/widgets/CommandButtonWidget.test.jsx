@@ -22,7 +22,7 @@ describe('Command Button Widget', () => {
     const device = 'sys/test/1';
     const command = 'SwitchState';
     const wrapper = shallow(<CommandButtonWidget device={device} command = {command} mode="library" />);
-    expect(wrapper).toHaveText(`Set ${device} command`);
+    expect(wrapper).toHaveText(`Set ${device} ${command}`);
   });
   it('should not click command button in edit mode', () => {
     const device = 'sys/test/1';
@@ -47,6 +47,6 @@ describe('Command Button Widget', () => {
     const command2 = 'Init';
     const wrapper = shallow(<CommandButtonWidget device={device} command = {command} mode="library" />);
     wrapper.setProps({ command: command2, device: device2 });
-    expect(wrapper).toHaveText(`Set ${device2} ${device2}`);
+    expect(wrapper).toHaveText(`Set ${device2} ${command2}`);
   });
 });

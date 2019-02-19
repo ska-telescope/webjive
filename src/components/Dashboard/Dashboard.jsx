@@ -183,6 +183,7 @@ class Dashboard extends Component {
     const { selectedWidgetIndex } = this.state;
     this.updateWidget(selectedWidgetIndex, { attribute });
   }
+
   handleCommandChange(command) {
     const { selectedWidgetIndex } = this.state;
     this.updateWidget(selectedWidgetIndex, { command });
