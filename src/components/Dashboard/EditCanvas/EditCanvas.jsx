@@ -83,7 +83,7 @@ class EditCanvas extends Component {
 
           {widgets.map((widget, i) => {
             const Widget = this.componentForWidget(widget);
-            const { x, y, device, attribute, params } = widget;
+            const { x, y, device, attribute, command, params } = widget;
 
             const definition = this.definitionForWidget(widget);
             const fieldTypes = definition.fields.map(field => field.type);
@@ -101,7 +101,13 @@ class EditCanvas extends Component {
                 onClick={this.handleSelectWidget.bind(this, i)}
                 warning={warning}
               >
-                <Widget device={device} attribute={attribute} params={params} mode="edit" />
+                <Widget
+                  device={device}
+                  attribute={attribute}
+                  command={command}
+                  params={params}
+                  mode="edit"
+                />
               </EditWidget>
             );
           })}

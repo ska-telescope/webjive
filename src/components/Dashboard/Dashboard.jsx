@@ -78,6 +78,7 @@ export class Dashboard extends Component {
     this.handleParamChange = this.handleParamChange.bind(this);
     this.handleDeviceChange = this.handleDeviceChange.bind(this);
     this.handleAttributeChange = this.handleAttributeChange.bind(this);
+    this.handleCommandChange =  this.handleCommandChange.bind(this);
     this.handleChangeCanvas = this.handleChangeCanvas.bind(this);
     this.handleLoadCanvases = this.handleLoadCanvases.bind(this);
   }
@@ -120,6 +121,7 @@ export class Dashboard extends Component {
       x: roundToGrid(x),
       y: roundToGrid(y),
       attribute: null,
+      command: null,
       params
     };
     const widgets = [...this.currentWidgets(), widget];
@@ -199,6 +201,11 @@ export class Dashboard extends Component {
   handleAttributeChange(attribute) {
     const { selectedWidgetIndex } = this.state;
     this.updateWidget(selectedWidgetIndex, { attribute });
+  }
+
+  handleCommandChange(command) {
+    const { selectedWidgetIndex } = this.state;
+    this.updateWidget(selectedWidgetIndex, { command });
   }
 
   handleChangeCanvas(event) {
@@ -284,6 +291,7 @@ export class Dashboard extends Component {
                 onParamChange={this.handleParamChange}
                 onDeviceChange={this.handleDeviceChange}
                 onAttributeChange={this.handleAttributeChange}
+                onCommandChange={this.handleCommandChange}
                 isRootCanvas={this.isRootCanvas()}
               />
             )}

@@ -4,6 +4,7 @@ import AttributeReadOnly from './AttributeReadOnly';
 import Label from './Label';
 import DeviceName from './DeviceName';
 import SetAttributeButton from './SetAttributeButton';
+import CommandButtonWidget from './CommandButtonWidget';
 
 export const WIDGET_DEFINITIONS = [
   {
@@ -147,17 +148,27 @@ export const WIDGET_DEFINITIONS = [
     type: 'SET_ATTRIBUTE',
     name: 'Set Attribute Button',
     component: SetAttributeButton,
-    fields: [
-      'device',
-      { type: 'command', dataformats: [] },
-      { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }
-    ],
+    fields: ['device', { type: 'attribute', dataformats: ['SCALAR'], onlyNumeric: true }],
     params: [
       {
         name: 'value',
         type: 'number',
         default: '',
         description: 'Value for the attribute'
+      }
+    ]
+  },
+  {
+    type: 'SET_COMMAND',
+    name: 'Set Command',
+    component: CommandButtonWidget,
+    fields: ['device', 'command'],
+    params: [
+      {
+        name: 'value',
+        type: 'string',
+        default: '',
+        description: 'Command parameter (if any)'
       }
     ]
   },
