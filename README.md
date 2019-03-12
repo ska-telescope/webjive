@@ -4,6 +4,8 @@ This repository has been forked from https://gitlab.com/MaxIV/webjive under GPL 
 
 This is **not** an official SKA fork and is intended as a short-term starting point for the intended work
 
+There are plans for a new version of webjive jointly developed and maintained by Max-IV together with the SKA Project, at which point this project will be archived or deleted.
+
 # WebJive
 
 With this device explorer built on TangoGQL, you can:
